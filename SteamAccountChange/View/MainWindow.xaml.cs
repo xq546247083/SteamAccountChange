@@ -1,21 +1,6 @@
-﻿using Microsoft.Win32;
-using SteamAccountChange.Model;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SteamAccountChange.Common;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SteamAccountChange
 {
@@ -40,6 +25,35 @@ namespace SteamAccountChange
         private void RegisteEvent()
         {
             this.KeyDown += MainWindow_KeyDown;
+            this.Closing += MainWindow_Closing;
+        }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        private void Init()
+        {
+            cbAccount.Items.Clear();
+
+            // 加载账号信息
+            var steamAccoutInfoList = SteamHelper.GetSteamAccoutInfoList();
+            cbAccount.ItemsSource = steamAccoutInfoList;
+
+            // 选中第一个
+            if (cbAccount.Items.Count > 0)
+            {
+                cbAccount.SelectedIndex = 0;
+            }
+        }
+
+        /// <summary>
+        /// 点击确定
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">e</param>
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SteamHelper.OpenSteam(cbAccount.SelectedValue.ToString());
         }
 
         /// <summary>
@@ -58,146 +72,16 @@ namespace SteamAccountChange
         }
 
         /// <summary>
-        /// 初始化
-        /// </summary>
-        private void Init()
-        {
-            try
-            {
-                cbAccount.Items.Clear();
-
-                // 读取记事本
-                var steamAccountFileInfo = new FileInfo(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SteamAccount.txt"));
-                StreamReader streamReader = steamAccountFileInfo.OpenText();
-
-                // 读取账号
-                string strLine = string.Empty;
-                while (!string.IsNullOrEmpty(strLine = streamReader.ReadLine()))
-                {
-                    var strList = strLine.Split(' ');
-                    var steamAccount = new SteamAccoutInfo()
-                    {
-                        Name = strList[0],
-                        Account = strList.Length >= 2 ? strList[1] : strList[0],
-                    };
-                    cbAccount.Items.Add(steamAccount);
-                }
-                streamReader.Dispose();
-
-                // 选中第一个
-                if (cbAccount.Items.Count > 0) 
-                {
-                    cbAccount.SelectedIndex = 0;
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-        }
-
-        /// <summary>
-        /// 点击确定
+        /// 正在关闭窗口
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">e</param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            try
-            {
-                string user = cbAccount.SelectedValue.ToString();
-                SetSteamRegistry("AutoLoginUser", user);
+            Lactor.MainWindow.Visibility = System.Windows.Visibility.Hidden;
+            Lactor.MainWindow.ShowInTaskbar = false;
 
-                KillSteamProcess();
-                string steamExe = GetSteamExe();
-                Process.Start(steamExe);
-            }
-            catch (Exception ex) 
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// 获取注册信息
-        /// </summary>
-        /// <returns></returns>
-        private string GetSteamExe()
-        {
-            var currentUser = Registry.CurrentUser;
-            if (currentUser == null)
-            {
-                return string.Empty;
-            }
-
-            var software = currentUser.OpenSubKey("SOFTWARE", true);
-            if (software == null)
-            {
-                return string.Empty;
-            }
-
-            var vavle = software.OpenSubKey("Valve", true);
-            if (vavle == null)
-            {
-                return string.Empty;
-            }
-
-            var steam = vavle.OpenSubKey("Steam", true);
-            if (steam == null)
-            {
-                return string.Empty;
-            }
-
-            return steam.GetValue("SteamExe").ToString();
-        }
-
-        /// <summary>
-        /// 设置Steam注册表
-        /// </summary>
-        /// <param name="key">key</param>
-        /// <param name="value">value</param>
-        private void SetSteamRegistry(string key, string value)
-        {
-            var currentUser = Registry.CurrentUser;
-            if (currentUser == null) 
-            {
-                return;
-            }
-
-            var software = currentUser.OpenSubKey("SOFTWARE", true);
-            if (software == null)
-            {
-                return;
-            }
-
-            var valve = software.OpenSubKey("Valve", true);
-            if (valve == null)
-            {
-                return;
-            }
-
-            var steam = valve.OpenSubKey("Steam", true);
-            if (steam == null)
-            {
-                return;
-            }
-
-            steam.SetValue(key, value);
-        }
-
-        /// <summary>
-        /// 杀steam进程
-        /// </summary>
-        private void KillSteamProcess()
-        {
-            var processList = Process.GetProcesses();
-            foreach (Process item in processList)
-            {
-                if (item.ProcessName.ToLower() == "steam")
-                {
-                    item.Kill();
-                }
-            }
+            e.Cancel = true;
         }
     }
 }
