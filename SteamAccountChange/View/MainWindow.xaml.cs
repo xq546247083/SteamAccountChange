@@ -53,7 +53,8 @@ namespace SteamAccountChange
         /// <param name="e">e</param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SteamHelper.OpenSteam(cbAccount.SelectedValue.ToString());
+            if (cbAccount.SelectedValue != null)
+                SteamHelper.OpenSteam(cbAccount.SelectedValue.ToString());
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace SteamAccountChange
             switch (e.Key)
             {
                 case Key.F1:
-                    MessageBox.Show("1、请在程序运行目录创建一个Steamaccount.txt \n\r2、把【Name ID】写在Steamaccount.txt里，一行一个。\n\rPS:各个账号都在电脑上点了记住密码登录过。", "提示");
+                    MessageBox.Show("1、请在程序运行目录创建一个Steamaccount.txt \n\r2、把【Name ID】写在Steamaccount.txt里，一行一个。\n\rPS:各个账号都在电脑上点了记住密码登录过。", "帮助");
                     break;
             }
         }
