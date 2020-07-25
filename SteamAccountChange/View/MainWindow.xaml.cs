@@ -1,5 +1,7 @@
 ﻿using SteamAccountChange.Common;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace SteamAccountChange
@@ -47,13 +49,69 @@ namespace SteamAccountChange
         }
 
         /// <summary>
+        /// 显示提示框
+        /// </summary>
+        /// <param name="text">文本</param>
+        private void ShowToolTip(string text) 
+        {
+            var tempToolTip = new ToolTip();
+            tempToolTip.Content = text;
+            tempToolTip.StaysOpen = false;
+            tempToolTip.IsOpen = true;
+        }
+
+        /// <summary>
         /// 点击确定
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">e</param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void SureBtn_Click(object sender, RoutedEventArgs e)
         {
             SteamHelper.OpenSteam(cbAccount.SelectedValue.ToString());
+        }
+
+        /// <summary>
+        /// 复制用户名
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">e</param>
+        private void CopyUserAccountBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var steamAccoutInfoList = SteamHelper.GetSteamAccoutInfoList();
+            if (steamAccoutInfoList != null) 
+            {
+                var steamAccount = steamAccoutInfoList.FirstOrDefault(r => r.Account == cbAccount.SelectedValue.ToString());
+                if (steamAccount != null)
+                {
+                    Clipboard.SetDataObject(steamAccount.Account);
+                    ShowToolTip("复制成功！");
+                    return;
+                }
+            }
+
+            ShowToolTip("复制失败！");
+        }
+
+        /// <summary>
+        /// 复制密码
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">e</param>
+        private void CopyPasswordBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var steamAccoutInfoList = SteamHelper.GetSteamAccoutInfoList();
+            if (steamAccoutInfoList != null)
+            {
+                var steamAccount = steamAccoutInfoList.FirstOrDefault(r => r.Account == cbAccount.SelectedValue.ToString());
+                if (steamAccount != null)
+                {
+                    Clipboard.SetDataObject(steamAccount.Password);
+                    ShowToolTip("复制成功！");
+                    return;
+                }
+            }
+
+            ShowToolTip("复制失败！");
         }
 
         /// <summary>

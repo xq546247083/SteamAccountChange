@@ -116,8 +116,9 @@ namespace SteamAccountChange.Common
                     var strList = strLine.Split(' ');
                     var steamAccount = new SteamAccoutInfo()
                     {
-                        Name = strList[0],
-                        Account = strList.Length >= 2 ? strList[1] : strList[0],
+                        Account = strList[0],
+                        Name = strList.Length >= 2 ? strList[1] : strList[0],
+                        Password = strList.Length >= 3 ? strList[2] : string.Empty,
                     };
 
                     result.Add(steamAccount);
