@@ -183,9 +183,14 @@ namespace SteamAccountChange.Common
                 SetSteamRegistry("AutoLoginUser", account);
 
                 // 杀掉游戏进程
+                var saveInfo = SteamHelper.GetSaveInfo();
+                foreach (var item in saveInfo.GameProcessList)
+                {
+                    KillProcess(item.Name);
+                }
 
                 // 杀掉steam进程
-                KillProcess("stream");
+                KillProcess("steam");
 
                 // 启动steam
                 string steamExe = GetSteamExe();
