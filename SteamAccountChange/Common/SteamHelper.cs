@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using SteamAccountChange.Model;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -83,12 +83,12 @@ namespace SteamAccountChange.Common
         /// <summary>
         /// 杀steam进程
         /// </summary>
-        private static void KillSteamProcess()
+        private static void KillProcess(string processName)
         {
             var processList = Process.GetProcesses();
             foreach (Process item in processList)
             {
-                if (item.ProcessName.ToLower() == "steam")
+                if (item.ProcessName.ToLower() == processName)
                 {
                     item.Kill();
                 }
@@ -99,37 +99,37 @@ namespace SteamAccountChange.Common
         /// 读取steam账号信息
         /// </summary>
         /// <returns></returns>
-        public static List<SteamAccoutInfo> GetSteamAccoutInfoList()
+        public static SaveInfo GetSaveInfo()
         {
-            var result = new List<SteamAccoutInfo>();
-
             try
             {
+                // 创建文件
+                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SteamAccount.txt");
+                if (!File.Exists(infoFilePath))
+                {
+                    File.Create(infoFilePath);
+                }
+
                 // 读取记事本
-                var steamAccountFileInfo = new FileInfo(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SteamAccount.txt"));
+                var steamAccountFileInfo = new FileInfo(infoFilePath);
                 StreamReader streamReader = steamAccountFileInfo.OpenText();
 
-                // 读取账号
+                // 读取信息
+                string strTotal = string.Empty;
                 string strLine = string.Empty;
                 while (!string.IsNullOrEmpty(strLine = streamReader.ReadLine()))
                 {
-                    var strList = strLine.Split(' ');
-                    var steamAccount = new SteamAccoutInfo()
-                    {
-                        Account = strList[0],
-                        Name = strList.Length >= 2 ? strList[1] : strList[0],
-                        Password = strList.Length >= 3 ? strList[2] : string.Empty,
-                    };
-
-                    result.Add(steamAccount);
+                    strTotal = $"{strTotal}{strLine}";
                 }
                 streamReader.Dispose();
+
+                // 序列化对象
+                return JsonConvert.DeserializeObject<SaveInfo>(strTotal);
             }
             catch (Exception)
             {
+                return new SaveInfo();
             }
-
-            return result;
         }
 
         /// <summary>
@@ -140,9 +140,15 @@ namespace SteamAccountChange.Common
         {
             try
             {
+                // 设置注册信息
                 SetSteamRegistry("AutoLoginUser", account);
 
-                KillSteamProcess();
+                // 杀掉游戏进程
+
+                // 杀掉steam进程
+                KillProcess("stream");
+
+                // 启动steam
                 string steamExe = GetSteamExe();
                 Process.Start(steamExe);
             }

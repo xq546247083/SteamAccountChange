@@ -1,6 +1,8 @@
 ﻿using SteamAccountChange.Common;
 using SteamAccountChange.View;
+using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 
 namespace SteamAccountChange
@@ -23,6 +25,7 @@ namespace SteamAccountChange
                 System.Environment.Exit(0);
             }
 
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             Notify.Init();
         }
 
@@ -43,6 +46,23 @@ namespace SteamAccountChange
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 当找不到程序集的时候，从嵌入的资源找
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">e</param>
+        /// <returns></returns>
+        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs e)
+        {
+            string resourceName = "SteamAccountChange." + new AssemblyName(e.Name).Name + ".dll";
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            {
+                byte[] assemblyData = new byte[stream.Length];
+                stream.Read(assemblyData, 0, assemblyData.Length);
+                return Assembly.Load(assemblyData);
+            }
         }
     }
 }

@@ -42,8 +42,8 @@ namespace SteamAccountChange.View
             var menuList = new List<MenuItem>();
 
             // 添加账号到菜单
-            var steamAccoutInfoList = SteamHelper.GetSteamAccoutInfoList();
-            foreach (var item in steamAccoutInfoList)
+            var saveInfo = SteamHelper.GetSaveInfo();
+            foreach (var item in saveInfo.SteamAccoutInfoList)
             {
                 var steamAccountMenu = new MenuItem(item.Name);
                 steamAccountMenu.Tag = item.Account;

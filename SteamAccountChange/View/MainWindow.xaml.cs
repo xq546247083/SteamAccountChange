@@ -38,8 +38,8 @@ namespace SteamAccountChange
             cbAccount.Items.Clear();
 
             // 加载账号信息
-            var steamAccoutInfoList = SteamHelper.GetSteamAccoutInfoList();
-            cbAccount.ItemsSource = steamAccoutInfoList;
+            var saveInfo = SteamHelper.GetSaveInfo();
+            cbAccount.ItemsSource = saveInfo.GameProcessList;
 
             // 选中第一个
             if (cbAccount.Items.Count > 0)
@@ -78,10 +78,10 @@ namespace SteamAccountChange
         /// <param name="e">e</param>
         private void CopyUserAccountBtn_Click(object sender, RoutedEventArgs e)
         {
-            var steamAccoutInfoList = SteamHelper.GetSteamAccoutInfoList();
-            if (steamAccoutInfoList != null) 
+            var saveInfo = SteamHelper.GetSaveInfo();
+            if (saveInfo != null) 
             {
-                var steamAccount = steamAccoutInfoList.FirstOrDefault(r => r.Account == cbAccount.SelectedValue.ToString());
+                var steamAccount = saveInfo.SteamAccoutInfoList.FirstOrDefault(r => r.Account == cbAccount.SelectedValue.ToString());
                 if (steamAccount != null)
                 {
                     Clipboard.SetDataObject(steamAccount.Account);
@@ -100,10 +100,10 @@ namespace SteamAccountChange
         /// <param name="e">e</param>
         private void CopyPasswordBtn_Click(object sender, RoutedEventArgs e)
         {
-            var steamAccoutInfoList = SteamHelper.GetSteamAccoutInfoList();
-            if (steamAccoutInfoList != null)
+            var saveInfo = SteamHelper.GetSaveInfo();
+            if (saveInfo != null)
             {
-                var steamAccount = steamAccoutInfoList.FirstOrDefault(r => r.Account == cbAccount.SelectedValue.ToString());
+                var steamAccount = saveInfo.SteamAccoutInfoList.FirstOrDefault(r => r.Account == cbAccount.SelectedValue.ToString());
                 if (steamAccount != null)
                 {
                     Clipboard.SetDataObject(steamAccount.Password);
