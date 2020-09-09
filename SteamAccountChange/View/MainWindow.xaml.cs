@@ -40,7 +40,7 @@ namespace SteamAccountChange
 
             // 加载账号信息
             var saveInfo = SteamHelper.GetSaveInfo();
-            cbAccount.ItemsSource = saveInfo.GameProcessList;
+            cbAccount.ItemsSource = saveInfo.SteamAccoutInfoList;
 
             // 选中第一个
             if (cbAccount.Items.Count > 0)
