@@ -107,7 +107,7 @@ namespace SteamAccountChange.Common
                 var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SteamAccount.txt");
                 if (!File.Exists(infoFilePath))
                 {
-                    File.Create(infoFilePath);
+                    return new SaveInfo();
                 }
 
                 // 读取记事本
@@ -124,11 +124,50 @@ namespace SteamAccountChange.Common
                 streamReader.Dispose();
 
                 // 序列化对象
-                return JsonConvert.DeserializeObject<SaveInfo>(strTotal);
+                var saveInfo = JsonConvert.DeserializeObject<SaveInfo>(strTotal);
+                if (saveInfo == null)
+                {
+                    return new SaveInfo();
+                }
+
+                return saveInfo;
             }
             catch (Exception)
             {
                 return new SaveInfo();
+            }
+        }
+
+        /// <summary>
+        /// 保存保存信息
+        /// </summary>
+        /// <returns></returns>
+        public static void SaveSaveInfo(SaveInfo saveInfo)
+        {
+            if (saveInfo == null)
+            {
+                return;
+            }
+
+            try
+            {
+                // 创建文件
+                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SteamAccount.txt");
+                if (File.Exists(infoFilePath))
+                {
+                    File.Delete(infoFilePath);
+                }
+
+                // 创建新的文本
+                var fileSteam = File.Create(infoFilePath);
+                fileSteam.Dispose();
+
+                // 追加信息
+                var str = JsonConvert.SerializeObject(saveInfo);
+                File.AppendAllText(infoFilePath, str);
+            }
+            catch (Exception)
+            {
             }
         }
 

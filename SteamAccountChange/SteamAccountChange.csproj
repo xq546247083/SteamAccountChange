@@ -121,7 +121,8 @@
     <EmbeddedResource Include="steam.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Dll\Newtonsoft.Json.dll" />
+    <EmbeddedResource Include="Newtonsoft.Json.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
