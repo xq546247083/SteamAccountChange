@@ -2,10 +2,20 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:common="clr-namespace:SteamAccountChange.Common"
         mc:Ignorable="d" Height="150" Width="280"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        x:Name="mainWindowView">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="KeyDown">
+            <common:InvokeCommandActionEx Command = "{Binding MainWindowKeyDownCommand}"/>
+        </i:EventTrigger >
+        <i:EventTrigger EventName="Closing">
+            <common:InvokeCommandActionEx Command = "{Binding MainWindowClosingCommand}"/>
+        </i:EventTrigger >
+    </i:Interaction.Triggers>
     <StackPanel>
         <Grid Height="115">
             <Grid.RowDefinitions>
@@ -20,14 +30,18 @@
                 <ColumnDefinition Width="8*"></ColumnDefinition>
                 <ColumnDefinition Width="2*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ComboBox Grid.Row="1" Grid.Column="1" x:Name="cbAccount" DisplayMemberPath="Name" SelectedValuePath="Account" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></ComboBox>
+            <ComboBox Grid.Row="1" Grid.Column="1" x:Name="cbAccount" DisplayMemberPath="Name" SelectedValuePath="Account" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                      ItemsSource="{Binding SteamAccoutInfoList}" SelectedItem="{Binding SelectedSteamAccoutInfo}">
+            </ComboBox>
             <StackPanel Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Width="17" Height="17" ToolTipService.ToolTip="复制用户名" Click="CopyUserAccountBtn_Click" Content="●" Padding="1,0,0,2"></Button>
-                <Button Width="17" Height="17" ToolTipService.ToolTip="复制密码" Click="CopyPasswordBtn_Click" Foreground="Red" Content="●" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+                <Button Width="17" Height="17" ToolTipService.ToolTip="复制用户名" Command="{Binding CopyUserAccountBtnClickCommand}" Content="●" Padding="1,0,0,2"></Button>
+                <Button Width="17" Height="17" ToolTipService.ToolTip="复制密码" Command="{Binding CopyPasswordBtnClickCommand}" Foreground="Red" Content="●" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
             </StackPanel>
-            <Button Grid.Row="3" Grid.Column="1" Content="确定" Click="SureBtn_Click"></Button>
+            <Button Grid.Row="3" Grid.Column="1" Content="确定" Command="{Binding SureBtnClickCommand}"></Button>
             <StackPanel Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button x:Name="btnEdit" Width="20" Height="20" ToolTipService.ToolTip="修改信息" Click="EditSaveInfoBtn_Click" Content="+" Margin="0,2,0,0"></Button>
+                <Button x:Name="btnEdit" Width="20" Height="20" ToolTipService.ToolTip="修改信息" Content="{Binding BtnEditContent}" Margin="0,2,0,0"
+                         Command="{Binding EditSaveInfoBtnClickCommand}" CommandParameter="{Binding ElementName=mainWindowView}">
+                </Button>
             </StackPanel>
         </Grid>
         <Grid Height="40">
@@ -44,15 +58,15 @@
                 <ColumnDefinition Width="0.5*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center">账号信息</TextBlock>
-            <TextBox x:Name="steamAccountNameTb" Grid.Row="0" Grid.Column="1" Height="18" Margin="0,0,2,0" ToolTip="昵称"></TextBox>
-            <TextBox x:Name="steamAccountAccontTb" Grid.Row="0" Grid.Column="2" Height="18" Margin="0,0,2,0" ToolTip="用户名"></TextBox>
-            <TextBox x:Name="steamAccountPasswordTb" Grid.Row="0" Grid.Column="3" Height="18" Margin="0,0,2,0" ToolTip="密码"></TextBox>
-            <Button Grid.Row="0" Grid.Column="4" Width="17" Height="17" ToolTipService.ToolTip="根据用户名添加账号信息" Click="AddSteamAccoutInfoBtn_Click" Content="+" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
-            <Button Grid.Row="0" Grid.Column="5" Width="17" Height="17" ToolTipService.ToolTip="根据用户名删除账号信息" Click="DelSteamAccoutInfoBtn_Click" Foreground="Red" Content="-" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
-            <TextBlock Grid.Row="1" Grid.Column="0" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center">游戏进程</TextBlock>
+            <TextBox x:Name="steamAccountNameTb" Grid.Row="0" Grid.Column="1" Height="18" Margin="0,0,2,0" ToolTip="昵称(选填)" Text="{Binding SteamAccountNameText}"></TextBox>
+            <TextBox x:Name="steamAccountAccontTb" Grid.Row="0" Grid.Column="2" Height="18" Margin="0,0,2,0" ToolTip="用户名（必填）" Text="{Binding SteamAccountAccontText}"></TextBox>
+            <TextBox x:Name="steamAccountPasswordTb" Grid.Row="0" Grid.Column="3" Height="18" Margin="0,0,2,0" ToolTip="密码(选填)" Text="{Binding SteamAccountPasswordText}"></TextBox>
+            <Button Grid.Row="0" Grid.Column="4" Width="17" Height="17" ToolTipService.ToolTip="根据用户名添加账号信息" Command="{Binding AddSteamAccoutInfoBtnClickCommand}" Content="+" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+            <Button Grid.Row="0" Grid.Column="5" Width="17" Height="17" ToolTipService.ToolTip="根据用户名删除账号信息" Command="{Binding DelSteamAccoutInfoBtnClickCommand}" Foreground="Red" Content="-" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+            <TextBlock Grid.Row="1" Grid.Column="0" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GameProcessInfoText}">游戏进程</TextBlock>
             <TextBox x:Name="gameProcessInfoTb" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Height="18" ToolTip="游戏进程名"></TextBox>
-            <Button Grid.Row="1" Grid.Column="4" Width="17" Height="17" ToolTipService.ToolTip="根据游戏进程名添加游戏进程信息" Click="AddGameProcessInfoBtn_Click" Content="+" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
-            <Button Grid.Row="1" Grid.Column="5" Width="17" Height="17" ToolTipService.ToolTip="根据游戏进程名删除游戏进程信息" Click="DelGameProcessInfoBtn_Click" Foreground="Red" Content="-" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+            <Button Grid.Row="1" Grid.Column="4" Width="17" Height="17" ToolTipService.ToolTip="根据游戏进程名添加游戏进程信息" Command="{Binding AddGameProcessInfoBtnClickCommand}" Content="+" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+            <Button Grid.Row="1" Grid.Column="5" Width="17" Height="17" ToolTipService.ToolTip="根据游戏进程名删除游戏进程信息" Command="{Binding DelGameProcessInfoBtnClickCommand}" Foreground="Red" Content="-" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
         </Grid>
     </StackPanel>
 </Window>

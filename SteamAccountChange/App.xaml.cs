@@ -57,7 +57,7 @@ namespace SteamAccountChange
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs e)
         {
             var assemblyName = new AssemblyName(e.Name).Name ;
-            string resourceName = "SteamAccountChange." + assemblyName + ".dll";
+            string resourceName = "SteamAccountChange.DLL." + assemblyName + ".dll";
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
             {
                 if (stream == null) 

@@ -19,5 +19,10 @@
         /// 密码
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// 序号
+        /// </summary>
+        public string Order { get; set; }
     }
 }

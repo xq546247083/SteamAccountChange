@@ -1,11 +1,6 @@
 ﻿using SteamAccountChange.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
 
 namespace SteamAccountChange.View
@@ -15,24 +10,12 @@ namespace SteamAccountChange.View
     /// </summary>
     public static class Notify
     {
+        #region 私有方法
+
         /// <summary>
         /// 通知图标
         /// </summary>
         private static NotifyIcon notifyIcon;
-
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public static void Init()
-        {
-            notifyIcon = new NotifyIcon();
-            notifyIcon.Text = "Steam账号切换器";
-            notifyIcon.Icon = SteamAccountChange.Properties.Resources.steam;
-            notifyIcon.Visible = true;
-            notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
-
-            LoadMenu();
-        }
 
         /// <summary>
         /// 加载菜单
@@ -52,14 +35,41 @@ namespace SteamAccountChange.View
                 menuList.Add(steamAccountMenu);
             }
 
-            //退出菜单项
+            // 重载信息
+            var reloadSaveInfo = new MenuItem("重载信息");
+            reloadSaveInfo.Click += ReloadSaveInfo_Click;
+            menuList.Add(reloadSaveInfo);
+
+            // 退出菜单项
             var exit = new MenuItem("退出");
             exit.Click += Exit_Click;
             menuList.Add(exit);
 
-            //关联托盘控件
+            // 关联托盘控件
             notifyIcon.ContextMenu = new ContextMenu(menuList.ToArray());
         }
+
+        #endregion
+
+        #region 公共方法
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public static void Init()
+        {
+            notifyIcon = new NotifyIcon();
+            notifyIcon.Text = "Steam账号切换器";
+            notifyIcon.Icon = SteamAccountChange.Properties.Resources.steam;
+            notifyIcon.Visible = true;
+            notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
+
+            LoadMenu();
+        }
+
+        #endregion
+
+        #region 事件
 
         /// <summary>
         /// steam账号菜单点击
@@ -75,6 +85,17 @@ namespace SteamAccountChange.View
             }
 
             SteamHelper.OpenSteam(steamAccountMenu.Tag.ToString());
+        }
+
+        /// <summary>
+        /// 重载信息
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">e</param>
+        private static void ReloadSaveInfo_Click(object sender, EventArgs e)
+        {
+            LoadMenu();
+            Lactor.MainWindowViewModel.LoadSaveInfo();
         }
 
         /// <summary>
@@ -99,5 +120,7 @@ namespace SteamAccountChange.View
             Lactor.MainWindow.ShowInTaskbar = true;
             Lactor.MainWindow.Activate();
         }
+
+        #endregion
     }
 }

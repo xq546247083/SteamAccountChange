@@ -166,8 +166,9 @@ namespace SteamAccountChange.Common
                 var str = JsonConvert.SerializeObject(saveInfo);
                 File.AppendAllText(infoFilePath, str);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
             }
         }
 
