@@ -18,38 +18,6 @@ namespace SteamAccountChange.View
         /// </summary>
         private static NotifyIcon notifyIcon;
 
-        /// <summary>
-        /// 加载菜单
-        /// </summary>
-        private static void LoadMenu()
-        {
-            var menuList = new List<MenuItem>();
-
-            // 添加账号到菜单
-            var steamAccoutInfoList = SteamHelper.GetSaveInfo().SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
-            foreach (var item in steamAccoutInfoList)
-            {
-                var steamAccountMenu = new MenuItem(item.Name);
-                steamAccountMenu.Tag = item.Account;
-                steamAccountMenu.Click += SteamAccountMenu_Click;
-
-                menuList.Add(steamAccountMenu);
-            }
-
-            // 重载信息
-            var reloadSaveInfo = new MenuItem("重载信息");
-            reloadSaveInfo.Click += ReloadSaveInfo_Click;
-            menuList.Add(reloadSaveInfo);
-
-            // 退出菜单项
-            var exit = new MenuItem("退出");
-            exit.Click += Exit_Click;
-            menuList.Add(exit);
-
-            // 关联托盘控件
-            notifyIcon.ContextMenu = new ContextMenu(menuList.ToArray());
-        }
-
         #endregion
 
         #region 公共方法
@@ -66,6 +34,33 @@ namespace SteamAccountChange.View
             notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
 
             LoadMenu();
+        }
+
+        /// <summary>
+        /// 加载菜单
+        /// </summary>
+        public static void LoadMenu()
+        {
+            var menuList = new List<MenuItem>();
+
+            // 添加账号到菜单
+            var steamAccoutInfoList = SteamHelper.GetSaveInfo().SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
+            foreach (var item in steamAccoutInfoList)
+            {
+                var steamAccountMenu = new MenuItem(item.Name);
+                steamAccountMenu.Tag = item.Account;
+                steamAccountMenu.Click += SteamAccountMenu_Click;
+
+                menuList.Add(steamAccountMenu);
+            }
+
+            // 退出菜单项
+            var exit = new MenuItem("退出");
+            exit.Click += Exit_Click;
+            menuList.Add(exit);
+
+            // 关联托盘控件
+            notifyIcon.ContextMenu = new ContextMenu(menuList.ToArray());
         }
 
         #endregion
@@ -86,17 +81,6 @@ namespace SteamAccountChange.View
             }
 
             SteamHelper.OpenSteam(steamAccountMenu.Tag.ToString());
-        }
-
-        /// <summary>
-        /// 重载信息
-        /// </summary>
-        /// <param name="sender">sender</param>
-        /// <param name="e">e</param>
-        private static void ReloadSaveInfo_Click(object sender, EventArgs e)
-        {
-            LoadMenu();
-            Lactor.MainWindowViewModel.LoadSaveInfo();
         }
 
         /// <summary>

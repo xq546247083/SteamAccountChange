@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using SteamAccountChange.Common;
 using SteamAccountChange.Model;
+using SteamAccountChange.View;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -275,7 +276,7 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void DoCopyUserAccountBtnClick()
         {
-            if (SelectedSteamAccoutInfo == null)
+            if (SelectedSteamAccoutInfo == null || SelectedSteamAccoutInfo.Account == null)
             {
                 ShowToolTip("复制失败！");
                 return;
@@ -295,7 +296,7 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void DoCopyPasswordBtnClick()
         {
-            if (SelectedSteamAccoutInfo == null)
+            if (SelectedSteamAccoutInfo == null || SelectedSteamAccoutInfo.Password == null)
             {
                 ShowToolTip("复制失败！");
                 return;
@@ -321,6 +322,22 @@ namespace SteamAccountChange.ViewModel
         }
 
         /// <summary>
+        /// 重载信息
+        /// </summary>
+        public RelayCommand ReloadBtnClickCommand => new RelayCommand(DoReloadBtnClick);
+
+        /// <summary>
+        /// 重载信息
+        /// </summary>
+        /// <param name="window">窗体</param>
+        private void DoReloadBtnClick()
+        {
+            Notify.LoadMenu();
+            LoadSaveInfo();
+            ShowToolTip("重载成功！");
+        }
+
+        /// <summary>
         /// 添加steam账号信息
         /// </summary>
         public RelayCommand AddSteamAccoutInfoBtnClickCommand => new RelayCommand(DoAddSteamAccoutInfoBtnClick);
@@ -333,6 +350,12 @@ namespace SteamAccountChange.ViewModel
             if (string.IsNullOrEmpty(SteamAccountAccontText))
             {
                 ShowToolTip("添加失败！账号必填！");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(SteamAccountNameText))
+            {
+                ShowToolTip("添加失败！昵称必填！");
                 return;
             }
 

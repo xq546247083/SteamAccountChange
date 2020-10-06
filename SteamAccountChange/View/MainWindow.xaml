@@ -7,7 +7,8 @@
         mc:Ignorable="d" Height="150" Width="280"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        x:Name="mainWindowView">
+        x:Name="mainWindowView"
+        Title="Steam账号切换器">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="KeyDown">
             <common:InvokeCommandActionEx Command = "{Binding MainWindowKeyDownCommand}"/>
@@ -39,8 +40,11 @@
             </StackPanel>
             <Button Grid.Row="3" Grid.Column="1" Content="确定" Command="{Binding SureBtnClickCommand}"></Button>
             <StackPanel Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button x:Name="btnEdit" Width="20" Height="20" ToolTipService.ToolTip="修改信息" Content="{Binding BtnEditContent}" Margin="0,2,0,0"
+                <Button x:Name="btnEdit" Width="17" Height="17" ToolTipService.ToolTip="修改信息" Content="{Binding BtnEditContent}"
                          Command="{Binding EditSaveInfoBtnClickCommand}" CommandParameter="{Binding ElementName=mainWindowView}">
+                </Button>
+                <Button x:Name="btnReload" Width="17" Height="17" ToolTipService.ToolTip="重载信息" Content="@" Margin="0,2,0,0"
+                         Command="{Binding ReloadBtnClickCommand}">
                 </Button>
             </StackPanel>
         </Grid>
@@ -58,7 +62,7 @@
                     <ColumnDefinition Width="0.2*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Height="18" Text="昵称:" HorizontalAlignment="Right"></TextBlock>
-                <TextBox x:Name="steamAccountNameTb" Grid.Row="0" Grid.Column="1" Height="18" Margin="2,0,2,0" ToolTip="昵称(选填)" Text="{Binding SteamAccountNameText}"></TextBox>
+                <TextBox x:Name="steamAccountNameTb" Grid.Row="0" Grid.Column="1" Height="18" Margin="2,0,2,0" ToolTip="昵称(必填)" Text="{Binding SteamAccountNameText}"></TextBox>
                 <TextBlock Grid.Row="1" Grid.Column="0" Height="18" Text="用户名:" HorizontalAlignment="Right"></TextBlock>
                 <TextBox x:Name="steamAccountAccontTb" Grid.Row="1" Grid.Column="1" Height="18" Margin="2,0,2,0" ToolTip="用户名（必填）" Text="{Binding SteamAccountAccontText}"></TextBox>
                 <TextBlock Grid.Row="2" Grid.Column="0" Height="18" Text="密码:" HorizontalAlignment="Right"></TextBlock>
