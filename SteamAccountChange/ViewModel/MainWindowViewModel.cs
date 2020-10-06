@@ -153,6 +153,27 @@ namespace SteamAccountChange.ViewModel
         }
 
         /// <summary>
+        /// steamAccount的Order文本内容
+        /// </summary>
+        private string steamAccountOrderText;
+
+        /// <summary>
+        /// steamAccount的Order文本内容
+        /// </summary>
+        public string SteamAccountOrderText
+        {
+            get
+            {
+                return steamAccountOrderText;
+            }
+            set
+            {
+                steamAccountOrderText = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// 游戏进程名文本内容
         /// </summary>
         private string gameProcessInfoText;
@@ -295,7 +316,7 @@ namespace SteamAccountChange.ViewModel
         /// <param name="window">窗体</param>
         private void DoEditSaveInfoBtnClick(Window window)
         {
-            window.Height = BtnEditContent == "+" ? 210 : 150;
+            window.Height = BtnEditContent == "+" ? 300 : 150;
             BtnEditContent = BtnEditContent == "+" ? "-" : "+";
         }
 
@@ -320,6 +341,7 @@ namespace SteamAccountChange.ViewModel
             steamAccount.Account = SteamAccountAccontText;
             steamAccount.Name = SteamAccountNameText;
             steamAccount.Password = SteamAccountPasswordText;
+            steamAccount.Order = SteamAccountOrderText;
 
             // 添加账号
             var saveInfo = SteamHelper.GetSaveInfo();
@@ -453,7 +475,7 @@ namespace SteamAccountChange.ViewModel
         {
             // 加载账号信息
             var saveInfo = SteamHelper.GetSaveInfo();
-            SteamAccoutInfoList = saveInfo.SteamAccoutInfoList;
+            SteamAccoutInfoList = saveInfo.SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
 
             // 选中第一个
             if (selectedSteamAccoutInfo == null && SteamAccoutInfoList != null && SteamAccoutInfoList.Count > 0)

@@ -1,5 +1,6 @@
 ﻿using SteamAccountChange.Common;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -25,8 +26,8 @@ namespace SteamAccountChange.View
             var menuList = new List<MenuItem>();
 
             // 添加账号到菜单
-            var saveInfo = SteamHelper.GetSaveInfo();
-            foreach (var item in saveInfo.SteamAccoutInfoList)
+            var steamAccoutInfoList = SteamHelper.GetSaveInfo().SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
+            foreach (var item in steamAccoutInfoList)
             {
                 var steamAccountMenu = new MenuItem(item.Name);
                 steamAccountMenu.Tag = item.Account;

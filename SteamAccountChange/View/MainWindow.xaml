@@ -44,29 +44,50 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid Height="40">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-                <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                <ColumnDefinition Width="0.5*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center">账号信息</TextBlock>
-            <TextBox x:Name="steamAccountNameTb" Grid.Row="0" Grid.Column="1" Height="18" Margin="0,0,2,0" ToolTip="昵称(选填)" Text="{Binding SteamAccountNameText}"></TextBox>
-            <TextBox x:Name="steamAccountAccontTb" Grid.Row="0" Grid.Column="2" Height="18" Margin="0,0,2,0" ToolTip="用户名（必填）" Text="{Binding SteamAccountAccontText}"></TextBox>
-            <TextBox x:Name="steamAccountPasswordTb" Grid.Row="0" Grid.Column="3" Height="18" Margin="0,0,2,0" ToolTip="密码(选填)" Text="{Binding SteamAccountPasswordText}"></TextBox>
-            <Button Grid.Row="0" Grid.Column="4" Width="17" Height="17" ToolTipService.ToolTip="根据用户名添加账号信息" Command="{Binding AddSteamAccoutInfoBtnClickCommand}" Content="+" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
-            <Button Grid.Row="0" Grid.Column="5" Width="17" Height="17" ToolTipService.ToolTip="根据用户名删除账号信息" Command="{Binding DelSteamAccoutInfoBtnClickCommand}" Foreground="Red" Content="-" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
-            <TextBlock Grid.Row="1" Grid.Column="0" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding GameProcessInfoText}">游戏进程</TextBlock>
-            <TextBox x:Name="gameProcessInfoTb" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Height="18" ToolTip="游戏进程名"></TextBox>
-            <Button Grid.Row="1" Grid.Column="4" Width="17" Height="17" ToolTipService.ToolTip="根据游戏进程名添加游戏进程信息" Command="{Binding AddGameProcessInfoBtnClickCommand}" Content="+" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
-            <Button Grid.Row="1" Grid.Column="5" Width="17" Height="17" ToolTipService.ToolTip="根据游戏进程名删除游戏进程信息" Command="{Binding DelGameProcessInfoBtnClickCommand}" Foreground="Red" Content="-" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
-        </Grid>
+        <Border BorderThickness="0.5" BorderBrush="Green" Margin="2,0,2,0">
+            <Grid Height="90">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Height="18" Text="昵称:" HorizontalAlignment="Right"></TextBlock>
+                <TextBox x:Name="steamAccountNameTb" Grid.Row="0" Grid.Column="1" Height="18" Margin="2,0,2,0" ToolTip="昵称(选填)" Text="{Binding SteamAccountNameText}"></TextBox>
+                <TextBlock Grid.Row="1" Grid.Column="0" Height="18" Text="用户名:" HorizontalAlignment="Right"></TextBlock>
+                <TextBox x:Name="steamAccountAccontTb" Grid.Row="1" Grid.Column="1" Height="18" Margin="2,0,2,0" ToolTip="用户名（必填）" Text="{Binding SteamAccountAccontText}"></TextBox>
+                <TextBlock Grid.Row="2" Grid.Column="0" Height="18" Text="密码:" HorizontalAlignment="Right"></TextBlock>
+                <TextBox x:Name="steamAccountPasswordTb" Grid.Row="2" Grid.Column="1" Height="18" Margin="2,0,2,0" ToolTip="密码(选填)" Text="{Binding SteamAccountPasswordText}"></TextBox>
+                <TextBlock Grid.Row="3" Grid.Column="0" Height="18" Text="序号:" HorizontalAlignment="Right"></TextBlock>
+                <TextBox x:Name="steamAccountOrderTb" Grid.Row="3" Grid.Column="1" Height="18" Margin="2,0,2,0" ToolTip="序号(选填)" Text="{Binding SteamAccountOrderText}"></TextBox>
+                <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center">
+                    <Button Width="17" Height="17" ToolTipService.ToolTip="根据用户名添加账号信息" Command="{Binding AddSteamAccoutInfoBtnClickCommand}" Content="+" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+                    <Button Width="17" Height="17" ToolTipService.ToolTip="根据用户名删除账号信息" Command="{Binding DelSteamAccoutInfoBtnClickCommand}" Foreground="Red" Content="-" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Border BorderThickness="0.5" BorderBrush="Red" Margin="2,5,2,2">
+            <Grid Height="45">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Height="18" Text="游戏进程名:" HorizontalAlignment="Right"></TextBlock>
+                <TextBox x:Name="gameProcessInfoTb" Grid.Row="0" Grid.Column="1" Height="18" Margin="2,0,2,0" Text="{Binding GameProcessInfoText}" ToolTip="游戏进程名"></TextBox>
+                <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
+                    <Button Grid.Row="1" Grid.Column="4" Width="17" Height="17" ToolTipService.ToolTip="根据游戏进程名添加游戏进程信息" Command="{Binding AddGameProcessInfoBtnClickCommand}" Content="+" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+                    <Button Grid.Row="1" Grid.Column="5" Width="17" Height="17" ToolTipService.ToolTip="根据游戏进程名删除游戏进程信息" Command="{Binding DelGameProcessInfoBtnClickCommand}" Foreground="Red" Content="-" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+                </StackPanel>
+            </Grid>
+        </Border>
     </StackPanel>
 </Window>
