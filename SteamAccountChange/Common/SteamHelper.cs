@@ -14,7 +14,7 @@ namespace SteamAccountChange.Common
     public static class SteamHelper
     {
         /// <summary>
-        /// 获取注册信息
+        /// 获取Steam进程信息
         /// </summary>
         /// <returns></returns>
         private static string GetSteamExe()
@@ -47,7 +47,41 @@ namespace SteamAccountChange.Common
         }
 
         /// <summary>
-        /// 设置Steam注册表
+        /// 获取Steam注册表信息
+        /// </summary>
+        /// <param name="key">key</param>
+        /// <param name="value">value</param>
+        public static string GetSteamRegistry(string key)
+        {
+            var currentUser = Registry.CurrentUser;
+            if (currentUser == null)
+            {
+                return string.Empty;
+            }
+
+            var software = currentUser.OpenSubKey("SOFTWARE", true);
+            if (software == null)
+            {
+                return string.Empty;
+            }
+
+            var valve = software.OpenSubKey("Valve", true);
+            if (valve == null)
+            {
+                return string.Empty;
+            }
+
+            var steam = valve.OpenSubKey("Steam", true);
+            if (steam == null)
+            {
+                return string.Empty;
+            }
+
+            return steam.GetValue(key).ToString();
+        }
+
+        /// <summary>
+        /// 设置Steam注册表信息
         /// </summary>
         /// <param name="key">key</param>
         /// <param name="value">value</param>

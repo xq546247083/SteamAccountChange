@@ -18,6 +18,11 @@ namespace SteamAccountChange.ViewModel
     public class MainWindowViewModel : ViewModelBase
     {
         /// <summary>
+        /// 当前的Steam账号
+        /// </summary>
+        private string currentSteamAccount;
+
+        /// <summary>
         /// 构造方法
         /// </summary>
         public MainWindowViewModel()
@@ -65,48 +70,14 @@ namespace SteamAccountChange.ViewModel
             set
             {
                 selectedSteamAccoutInfo = value;
-                RaisePropertyChanged();
-            }
-        }
 
-        /// <summary>
-        /// btnEdit的文本内容
-        /// </summary>
-        private string btnEditContent;
+                if (value != null)
+                {
+                    SteamAccountNameText = selectedSteamAccoutInfo.Name;
+                    SteamAccountPasswordText = selectedSteamAccoutInfo.Password;
+                    SteamAccountOrderText = selectedSteamAccoutInfo.Order;
+                }
 
-        /// <summary>
-        /// btnEdit的文本内容
-        /// </summary>
-        public string BtnEditContent
-        {
-            get
-            {
-                return btnEditContent;
-            }
-            set
-            {
-                btnEditContent = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// steamAccount的账号文本内容
-        /// </summary>
-        private string steamAccountAccontText;
-
-        /// <summary>
-        /// steamAccount的账号文本内容
-        /// </summary>
-        public string SteamAccountAccontText
-        {
-            get
-            {
-                return steamAccountAccontText;
-            }
-            set
-            {
-                steamAccountAccontText = value;
                 RaisePropertyChanged();
             }
         }
@@ -220,7 +191,7 @@ namespace SteamAccountChange.ViewModel
             switch (keyEventArgs.Key)
             {
                 case Key.F1:
-                    MessageBox.Show("1、添加游戏账号\r\n2、点击【确定】切换\r\n3、自行摸索，很简单的", "帮助");
+                    MessageBox.Show("1、点击【新建】添加游戏账号\r\n2、点击【修改】编辑\r\n3、自行摸索，很简单的", "帮助");
                     break;
             }
         }
@@ -249,21 +220,43 @@ namespace SteamAccountChange.ViewModel
         }
 
         /// <summary>
-        /// 点击确定
+        /// 点击新建
         /// </summary>
-        public RelayCommand SureBtnClickCommand => new RelayCommand(DoSureBtnClick);
+        public RelayCommand NewBtnClickCommand => new RelayCommand(DoNewBtnClickCommand);
 
         /// <summary>
-        /// 点击确定
+        /// 点击新建
         /// </summary>
-        private void DoSureBtnClick()
+        private void DoNewBtnClickCommand()
         {
-            if (SelectedSteamAccoutInfo == null)
+            var autoLoginUser = SteamHelper.GetSteamRegistry("AutoLoginUser");
+            if (string.IsNullOrEmpty(autoLoginUser))
             {
+                ShowToolTip("请先登陆Steam！");
                 return;
             }
 
-            SteamHelper.OpenSteam(SelectedSteamAccoutInfo.Account);
+            // 构建账号信息
+            var steamAccount = new SteamAccoutInfo();
+            steamAccount.Account = autoLoginUser;
+            steamAccount.Name = autoLoginUser;
+            steamAccount.Password = "";
+            steamAccount.Order = "0";
+
+            // 添加账号
+            var saveInfo = SteamHelper.GetSaveInfo();
+            if (saveInfo.SteamAccoutInfoList.Any(r => r.Account == steamAccount.Account))
+            {
+                ShowToolTip("添加失败！账号已存在！");
+                return;
+            }
+
+            saveInfo.SteamAccoutInfoList.Add(steamAccount);
+            SteamHelper.SaveSaveInfo(saveInfo);
+
+            currentSteamAccount = steamAccount.Account;
+            ReLoad();
+            ShowToolTip("添加成功！");
         }
 
         /// <summary>
@@ -317,67 +310,40 @@ namespace SteamAccountChange.ViewModel
         /// <param name="window">窗体</param>
         private void DoEditSaveInfoBtnClick(Window window)
         {
-            window.Height = BtnEditContent == "+" ? 300 : 150;
-            BtnEditContent = BtnEditContent == "+" ? "-" : "+";
+            window.Height = window.Height == 125 ? 255 : 125;
         }
 
         /// <summary>
-        /// 重载信息
+        /// 保存steam账号信息
         /// </summary>
-        public RelayCommand ReloadBtnClickCommand => new RelayCommand(DoReloadBtnClick);
+        public RelayCommand SaveSteamAccoutInfoBtnClickCommand => new RelayCommand(DoSaveSteamAccoutInfoBtnClick);
 
         /// <summary>
-        /// 重载信息
+        /// 保存steam账号信息
         /// </summary>
-        /// <param name="window">窗体</param>
-        private void DoReloadBtnClick()
+        private void DoSaveSteamAccoutInfoBtnClick()
         {
-            Notify.LoadMenu();
-            LoadSaveInfo();
-            ShowToolTip("重载成功！");
-        }
-
-        /// <summary>
-        /// 添加steam账号信息
-        /// </summary>
-        public RelayCommand AddSteamAccoutInfoBtnClickCommand => new RelayCommand(DoAddSteamAccoutInfoBtnClick);
-
-        /// <summary>
-        /// 添加steam账号信息
-        /// </summary>
-        private void DoAddSteamAccoutInfoBtnClick()
-        {
-            if (string.IsNullOrEmpty(SteamAccountAccontText))
+            if (SelectedSteamAccoutInfo == null)
             {
-                ShowToolTip("添加失败！账号必填！");
+                ShowToolTip("保存失败！请选择要修改的账号！");
                 return;
             }
 
-            if (string.IsNullOrEmpty(SteamAccountNameText))
-            {
-                ShowToolTip("添加失败！昵称必填！");
-                return;
-            }
+            SelectedSteamAccoutInfo.Name = SteamAccountNameText;
+            SelectedSteamAccoutInfo.Password = SteamAccountPasswordText;
+            SelectedSteamAccoutInfo.Order = SteamAccountOrderText;
 
-            // 构建账号信息
-            var steamAccount = new SteamAccoutInfo();
-            steamAccount.Account = SteamAccountAccontText;
-            steamAccount.Name = SteamAccountNameText;
-            steamAccount.Password = SteamAccountPasswordText;
-            steamAccount.Order = SteamAccountOrderText;
-
-            // 添加账号
+            // 删除账号
             var saveInfo = SteamHelper.GetSaveInfo();
-            if (saveInfo.SteamAccoutInfoList.Any(r => r.Account == steamAccount.Account))
-            {
-                ShowToolTip("添加失败！账号已存在！");
-                return;
-            }
+            saveInfo.SteamAccoutInfoList.RemoveAll(r => r.Account == SelectedSteamAccoutInfo.Account);
 
-            saveInfo.SteamAccoutInfoList.Add(steamAccount);
+            // 再新增账号
+            saveInfo.SteamAccoutInfoList.Add(SelectedSteamAccoutInfo);
             SteamHelper.SaveSaveInfo(saveInfo);
 
-            ShowToolTip("添加成功！");
+            currentSteamAccount = SelectedSteamAccoutInfo.Account;
+            ReLoad();
+            ShowToolTip("保存成功！");
         }
 
         /// <summary>
@@ -390,29 +356,30 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void DoDelSteamAccoutInfoBtnClick()
         {
-            if (string.IsNullOrEmpty(SteamAccountAccontText))
+            if (SelectedSteamAccoutInfo == null)
             {
-                ShowToolTip("删除失败！账号必填！");
+                ShowToolTip("删除失败！请选择要修改的账号！");
                 return;
             }
 
             // 删除账号
             var saveInfo = SteamHelper.GetSaveInfo();
-            saveInfo.SteamAccoutInfoList = saveInfo.SteamAccoutInfoList.Where(r => r.Account != SteamAccountAccontText).ToList();
-
+            saveInfo.SteamAccoutInfoList = saveInfo.SteamAccoutInfoList.Where(r => r.Account != SelectedSteamAccoutInfo.Account).ToList();
             SteamHelper.SaveSaveInfo(saveInfo);
+
+            ReLoad();
             ShowToolTip("删除成功！");
         }
 
         /// <summary>
-        /// 添加steam账号信息
+        /// 添加游戏进程信息
         /// </summary>
-        public RelayCommand AddGameProcessInfoBtnClickCommand => new RelayCommand(DoAddGameProcessInfoBtnClick);
+        public RelayCommand SaveGameProcessInfoBtnClickCommand => new RelayCommand(DoSaveGameProcessInfoBtnClick);
 
         /// <summary>
-        /// 添加steam账号信息
+        /// 添加游戏进程信息
         /// </summary>
-        private void DoAddGameProcessInfoBtnClick()
+        private void DoSaveGameProcessInfoBtnClick()
         {
             if (string.IsNullOrEmpty(GameProcessInfoText))
             {
@@ -435,6 +402,7 @@ namespace SteamAccountChange.ViewModel
             saveInfo.GameProcessList.Add(gameProcessInfo);
             SteamHelper.SaveSaveInfo(saveInfo);
 
+            ReLoad();
             ShowToolTip("添加成功！");
         }
 
@@ -457,8 +425,9 @@ namespace SteamAccountChange.ViewModel
             // 删除游戏进程
             var saveInfo = SteamHelper.GetSaveInfo();
             saveInfo.GameProcessList = saveInfo.GameProcessList.Where(r => r.Name != GameProcessInfoText).ToList();
-
             SteamHelper.SaveSaveInfo(saveInfo);
+
+            ReLoad();
             ShowToolTip("删除成功！");
         }
 
@@ -471,7 +440,6 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void Init()
         {
-            BtnEditContent = "+";
             LoadSaveInfo();
         }
 
@@ -485,6 +453,15 @@ namespace SteamAccountChange.ViewModel
             tempToolTip.Content = text;
             tempToolTip.StaysOpen = false;
             tempToolTip.IsOpen = true;
+        }
+
+        /// <summary>
+        /// 重新加载
+        /// </summary>
+        private void ReLoad()
+        {
+            Notify.LoadMenu();
+            LoadSaveInfo();
         }
 
         #endregion
@@ -503,7 +480,20 @@ namespace SteamAccountChange.ViewModel
             // 选中第一个
             if (selectedSteamAccoutInfo == null && SteamAccoutInfoList != null && SteamAccoutInfoList.Count > 0)
             {
-                SelectedSteamAccoutInfo = SteamAccoutInfoList.FirstOrDefault();
+                // 选回之前的账号
+                SteamAccoutInfo currentSteamAccountInfo = null;
+                if (!string.IsNullOrEmpty(currentSteamAccount))
+                {
+                    currentSteamAccountInfo = SteamAccoutInfoList.First(r => r.Account == currentSteamAccount);
+                }
+
+                // 选中第一个
+                if (currentSteamAccountInfo == null)
+                {
+                    currentSteamAccountInfo = SteamAccoutInfoList.FirstOrDefault();
+                }
+
+                SelectedSteamAccoutInfo = currentSteamAccountInfo;
             }
         }
 
