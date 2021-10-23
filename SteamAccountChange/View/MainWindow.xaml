@@ -52,7 +52,7 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <Button Height="20" Width="44" Margin="0,0,10,0" Content="其它" Foreground="Green"
+                <Button Height="25" Width="44" Margin="0,0,10,0" Content="其它" Foreground="Green"
                          Command="{Binding OtherBtnClickCommand}" CommandParameter="{Binding ElementName=otherContextMenu}">
                     <Button.Resources>
                         <common:BindingProxy x:Key="mainWindowViewModelProxy" Data="{Binding}" />
