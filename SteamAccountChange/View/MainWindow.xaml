@@ -96,5 +96,13 @@
                 </StackPanel>
             </Grid>
         </Border>
+        <Button Height="10" Background="Transparent" VerticalContentAlignment="Center" BorderThickness="0" HorizontalContentAlignment="Center"
+                        Command="{Binding CancelEditSaveInfoBtnClickCommand}">
+            <Path Fill="Black">
+                <Path.Data>
+                    <PathGeometry Figures="M 0,1 L 150,1 150,5 0,5 Z" />
+                </Path.Data>
+            </Path>
+        </Button>
     </StackPanel>
 </Window>

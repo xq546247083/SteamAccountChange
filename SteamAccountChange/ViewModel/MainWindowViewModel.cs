@@ -323,7 +323,20 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void DoEditSaveInfoBtnClick()
         {
-            Lactor.MainWindow.Height = Lactor.MainWindow.Height == 125 ? 255 : 125;
+            Lactor.MainWindow.Height = 265;
+        }
+
+        /// <summary>
+        /// 点击取消修改信息
+        /// </summary>
+        public RelayCommand CancelEditSaveInfoBtnClickCommand => new RelayCommand(DoCancelEditSaveInfoBtnClick);
+
+        /// <summary>
+        /// 点击取消修改信息
+        /// </summary>
+        private void DoCancelEditSaveInfoBtnClick()
+        {
+            Lactor.MainWindow.Height = 125;
         }
 
         /// <summary>
