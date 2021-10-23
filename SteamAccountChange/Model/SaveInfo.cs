@@ -18,6 +18,11 @@ namespace SteamAccountChange.Model
         public List<GameProcessInfo> GameProcessList { get; set; }
 
         /// <summary>
+        /// steam游戏路径
+        /// </summary>
+        public string SteamGamePath { get; set; }
+
+        /// <summary>
         /// 构造方法
         /// </summary>
         public SaveInfo()

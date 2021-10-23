@@ -300,17 +300,30 @@ namespace SteamAccountChange.ViewModel
         }
 
         /// <summary>
-        /// 点击修改信息
+        /// 点击炒作
         /// </summary>
-        public RelayCommand<Window> EditSaveInfoBtnClickCommand => new RelayCommand<Window>(DoEditSaveInfoBtnClick);
+        public RelayCommand<ContextMenu> OperateBtnClickCommand => new RelayCommand<ContextMenu>(DoOperateBtnClick);
 
         /// <summary>
         /// 点击修改信息
         /// </summary>
         /// <param name="window">窗体</param>
-        private void DoEditSaveInfoBtnClick(Window window)
+        private void DoOperateBtnClick(ContextMenu cm)
         {
-            window.Height = window.Height == 125 ? 255 : 125;
+            cm.IsOpen = true;
+        }
+
+        /// <summary>
+        /// 点击修改信息
+        /// </summary>
+        public RelayCommand EditSaveInfoBtnClickCommand => new RelayCommand(DoEditSaveInfoBtnClick);
+
+        /// <summary>
+        /// 点击修改信息
+        /// </summary>
+        private void DoEditSaveInfoBtnClick()
+        {
+            Lactor.MainWindow.Height = Lactor.MainWindow.Height == 125 ? 255 : 125;
         }
 
         /// <summary>

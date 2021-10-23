@@ -93,6 +93,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\BindingProxy.cs" />
     <Compile Include="Common\CommandParameterEx.cs" />
     <Compile Include="Common\InvokeCommandActionEx.cs" />
     <Compile Include="Common\Lactor.cs" />
