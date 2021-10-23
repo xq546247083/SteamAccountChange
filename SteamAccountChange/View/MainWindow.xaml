@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:common="clr-namespace:SteamAccountChange.Common"
-        mc:Ignorable="d" Height="125" Width="220"
+        mc:Ignorable="d" Height="125" Width="250"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         x:Name="mainWindowView"
@@ -64,7 +64,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.3*"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Height="18" Text="昵称:" HorizontalAlignment="Right"></TextBlock>
                 <TextBox x:Name="steamAccountNameTb" Grid.Row="0" Grid.Column="1" Height="18" Margin="2,0,2,0" ToolTip="昵称(必填)" Text="{Binding SteamAccountNameText}"></TextBox>
@@ -73,8 +73,8 @@
                 <TextBlock Grid.Row="2" Grid.Column="0" Height="18" Text="序号:" HorizontalAlignment="Right"></TextBlock>
                 <TextBox x:Name="steamAccountOrderTb" Grid.Row="2" Grid.Column="1" Height="18" Margin="2,0,2,0" ToolTip="序号(选填)" Text="{Binding SteamAccountOrderText}"></TextBox>
                 <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="4" VerticalAlignment="Center">
-                    <Button Width="17" Height="17" ToolTipService.ToolTip="保存(Save)" Command="{Binding SaveSteamAccoutInfoBtnClickCommand}" Content="S" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
-                    <Button Width="17" Height="17" ToolTipService.ToolTip="删除(Del)" Command="{Binding DelSteamAccoutInfoBtnClickCommand}" Foreground="Red" Content="D" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+                    <Button Width="30" Height="17" ToolTipService.ToolTip="保存(Save)" Command="{Binding SaveSteamAccoutInfoBtnClickCommand}" Content="保存" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+                    <Button Width="30" Height="17" ToolTipService.ToolTip="删除(Del)" Command="{Binding DelSteamAccoutInfoBtnClickCommand}" Foreground="Red" Content="删除" Padding="1,0,0,2" Margin="0,10,0,0"></Button>
                 </StackPanel>
             </Grid>
         </Border>
@@ -86,13 +86,13 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.4*"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Height="18" Text="终结进程:" HorizontalAlignment="Right"></TextBlock>
                 <TextBox x:Name="gameProcessInfoTb" Grid.Row="0" Grid.Column="1" Height="18" Margin="2,0,2,0" Text="{Binding GameProcessInfoText}" ToolTip="游戏进程名"></TextBox>
                 <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
-                    <Button Grid.Row="1" Grid.Column="4" Width="17" Height="17" ToolTipService.ToolTip="根据游戏进程名添加游戏进程信息(Save)" Command="{Binding SaveGameProcessInfoBtnClickCommand}" Content="S" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
-                    <Button Grid.Row="1" Grid.Column="5" Width="17" Height="17" ToolTipService.ToolTip="根据游戏进程名删除游戏进程信息(Del)" Command="{Binding DelGameProcessInfoBtnClickCommand}" Foreground="Red" Content="D" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+                    <Button Grid.Row="1" Grid.Column="4" Width="30" Height="17" ToolTipService.ToolTip="根据游戏进程名添加游戏进程信息(Save)" Command="{Binding SaveGameProcessInfoBtnClickCommand}" Content="保存" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
+                    <Button Grid.Row="1" Grid.Column="5" Width="30" Height="17" ToolTipService.ToolTip="根据游戏进程名删除游戏进程信息(Del)" Command="{Binding DelGameProcessInfoBtnClickCommand}" Foreground="Red" Content="删除" Padding="1,0,0,2" Margin="0,2,0,0"></Button>
                 </StackPanel>
             </Grid>
         </Border>
