@@ -3,8 +3,10 @@ using GalaSoft.MvvmLight.Command;
 using SteamAccountChange.Common;
 using SteamAccountChange.Model;
 using SteamAccountChange.View;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -300,12 +302,12 @@ namespace SteamAccountChange.ViewModel
         }
 
         /// <summary>
-        /// 点击炒作
+        /// 点击更多
         /// </summary>
         public RelayCommand<ContextMenu> OperateBtnClickCommand => new RelayCommand<ContextMenu>(DoOperateBtnClick);
 
         /// <summary>
-        /// 点击修改信息
+        /// 点击更多
         /// </summary>
         /// <param name="window">窗体</param>
         private void DoOperateBtnClick(ContextMenu cm)
@@ -457,6 +459,74 @@ namespace SteamAccountChange.ViewModel
             ShowToolTip("删除成功！");
         }
 
+        /// <summary>
+        /// 其它
+        /// </summary>
+        public RelayCommand<ContextMenu> OtherBtnClickCommand => new RelayCommand<ContextMenu>(DoOtherBtnClick);
+
+        /// <summary>
+        /// 其它
+        /// </summary>
+        /// <param name="window">窗体</param>
+        private void DoOtherBtnClick(ContextMenu cm)
+        {
+            cm.IsOpen = true;
+        }
+
+        /// <summary>
+        /// 配置Steam游戏库路径
+        /// </summary>
+        public RelayCommand ConfigSteamGamePathClickCommand => new RelayCommand(DoConfigSteamGamePathClick);
+
+        /// <summary>
+        /// 配置Steam游戏库路径
+        /// </summary>
+        /// <param name="window">窗体</param>
+        private void DoConfigSteamGamePathClick()
+        {
+            // 弹出选择文件夹弹窗
+            var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                // 保存
+                var saveInfo = SteamHelper.GetSaveInfo();
+                saveInfo.SteamGamePath = folderBrowserDialog.SelectedPath;
+
+                SteamHelper.SaveSaveInfo(saveInfo);
+            }
+        }
+
+        /// <summary>
+        /// csgo反和谐
+        /// </summary>
+        public RelayCommand CsgoClearClickCommand => new RelayCommand(DoCsgoClearClick);
+
+        /// <summary>
+        /// csgo反和谐
+        /// </summary>
+        /// <param name="window">窗体</param>
+        private void DoCsgoClearClick()
+        {
+            var saveInfo = SteamHelper.GetSaveInfo();
+            if (string.IsNullOrEmpty(saveInfo.SteamGamePath))
+            {
+                ShowToolTip("请先配置Steam游戏库路径！");
+                return;
+            }
+
+            // 获取csgo路径
+            var csgoFullPath = $"{saveInfo.SteamGamePath}\\steamapps\\common\\Counter-Strike Global Offensive";
+            if (!Directory.Exists(csgoFullPath))
+            {
+                ShowToolTip("Steam游戏库路径不正确，请重新配置！");
+                return;
+            }
+
+            DeleteAudioChineseFile(csgoFullPath);
+            DeletePerfectWorldFile(csgoFullPath);
+            ShowToolTip("和谐成功！");
+        }
+
         #endregion
 
         #region 私有方法
@@ -488,6 +558,72 @@ namespace SteamAccountChange.ViewModel
         {
             Notify.LoadMenu();
             LoadSaveInfo();
+        }
+
+        /// <summary>
+        /// 删除中文文件
+        /// </summary>
+        /// <param name="csgoFullPath">csgo路径</param>
+        private void DeleteAudioChineseFile(string csgoFullPath)
+        {
+            try
+            {
+                var directoryInfo = new DirectoryInfo(csgoFullPath);
+
+                // 删除文件
+                var files = directoryInfo.GetFiles();
+                foreach (var item in files)
+                {
+                    if (item.Name.ToLower().Contains("audiochinese"))
+                    {
+                        item.Delete();
+                    }
+                }
+
+                // 递归
+                var directories = directoryInfo.GetDirectories();
+                foreach (var item in directories)
+                {
+                    DeleteAudioChineseFile(item.FullName);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowToolTip($"删除中文文件失败！错误信息为:{ex}");
+            }
+        }
+
+        /// <summary>
+        /// 删除完美文件
+        /// </summary>
+        /// <param name="csgoFullPath">csgo路径</param>
+        private void DeletePerfectWorldFile(string csgoFullPath)
+        {
+            try
+            {
+                var directoryInfo = new DirectoryInfo(csgoFullPath);
+
+                // 删除文件
+                var files = directoryInfo.GetFiles();
+                foreach (var item in files)
+                {
+                    if (item.Name.ToLower().Contains("perfectworld") && !item.Name.ToLower().Contains("webm"))
+                    {
+                        item.Delete();
+                    }
+                }
+
+                // 递归
+                var directories = directoryInfo.GetDirectories();
+                foreach (var item in directories)
+                {
+                    DeletePerfectWorldFile(item.FullName);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowToolTip($"删除完美文件失败！错误信息为:{ex}");
+            }
         }
 
         #endregion
