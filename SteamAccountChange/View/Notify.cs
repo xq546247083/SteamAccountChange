@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace SteamAccountChange.View
 {
@@ -78,7 +79,7 @@ namespace SteamAccountChange.View
         private static bool GetIsLaunchOnSysPowerOn()
         {
             // 启动steam
-            var (getSuccess, appPathInfo) = RegistryHelper.Get(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName);
+            var (getSuccess, appPathInfo) = RegistryHelper.Get(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Registry.LocalMachine);
             if (getSuccess == false || appPathInfo == null)
             {
                 return false;
@@ -136,14 +137,20 @@ namespace SteamAccountChange.View
             }
 
             // 修改是否自启动
-            launchOnSysPowerOnMenu.Checked = !launchOnSysPowerOnMenu.Checked;
-            if (launchOnSysPowerOnMenu.Checked)
+            var currentValue = !launchOnSysPowerOnMenu.Checked;
+            if (currentValue)
             {
-                RegistryHelper.Set(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Application.ExecutablePath);
+                if (RegistryHelper.Set(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Application.ExecutablePath, Registry.LocalMachine)) 
+                {
+                    launchOnSysPowerOnMenu.Checked = currentValue;
+                }
             }
             else
             {
-                RegistryHelper.Del(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName);
+                if (RegistryHelper.Del(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Registry.LocalMachine)) 
+                {
+                    launchOnSysPowerOnMenu.Checked = currentValue;
+                }
             }
         }
 

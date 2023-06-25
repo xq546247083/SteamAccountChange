@@ -21,14 +21,16 @@ namespace SteamAccountChange.Common
                 topKey = Registry.CurrentUser;
             }
 
-            var rk = topKey.OpenSubKey(keyPath, true);
-            if (rk == null)
+            using (var rk = topKey.OpenSubKey(keyPath, true))
             {
-                return false;
-            }
+                if (rk == null)
+                {
+                    return false;
+                }
 
-            rk.SetValue(key, value);
-            return true;
+                rk.SetValue(key, value);
+                return true;
+            }
         }
 
         /// <summary>
@@ -44,14 +46,16 @@ namespace SteamAccountChange.Common
                 topKey = Registry.CurrentUser;
             }
 
-            var rk = topKey.OpenSubKey(keyPath, true);
-            if (rk == null)
+            using (var rk = topKey.OpenSubKey(keyPath, true))
             {
+                if (rk == null)
+                {
+                    return true;
+                }
+
+                rk.DeleteValue(key, false);
                 return true;
             }
-
-            rk.DeleteValue(key, false);
-            return true;
         }
 
         /// <summary>
@@ -67,19 +71,21 @@ namespace SteamAccountChange.Common
                 topKey = Registry.CurrentUser;
             }
 
-            var rk = topKey.OpenSubKey(keyPath, true);
-            if (rk == null)
+            using (var rk = topKey.OpenSubKey(keyPath, true))
             {
-                return (false, string.Empty);
-            }
+                if (rk == null)
+                {
+                    return (false, string.Empty);
+                }
 
-            var obj = rk.GetValue(key);
-            if (obj == null)
-            {
-                return (false, string.Empty);
-            }
+                var obj = rk.GetValue(key);
+                if (obj == null)
+                {
+                    return (false, string.Empty);
+                }
 
-            return (true, obj);
+                return (true, obj);
+            }
         }
     }
 }
