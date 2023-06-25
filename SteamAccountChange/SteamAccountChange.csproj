@@ -95,9 +95,11 @@
     </ApplicationDefinition>
     <Compile Include="Common\BindingProxy.cs" />
     <Compile Include="Common\CommandParameterEx.cs" />
+    <Compile Include="Common\SteamHelper.cs" />
     <Compile Include="Common\InvokeCommandActionEx.cs" />
     <Compile Include="Common\Lactor.cs" />
-    <Compile Include="Common\SteamHelper.cs" />
+    <Compile Include="Common\RegistryHelper.cs" />
+    <Compile Include="Common\ConfigHelper.cs" />
     <Compile Include="Model\GameProcessInfo.cs" />
     <Compile Include="Model\SaveInfo.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />

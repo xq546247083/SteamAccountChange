@@ -231,7 +231,7 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void DoNewBtnClickCommand()
         {
-            var autoLoginUser = SteamHelper.GetSteamRegistry("AutoLoginUser");
+            var autoLoginUser = RegistryHelper.GetSteamRegistry("AutoLoginUser");
             if (string.IsNullOrEmpty(autoLoginUser))
             {
                 ShowToolTip("请先登陆Steam！");
@@ -246,7 +246,7 @@ namespace SteamAccountChange.ViewModel
             steamAccount.Order = "0";
 
             // 添加账号
-            var saveInfo = SteamHelper.GetSaveInfo();
+            var saveInfo = ConfigHelper.GetConfig();
             if (saveInfo.SteamAccoutInfoList.Any(r => r.Account == steamAccount.Account))
             {
                 ShowToolTip("添加失败！账号已存在！");
@@ -254,7 +254,7 @@ namespace SteamAccountChange.ViewModel
             }
 
             saveInfo.SteamAccoutInfoList.Add(steamAccount);
-            SteamHelper.SaveSaveInfo(saveInfo);
+            ConfigHelper.Save(saveInfo);
 
             currentSteamAccount = steamAccount.Account;
             ReLoad();
@@ -362,12 +362,12 @@ namespace SteamAccountChange.ViewModel
             SelectedSteamAccoutInfo.Order = SteamAccountOrderText;
 
             // 删除账号
-            var saveInfo = SteamHelper.GetSaveInfo();
+            var saveInfo = ConfigHelper.GetConfig();
             saveInfo.SteamAccoutInfoList.RemoveAll(r => r.Account == SelectedSteamAccoutInfo.Account);
 
             // 再新增账号
             saveInfo.SteamAccoutInfoList.Add(SelectedSteamAccoutInfo);
-            SteamHelper.SaveSaveInfo(saveInfo);
+            ConfigHelper.Save(saveInfo);
 
             currentSteamAccount = SelectedSteamAccoutInfo.Account;
             ReLoad();
@@ -391,9 +391,9 @@ namespace SteamAccountChange.ViewModel
             }
 
             // 删除账号
-            var saveInfo = SteamHelper.GetSaveInfo();
+            var saveInfo = ConfigHelper.GetConfig();
             saveInfo.SteamAccoutInfoList = saveInfo.SteamAccoutInfoList.Where(r => r.Account != SelectedSteamAccoutInfo.Account).ToList();
-            SteamHelper.SaveSaveInfo(saveInfo);
+            ConfigHelper.Save(saveInfo);
 
             ReLoad();
             ShowToolTip("删除成功！");
@@ -420,7 +420,7 @@ namespace SteamAccountChange.ViewModel
             gameProcessInfo.Name = GameProcessInfoText;
 
             // 添加游戏进程
-            var saveInfo = SteamHelper.GetSaveInfo();
+            var saveInfo = ConfigHelper.GetConfig();
             if (saveInfo.GameProcessList.Any(r => r.Name == gameProcessInfo.Name))
             {
                 ShowToolTip("添加失败！游戏进程已存在！");
@@ -428,7 +428,7 @@ namespace SteamAccountChange.ViewModel
             }
 
             saveInfo.GameProcessList.Add(gameProcessInfo);
-            SteamHelper.SaveSaveInfo(saveInfo);
+            ConfigHelper.Save(saveInfo);
 
             ReLoad();
             ShowToolTip("添加成功！");
@@ -451,9 +451,9 @@ namespace SteamAccountChange.ViewModel
             }
 
             // 删除游戏进程
-            var saveInfo = SteamHelper.GetSaveInfo();
+            var saveInfo = ConfigHelper.GetConfig();
             saveInfo.GameProcessList = saveInfo.GameProcessList.Where(r => r.Name != GameProcessInfoText).ToList();
-            SteamHelper.SaveSaveInfo(saveInfo);
+            ConfigHelper.Save(saveInfo);
 
             ReLoad();
             ShowToolTip("删除成功！");
@@ -489,10 +489,10 @@ namespace SteamAccountChange.ViewModel
             if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 // 保存
-                var saveInfo = SteamHelper.GetSaveInfo();
+                var saveInfo = ConfigHelper.GetConfig();
                 saveInfo.SteamGamePath = folderBrowserDialog.SelectedPath;
 
-                SteamHelper.SaveSaveInfo(saveInfo);
+                ConfigHelper.Save(saveInfo);
             }
         }
 
@@ -507,7 +507,7 @@ namespace SteamAccountChange.ViewModel
         /// <param name="window">窗体</param>
         private void DoCsgoClearClick()
         {
-            var saveInfo = SteamHelper.GetSaveInfo();
+            var saveInfo = ConfigHelper.GetConfig();
             if (string.IsNullOrEmpty(saveInfo.SteamGamePath))
             {
                 ShowToolTip("请先配置Steam游戏库路径！");
@@ -636,7 +636,7 @@ namespace SteamAccountChange.ViewModel
         public void LoadSaveInfo()
         {
             // 加载账号信息
-            var saveInfo = SteamHelper.GetSaveInfo();
+            var saveInfo = ConfigHelper.GetConfig();
             SteamAccoutInfoList = saveInfo.SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
 
             // 选中第一个

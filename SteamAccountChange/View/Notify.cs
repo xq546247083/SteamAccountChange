@@ -44,7 +44,7 @@ namespace SteamAccountChange.View
             var menuList = new List<MenuItem>();
 
             // 添加账号到菜单
-            var steamAccoutInfoList = SteamHelper.GetSaveInfo().SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
+            var steamAccoutInfoList = ConfigHelper.GetConfig().SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
             foreach (var item in steamAccoutInfoList)
             {
                 var steamAccountMenu = new MenuItem(item.Name);
@@ -54,10 +54,15 @@ namespace SteamAccountChange.View
                 menuList.Add(steamAccountMenu);
             }
 
+            // 开机自启用菜单项
+            var launchOnSysPowerOnMenu = new MenuItem("开机自启用");
+            launchOnSysPowerOnMenu.Click += LaunchOnSysPowerOn_Click;
+            menuList.Add(launchOnSysPowerOnMenu);
+
             // 退出菜单项
-            var exit = new MenuItem("退出");
-            exit.Click += Exit_Click;
-            menuList.Add(exit);
+            var exitMenu = new MenuItem("退出");
+            exitMenu.Click += Exit_Click;
+            menuList.Add(exitMenu);
 
             // 关联托盘控件
             notifyIcon.ContextMenu = new ContextMenu(menuList.ToArray());
@@ -92,6 +97,22 @@ namespace SteamAccountChange.View
         {
             notifyIcon.Visible = false;
             System.Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// 开机自启用
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">e</param>
+        private static void LaunchOnSysPowerOn_Click(object sender, EventArgs e)
+        {
+            var launchOnSysPowerOnMenu = sender as MenuItem;
+            if (launchOnSysPowerOnMenu == null)
+            {
+                return;
+            }
+
+            launchOnSysPowerOnMenu.Checked = !launchOnSysPowerOnMenu.Checked;
         }
 
         /// <summary>
