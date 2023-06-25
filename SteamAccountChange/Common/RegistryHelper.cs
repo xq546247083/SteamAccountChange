@@ -37,7 +37,7 @@ namespace SteamAccountChange.Common
         /// <param name="keyPath"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static bool Delete(string keyPath, string key, RegistryKey topKey = null)
+        public static bool Del(string keyPath, string key, RegistryKey topKey = null)
         {
             if (topKey == null)
             {

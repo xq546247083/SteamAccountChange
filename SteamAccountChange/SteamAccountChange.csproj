@@ -100,6 +100,7 @@
     <Compile Include="Common\Lactor.cs" />
     <Compile Include="Common\RegistryHelper.cs" />
     <Compile Include="Common\ConfigHelper.cs" />
+    <Compile Include="Local.cs" />
     <Compile Include="Model\GameProcessInfo.cs" />
     <Compile Include="Model\SaveInfo.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />

@@ -11,7 +11,7 @@ namespace SteamAccountChange.View
     /// </summary>
     public static class Notify
     {
-        #region 私有方法
+        #region 私有属性
 
         /// <summary>
         /// 通知图标
@@ -56,6 +56,7 @@ namespace SteamAccountChange.View
 
             // 开机自启用菜单项
             var launchOnSysPowerOnMenu = new MenuItem("开机自启用");
+            launchOnSysPowerOnMenu.Checked = GetIsLaunchOnSysPowerOn();
             launchOnSysPowerOnMenu.Click += LaunchOnSysPowerOn_Click;
             menuList.Add(launchOnSysPowerOnMenu);
 
@@ -69,6 +70,28 @@ namespace SteamAccountChange.View
         }
 
         #endregion
+
+        /// <summary>
+        /// 获取是否自启动
+        /// </summary>
+        /// <returns></returns>
+        private static bool GetIsLaunchOnSysPowerOn()
+        {
+            // 启动steam
+            var (getSuccess, appPathInfo) = RegistryHelper.Get(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName);
+            if (getSuccess == false || appPathInfo == null)
+            {
+                return false;
+            }
+
+            var appPathStr = appPathInfo.ToString();
+            if (string.IsNullOrEmpty(appPathStr))
+            {
+                return false;
+            }
+
+            return appPathStr == Application.ExecutablePath;
+        }
 
         #region 事件
 
@@ -112,7 +135,16 @@ namespace SteamAccountChange.View
                 return;
             }
 
+            // 修改是否自启动
             launchOnSysPowerOnMenu.Checked = !launchOnSysPowerOnMenu.Checked;
+            if (launchOnSysPowerOnMenu.Checked)
+            {
+                RegistryHelper.Set(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Application.ExecutablePath);
+            }
+            else
+            {
+                RegistryHelper.Del(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName);
+            }
         }
 
         /// <summary>
