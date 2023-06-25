@@ -231,7 +231,13 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void DoNewBtnClickCommand()
         {
-            var autoLoginUser = RegistryHelper.GetSteamRegistry("AutoLoginUser");
+            var (success, autoLoginUserObj) = RegistryHelper.Get(@"Software\Valve\Steam", "AutoLoginUser");
+            if (success == false || autoLoginUserObj == null)
+            {
+                ShowToolTip("请先登陆Steam！");
+                return;
+            }
+            var autoLoginUser = autoLoginUserObj.ToString();
             if (string.IsNullOrEmpty(autoLoginUser))
             {
                 ShowToolTip("请先登陆Steam！");

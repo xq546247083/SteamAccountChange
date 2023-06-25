@@ -8,104 +8,78 @@ namespace SteamAccountChange.Common
     public static class RegistryHelper
     {
         /// <summary>
-        /// 获取Steam进程信息
+        /// 设置key
         /// </summary>
+        /// <param name="keyPath"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public static string GetSteamExe()
+        public static bool Set(string keyPath, string key, string value, RegistryKey topKey = null)
         {
-            var currentUser = Registry.CurrentUser;
-            if (currentUser == null)
+            if (topKey == null)
             {
-                return string.Empty;
+                topKey = Registry.CurrentUser;
             }
 
-            var software = currentUser.OpenSubKey("SOFTWARE", true);
-            if (software == null)
+            var rk = topKey.OpenSubKey(keyPath, true);
+            if (rk == null)
             {
-                return string.Empty;
+                return false;
             }
 
-            var vavle = software.OpenSubKey("Valve", true);
-            if (vavle == null)
-            {
-                return string.Empty;
-            }
-
-            var steam = vavle.OpenSubKey("Steam", true);
-            if (steam == null)
-            {
-                return string.Empty;
-            }
-
-            return steam.GetValue("SteamExe").ToString();
+            rk.SetValue(key, value);
+            return true;
         }
 
         /// <summary>
-        /// 获取Steam注册表信息
+        /// 删除注册表信息
         /// </summary>
-        /// <param name="key">key</param>
-        /// <param name="value">value</param>
-        public static string GetSteamRegistry(string key)
+        /// <param name="keyPath"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static bool Delete(string keyPath, string key, RegistryKey topKey = null)
         {
-            var currentUser = Registry.CurrentUser;
-            if (currentUser == null)
+            if (topKey == null)
             {
-                return string.Empty;
+                topKey = Registry.CurrentUser;
             }
 
-            var software = currentUser.OpenSubKey("SOFTWARE", true);
-            if (software == null)
+            var rk = topKey.OpenSubKey(keyPath, true);
+            if (rk == null)
             {
-                return string.Empty;
+                return true;
             }
 
-            var valve = software.OpenSubKey("Valve", true);
-            if (valve == null)
-            {
-                return string.Empty;
-            }
-
-            var steam = valve.OpenSubKey("Steam", true);
-            if (steam == null)
-            {
-                return string.Empty;
-            }
-
-            return steam.GetValue(key).ToString();
+            rk.DeleteValue(key, false);
+            return true;
         }
 
         /// <summary>
-        /// 设置Steam注册表信息
+        /// 获取注册表信息
         /// </summary>
-        /// <param name="key">key</param>
-        /// <param name="value">value</param>
-        public static void SetSteamRegistry(string key, string value)
+        /// <param name="keyPath"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static (bool, object) Get(string keyPath, string key, RegistryKey topKey = null)
         {
-            var currentUser = Registry.CurrentUser;
-            if (currentUser == null)
+            if (topKey == null)
             {
-                return;
+                topKey = Registry.CurrentUser;
             }
 
-            var software = currentUser.OpenSubKey("SOFTWARE", true);
-            if (software == null)
+            var rk = topKey.OpenSubKey(keyPath, true);
+            if (rk == null)
             {
-                return;
+                return (false, string.Empty);
             }
 
-            var valve = software.OpenSubKey("Valve", true);
-            if (valve == null)
+            var obj = rk.GetValue(key);
+            if (obj == null)
             {
-                return;
+                return (false, string.Empty);
             }
 
-            var steam = valve.OpenSubKey("Steam", true);
-            if (steam == null)
-            {
-                return;
-            }
-
-            steam.SetValue(key, value);
+            return (true, obj);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace SteamAccountChange.Common
             try
             {
                 // 设置注册信息
-                RegistryHelper.SetSteamRegistry("AutoLoginUser", account);
+                RegistryHelper.Set(@"Software\Valve\Steam", "AutoLoginUser", account);
 
                 // 杀掉游戏进程
                 var saveInfo = ConfigHelper.GetConfig();
@@ -46,7 +46,18 @@ namespace SteamAccountChange.Common
                 KillProcess("steam");
 
                 // 启动steam
-                string steamExe = RegistryHelper.GetSteamExe();
+                var (getSuccess, steamExeObj) = RegistryHelper.Get(@"Software\Valve\Steam", "SteamExe");
+                if (getSuccess == false || steamExeObj == null)
+                {
+                    return;
+                }
+
+                var steamExe = steamExeObj.ToString();
+                if (string.IsNullOrEmpty(steamExe))
+                {
+                    return;
+                }
+
                 Process.Start(steamExe);
             }
             catch (Exception ex)
