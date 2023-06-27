@@ -61,6 +61,11 @@
       <HintPath>DLL\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Interop.TaskScheduler">
+      <HintPath>DLL\Interop.TaskScheduler.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\Newtonsoft.Json.dll</HintPath>
@@ -100,6 +105,7 @@
     <Compile Include="Common\Lactor.cs" />
     <Compile Include="Common\RegistryHelper.cs" />
     <Compile Include="Common\ConfigHelper.cs" />
+    <Compile Include="Common\TaskSchedulerHelper.cs" />
     <Compile Include="Local.cs" />
     <Compile Include="Model\GameProcessInfo.cs" />
     <Compile Include="Model\SaveInfo.cs" />
@@ -161,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DLL\System.Windows.Interactivity.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DLL\Interop.TaskScheduler.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

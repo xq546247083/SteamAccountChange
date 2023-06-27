@@ -55,10 +55,20 @@ namespace SteamAccountChange.View
                 menuList.Add(steamAccountMenu);
             }
 
+            // 注册表
+            var launchOnSysPowerOnByRegisterMenu = new MenuItem("注册表");
+            launchOnSysPowerOnByRegisterMenu.Checked = GetIsLaunchOnSysPowerOnByRegister();
+            launchOnSysPowerOnByRegisterMenu.Click += LaunchOnSysPowerOnByRegister_Click;
+
+            // 计划任务
+            var launchOnSysPowerOnByTaskSchedulerMenu = new MenuItem("计划任务(跳过UAC)");
+            launchOnSysPowerOnByTaskSchedulerMenu.Checked = GetIsLaunchOnSysPowerOnByTaskScheduler();
+            launchOnSysPowerOnByTaskSchedulerMenu.Click += LaunchOnSysPowerOnByTaskScheduler_Click;
+
             // 开机自启用菜单项
             var launchOnSysPowerOnMenu = new MenuItem("开机自启用");
-            launchOnSysPowerOnMenu.Checked = GetIsLaunchOnSysPowerOn();
-            launchOnSysPowerOnMenu.Click += LaunchOnSysPowerOn_Click;
+            launchOnSysPowerOnMenu.MenuItems.Add(launchOnSysPowerOnByRegisterMenu);
+            launchOnSysPowerOnMenu.MenuItems.Add(launchOnSysPowerOnByTaskSchedulerMenu);
             menuList.Add(launchOnSysPowerOnMenu);
 
             // 退出菜单项
@@ -73,12 +83,11 @@ namespace SteamAccountChange.View
         #endregion
 
         /// <summary>
-        /// 获取是否自启动
+        /// 获取是否注册表自启动
         /// </summary>
         /// <returns></returns>
-        private static bool GetIsLaunchOnSysPowerOn()
+        private static bool GetIsLaunchOnSysPowerOnByRegister()
         {
-            // 启动steam
             var (getSuccess, appPathInfo) = RegistryHelper.Get(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Registry.LocalMachine);
             if (getSuccess == false || appPathInfo == null)
             {
@@ -92,6 +101,16 @@ namespace SteamAccountChange.View
             }
 
             return appPathStr == Application.ExecutablePath;
+        }
+
+        /// <summary>
+        /// 获取是否计划任务自启动
+        /// </summary>
+        /// <returns></returns>
+        private static bool GetIsLaunchOnSysPowerOnByTaskScheduler()
+        {
+            var taslScheduler = TaskSchedulerHelper.Get(Local.AppName);
+            return taslScheduler != null;
         }
 
         #region 事件
@@ -124,33 +143,62 @@ namespace SteamAccountChange.View
         }
 
         /// <summary>
-        /// 开机自启用
+        /// 注册表，开机自启用
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">e</param>
-        private static void LaunchOnSysPowerOn_Click(object sender, EventArgs e)
+        private static void LaunchOnSysPowerOnByRegister_Click(object sender, EventArgs e)
         {
-            var launchOnSysPowerOnMenu = sender as MenuItem;
-            if (launchOnSysPowerOnMenu == null)
+            var launchOnSysPowerOnByRegisterMenu = sender as MenuItem;
+            if (launchOnSysPowerOnByRegisterMenu == null)
             {
                 return;
             }
 
             // 修改是否自启动
-            var currentValue = !launchOnSysPowerOnMenu.Checked;
+            var currentValue = !launchOnSysPowerOnByRegisterMenu.Checked;
             if (currentValue)
             {
-                if (RegistryHelper.Set(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Application.ExecutablePath, Registry.LocalMachine)) 
+                if (RegistryHelper.Set(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Application.ExecutablePath, Registry.LocalMachine))
                 {
-                    launchOnSysPowerOnMenu.Checked = currentValue;
+                    launchOnSysPowerOnByRegisterMenu.Checked = currentValue;
                 }
             }
             else
             {
-                if (RegistryHelper.Del(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Registry.LocalMachine)) 
+                if (RegistryHelper.Del(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Registry.LocalMachine))
                 {
-                    launchOnSysPowerOnMenu.Checked = currentValue;
+                    launchOnSysPowerOnByRegisterMenu.Checked = currentValue;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 计划任务，开机自启用
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">e</param>
+        private static void LaunchOnSysPowerOnByTaskScheduler_Click(object sender, EventArgs e)
+        {
+            var launchOnSysPowerOnByTaskSchedulerMenu = sender as MenuItem;
+            if (launchOnSysPowerOnByTaskSchedulerMenu == null)
+            {
+                return;
+            }
+
+            // 修改是否自启动
+            var currentValue = !launchOnSysPowerOnByTaskSchedulerMenu.Checked;
+            if (currentValue)
+            {
+                if (TaskSchedulerHelper.AddLuanchTask(Local.AppName, Application.ExecutablePath))
+                {
+                    launchOnSysPowerOnByTaskSchedulerMenu.Checked = currentValue;
+                }
+            }
+            else
+            {
+                TaskSchedulerHelper.Del(Local.AppName);
+                launchOnSysPowerOnByTaskSchedulerMenu.Checked = currentValue;
             }
         }
 
