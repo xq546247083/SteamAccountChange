@@ -56,7 +56,7 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel  Orientation="Horizontal"
                                          FlowDirection="LeftToRight">
-                                <Button  Style="{StaticResource ResourceKey=AddButtonStyle}"
+                                <Button  Style="{StaticResource ResourceKey=AddMainButtonStyle}"
                                          Height="30"
                                          Width="44"
                                          Margin="0,0,10,0"
@@ -168,7 +168,8 @@
                             <StackPanel Grid.Row="3"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="2"
-                                        HorizontalAlignment="Center"
+                                        Margin="0,0,20,0"
+                                        HorizontalAlignment="Right"
                                         Orientation="Horizontal">
                                 <Button Style="{StaticResource SaveButtonStyle}"
                                         ToolTipService.ToolTip="保存"
@@ -224,20 +225,20 @@
                                       ItemsSource="{Binding KillProcessList}">
                             </ComboBox>
                             <StackPanel  Orientation="Horizontal"
-                                         FlowDirection="RightToLeft">
-                                <Button  Style="{StaticResource ResourceKey=DelButtonStyle}"
-                                         Height="30"
-                                         Width="44"
-                                         Margin="0,0,10,0"
-                                         ToolTip="删除"
-                                         Command="{Binding DelGameProcessInfoBtnClickCommand}">
-                                </Button>
+                                         HorizontalAlignment="Right">
                                 <Button  Style="{StaticResource ResourceKey=AddButtonStyle}"
-                                         Height="30"
-                                         Width="44"
-                                         Margin="0,0,10,0"
+                                         Height="35"
+                                         Width="40"
+                                         Margin="0,0,20,0"
                                          ToolTip="添加"
                                          Command="{Binding SaveGameProcessInfoBtnClickCommand}">
+                                </Button>
+                                <Button  Style="{StaticResource ResourceKey=DelButtonStyle}"
+                                         Height="35"
+                                         Width="40"
+                                         Margin="0,0,20,0"
+                                         ToolTip="删除"
+                                         Command="{Binding DelGameProcessInfoBtnClickCommand}">
                                 </Button>
                             </StackPanel>
                         </StackPanel>
