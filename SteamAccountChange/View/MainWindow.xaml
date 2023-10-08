@@ -11,7 +11,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         x:Name="mainWindowView"
-        Title="Steam账号配置">
+        Title="Steam账号切换器">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="KeyDown">
             <common:InvokeCommandActionEx Command="{Binding MainWindowKeyDownCommand}" />
