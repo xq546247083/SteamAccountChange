@@ -13,9 +13,9 @@ namespace SteamAccountChange.Model
         public List<SteamAccoutInfo> SteamAccoutInfoList { get; set; }
 
         /// <summary>
-        /// 游戏进程列表
+        /// 要杀掉的进程列表
         /// </summary>
-        public List<GameProcessInfo> GameProcessList { get; set; }
+        public List<ProcessInfo> KillProcessList { get; set; }
 
         /// <summary>
         /// steam游戏路径
@@ -28,7 +28,7 @@ namespace SteamAccountChange.Model
         public SaveInfo()
         {
             SteamAccoutInfoList = new List<SteamAccoutInfo>();
-            GameProcessList = new List<GameProcessInfo>();
+            KillProcessList = new List<ProcessInfo>();
         }
     }
 }

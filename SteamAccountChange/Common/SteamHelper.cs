@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Windows;
 
 namespace SteamAccountChange.Common
@@ -14,10 +16,15 @@ namespace SteamAccountChange.Common
         /// </summary>
         private static void KillProcess(string processName)
         {
+            // 处理进程名
+            var hendleProcessName = processName.ToLower();
+            var strList = processName.Split('.');
+            hendleProcessName = strList[0];
+
             var processList = Process.GetProcesses();
             foreach (Process item in processList)
             {
-                if (item.ProcessName.ToLower() == processName)
+                if (item.ProcessName.ToLower() == hendleProcessName)
                 {
                     item.Kill();
                 }
@@ -37,7 +44,7 @@ namespace SteamAccountChange.Common
 
                 // 杀掉游戏进程
                 var saveInfo = ConfigHelper.GetConfig();
-                foreach (var item in saveInfo.GameProcessList)
+                foreach (var item in saveInfo.KillProcessList)
                 {
                     KillProcess(item.Name);
                 }

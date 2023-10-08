@@ -4,7 +4,7 @@
     /// <summary>
     /// 游戏进程
     /// </summary>
-    public class GameProcessInfo
+    public class ProcessInfo
     {
         /// <summary>
         /// 名字

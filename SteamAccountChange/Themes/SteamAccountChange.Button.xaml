@@ -1,0 +1,128 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="AddButtonStyle"
+           TargetType="Button">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            BorderThickness="0"
+                            BorderBrush="Transparent"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}">
+                        <Image Source="/Resources/add-circle.png" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="LightGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="DelButtonStyle"
+           TargetType="Button">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            BorderThickness="0"
+                            BorderBrush="Transparent"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}">
+                        <Image Source="/Resources/del.png" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="LightGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="CopyButtonStyle"
+           TargetType="Button">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            BorderThickness="0"
+                            BorderBrush="Transparent"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}">
+                        <Image Source="/Resources/copy.png" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="LightGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="CopyNewButtonStyle"
+           TargetType="Button">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            BorderThickness="0"
+                            BorderBrush="Transparent"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}">
+                        <Image Source="/Resources/copy-new.png" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="LightGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="SaveButtonStyle"
+           TargetType="Button">
+        <Setter Property="OverridesDefaultStyle"
+                Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border"
+                            BorderThickness="0"
+                            BorderBrush="Transparent"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}">
+                        <Image Source="/Resources/save.png" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter Property="Background"
+                                    Value="LightGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

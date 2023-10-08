@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:SteamAccountChange"
              Startup="Application_Startup">
     <Application.Resources>
-         
+        <ResourceDictionary Source="/Themes/SteamAccountChange.Button.xaml"></ResourceDictionary>
     </Application.Resources>
 </Application>

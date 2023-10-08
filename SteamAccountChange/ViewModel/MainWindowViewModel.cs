@@ -75,11 +75,75 @@ namespace SteamAccountChange.ViewModel
 
                 if (value != null)
                 {
+                    SteamAccountAccountText = selectedSteamAccoutInfo.Account;
                     SteamAccountNameText = selectedSteamAccoutInfo.Name;
                     SteamAccountPasswordText = selectedSteamAccoutInfo.Password;
                     SteamAccountOrderText = selectedSteamAccoutInfo.Order;
                 }
 
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 要杀掉的进程列表
+        /// </summary>
+        private List<ProcessInfo> killProcessList;
+
+        /// <summary>
+        /// 要杀掉的进程列表
+        /// </summary>
+        public List<ProcessInfo> KillProcessList
+        {
+            get
+            {
+                return killProcessList;
+            }
+            set
+            {
+                killProcessList = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 选中的进程名
+        /// </summary>
+        private string selectedProcessName;
+
+        /// <summary>
+        /// 选中的进程名
+        /// </summary>
+        public string SelectedProcessName
+        {
+            get
+            {
+                return selectedProcessName;
+            }
+            set
+            {
+                selectedProcessName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// steamAccount的Account文本内容
+        /// </summary>
+        private string steamAccountAccountText;
+
+        /// <summary>
+        /// steamAccount的Account文本内容
+        /// </summary>
+        public string SteamAccountAccountText
+        {
+            get
+            {
+                return steamAccountAccountText;
+            }
+            set
+            {
+                steamAccountAccountText = value;
                 RaisePropertyChanged();
             }
         }
@@ -143,27 +207,6 @@ namespace SteamAccountChange.ViewModel
             set
             {
                 steamAccountOrderText = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// 游戏进程名文本内容
-        /// </summary>
-        private string gameProcessInfoText;
-
-        /// <summary>
-        /// 游戏进程名文本内容
-        /// </summary>
-        public string GameProcessInfoText
-        {
-            get
-            {
-                return gameProcessInfoText;
-            }
-            set
-            {
-                gameProcessInfoText = value;
                 RaisePropertyChanged();
             }
         }
@@ -322,32 +365,6 @@ namespace SteamAccountChange.ViewModel
         }
 
         /// <summary>
-        /// 点击修改信息
-        /// </summary>
-        public RelayCommand EditSaveInfoBtnClickCommand => new RelayCommand(DoEditSaveInfoBtnClick);
-
-        /// <summary>
-        /// 点击修改信息
-        /// </summary>
-        private void DoEditSaveInfoBtnClick()
-        {
-            Lactor.MainWindow.Height = 265;
-        }
-
-        /// <summary>
-        /// 点击取消修改信息
-        /// </summary>
-        public RelayCommand CancelEditSaveInfoBtnClickCommand => new RelayCommand(DoCancelEditSaveInfoBtnClick);
-
-        /// <summary>
-        /// 点击取消修改信息
-        /// </summary>
-        private void DoCancelEditSaveInfoBtnClick()
-        {
-            Lactor.MainWindow.Height = 125;
-        }
-
-        /// <summary>
         /// 保存steam账号信息
         /// </summary>
         public RelayCommand SaveSteamAccoutInfoBtnClickCommand => new RelayCommand(DoSaveSteamAccoutInfoBtnClick);
@@ -415,25 +432,25 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void DoSaveGameProcessInfoBtnClick()
         {
-            if (string.IsNullOrEmpty(GameProcessInfoText))
+            if (string.IsNullOrEmpty(SelectedProcessName))
             {
                 ShowToolTip("添加失败！游戏进程必填！");
                 return;
             }
 
             // 构建游戏进程信息
-            var gameProcessInfo = new GameProcessInfo();
-            gameProcessInfo.Name = GameProcessInfoText;
+            var processInfo = new ProcessInfo();
+            processInfo.Name = SelectedProcessName;
 
             // 添加游戏进程
             var saveInfo = ConfigHelper.GetConfig();
-            if (saveInfo.GameProcessList.Any(r => r.Name == gameProcessInfo.Name))
+            if (saveInfo.KillProcessList.Any(r => r.Name == processInfo.Name))
             {
                 ShowToolTip("添加失败！游戏进程已存在！");
                 return;
             }
 
-            saveInfo.GameProcessList.Add(gameProcessInfo);
+            saveInfo.KillProcessList.Insert(0, processInfo);
             ConfigHelper.Save(saveInfo);
 
             ReLoad();
@@ -450,7 +467,7 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void DoDelGameProcessInfoBtnClick()
         {
-            if (string.IsNullOrEmpty(GameProcessInfoText))
+            if (string.IsNullOrEmpty(SelectedProcessName))
             {
                 ShowToolTip("删除失败！游戏进程必填！");
                 return;
@@ -458,7 +475,7 @@ namespace SteamAccountChange.ViewModel
 
             // 删除游戏进程
             var saveInfo = ConfigHelper.GetConfig();
-            saveInfo.GameProcessList = saveInfo.GameProcessList.Where(r => r.Name != GameProcessInfoText).ToList();
+            saveInfo.KillProcessList = saveInfo.KillProcessList.Where(r => r.Name != SelectedProcessName).ToList();
             ConfigHelper.Save(saveInfo);
 
             ReLoad();
@@ -652,7 +669,7 @@ namespace SteamAccountChange.ViewModel
                 SteamAccoutInfo currentSteamAccountInfo = null;
                 if (!string.IsNullOrEmpty(currentSteamAccount))
                 {
-                    currentSteamAccountInfo = SteamAccoutInfoList.First(r => r.Account == currentSteamAccount);
+                    currentSteamAccountInfo = SteamAccoutInfoList.FirstOrDefault(r => r.Account == currentSteamAccount);
                 }
 
                 // 选中第一个
@@ -662,6 +679,12 @@ namespace SteamAccountChange.ViewModel
                 }
 
                 SelectedSteamAccoutInfo = currentSteamAccountInfo;
+            }
+
+            KillProcessList = saveInfo.KillProcessList.ToList();
+            if (KillProcessList != null && KillProcessList.Count > 0)
+            {
+                SelectedProcessName = KillProcessList.FirstOrDefault()?.Name;
             }
         }
 
