@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("Steam账号切换器")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("XiaoQiang")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Steam账号切换器")]
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
