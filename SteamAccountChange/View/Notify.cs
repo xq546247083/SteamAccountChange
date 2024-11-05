@@ -55,6 +55,13 @@ namespace SteamAccountChange.View
                 menuList.Add(steamAccountMenu);
             }
 
+            menuList.Add(new MenuItem("-"));
+
+            // 切换新账号
+            var newAccountMenu = new MenuItem("添加新账号");
+            newAccountMenu.Click += NewAccountMenu_Click; 
+            menuList.Add(newAccountMenu);
+
             // 注册表
             var launchOnSysPowerOnByRegisterMenu = new MenuItem("注册表");
             launchOnSysPowerOnByRegisterMenu.Checked = GetIsLaunchOnSysPowerOnByRegister();
@@ -66,7 +73,7 @@ namespace SteamAccountChange.View
             launchOnSysPowerOnByTaskSchedulerMenu.Click += LaunchOnSysPowerOnByTaskScheduler_Click;
 
             // 开机自启用菜单项
-            var launchOnSysPowerOnMenu = new MenuItem("开机自启用");
+            var launchOnSysPowerOnMenu = new MenuItem("开机自启动");
             launchOnSysPowerOnMenu.MenuItems.Add(launchOnSysPowerOnByRegisterMenu);
             launchOnSysPowerOnMenu.MenuItems.Add(launchOnSysPowerOnByTaskSchedulerMenu);
             menuList.Add(launchOnSysPowerOnMenu);
@@ -114,6 +121,17 @@ namespace SteamAccountChange.View
         }
 
         #region 事件
+
+        /// <summary>
+        /// 切换新账号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private static void NewAccountMenu_Click(object sender, EventArgs e)
+        {
+            SteamHelper.OpenSteam(Guid.NewGuid().ToString());
+        }
 
         /// <summary>
         /// steam账号菜单点击
