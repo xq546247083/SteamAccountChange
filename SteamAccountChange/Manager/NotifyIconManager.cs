@@ -1,7 +1,10 @@
 ﻿using SteamAccountChange.Helper;
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Interop;
 
 namespace SteamAccountChange.Manager
 {
@@ -10,6 +13,18 @@ namespace SteamAccountChange.Manager
     /// </summary>
     public static class NotifyIconManager
     {
+        #region Win32 API
+
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        private const int SW_RESTORE = 9;
+
+        #endregion
+
         #region 私有属性
 
         /// <summary>
@@ -148,7 +163,7 @@ namespace SteamAccountChange.Manager
             var currentValue = !launchOnSysPowerOnByTaskSchedulerMenu.Checked;
             if (currentValue)
             {
-                if (TaskSchedulerHelper.AddLuanchTask(Local.AppName, Application.ExecutablePath))
+                if (TaskSchedulerHelper.AddLuanchTask(Local.AppName, System.Windows.Forms.Application.ExecutablePath))
                 {
                     launchOnSysPowerOnByTaskSchedulerMenu.Checked = currentValue;
                 }
@@ -167,9 +182,29 @@ namespace SteamAccountChange.Manager
         /// <param name="e">e</param>
         private static void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Lactor.MainWindow.Visibility = System.Windows.Visibility.Visible;
-            Lactor.MainWindow.ShowInTaskbar = true;
-            Lactor.MainWindow.Activate();
+            var window = Lactor.MainWindow;
+            
+            // 显示窗口
+            window.Show();
+            window.ShowInTaskbar = true;
+            
+            // 恢复窗口状态
+            if (window.WindowState == WindowState.Minimized)
+            {
+                window.WindowState = WindowState.Normal;
+            }
+            
+            // 使用 Win32 API 强制窗口显示在前面
+            var helper = new WindowInteropHelper(window);
+            var hwnd = helper.Handle;
+            
+            ShowWindow(hwnd, SW_RESTORE);
+            SetForegroundWindow(hwnd);
+            
+            // WPF 层面的激活
+            window.Activate();
+            window.Topmost = true;
+            window.Topmost = false;
         }
 
         #endregion
