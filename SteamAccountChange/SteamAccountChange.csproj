@@ -100,6 +100,7 @@
     </ApplicationDefinition>
     <Compile Include="Common\BindingProxy.cs" />
     <Compile Include="Common\CommandParameterEx.cs" />
+    <Compile Include="Common\EncryptionHelper.cs" />
     <Compile Include="Common\SteamHelper.cs" />
     <Compile Include="Common\InvokeCommandActionEx.cs" />
     <Compile Include="Common\Lactor.cs" />

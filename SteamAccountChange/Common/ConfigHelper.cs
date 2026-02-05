@@ -7,10 +7,12 @@ using System.Windows;
 namespace SteamAccountChange.Common
 {
     /// <summary>
-    /// steam帮助类
+    /// 配置帮助类
     /// </summary>
     public static class ConfigHelper
     {
+        private const string ConfigFileName = "data.bin";
+
         /// <summary>
         /// 读取steam账号信息
         /// </summary>
@@ -19,22 +21,17 @@ namespace SteamAccountChange.Common
         {
             try
             {
-                // 创建文件
-                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SteamAccount.txt");
+                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigFileName);
                 if (!File.Exists(infoFilePath))
                 {
                     return new SaveInfo();
                 }
 
-                // 序列化对象
-                var strTotal = File.ReadAllText(infoFilePath);
-                var saveInfo = JsonConvert.DeserializeObject<SaveInfo>(strTotal);
-                if (saveInfo == null)
-                {
-                    return new SaveInfo();
-                }
-
-                return saveInfo;
+                var fileBytes = File.ReadAllBytes(infoFilePath);
+                var decryptedStr = EncryptionHelper.AesDecrypt(fileBytes);
+                
+                var saveInfo = JsonConvert.DeserializeObject<SaveInfo>(decryptedStr);
+                return saveInfo ?? new SaveInfo();
             }
             catch (Exception)
             {
@@ -55,10 +52,11 @@ namespace SteamAccountChange.Common
 
             try
             {
-                // 创建新的文本
-                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SteamAccount.txt");
-                var str = JsonConvert.SerializeObject(saveInfo);
-                File.WriteAllText(infoFilePath, str);
+                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigFileName);
+                var jsonStr = JsonConvert.SerializeObject(saveInfo);
+                var encryptedBytes = EncryptionHelper.AesEncrypt(jsonStr);
+                
+                File.WriteAllBytes(infoFilePath, encryptedBytes);
             }
             catch (Exception ex)
             {
