@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MaterialDesignThemes.Wpf;
 using SteamAccountChange.Common;
 using SteamAccountChange.Helper;
 using SteamAccountChange.Manager;
 using SteamAccountChange.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -233,6 +235,35 @@ namespace SteamAccountChange.ViewModel
             }
         }
 
+        /// <summary>
+        /// 是否打开右侧抽屉
+        /// </summary>
+        private bool isRightDrawerOpen;
+
+        /// <summary>
+        /// 是否打开右侧抽屉
+        /// </summary>
+        public bool IsRightDrawerOpen
+        {
+            get
+            {
+                return isRightDrawerOpen;
+            }
+            set
+            {
+                isRightDrawerOpen = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Snackbar消息队列
+        /// </summary>
+        public SnackbarMessageQueue SnackbarMessageQueue
+        {
+            get;
+        } = new SnackbarMessageQueue(TimeSpan.FromSeconds(2));
+
         #endregion
 
         #region 绑定方法
@@ -387,27 +418,6 @@ namespace SteamAccountChange.ViewModel
         }
 
         /// <summary>
-        /// 是否打开右侧抽屉
-        /// </summary>
-        private bool isRightDrawerOpen;
-
-        /// <summary>
-        /// 是否打开右侧抽屉
-        /// </summary>
-        public bool IsRightDrawerOpen
-        {
-            get
-            {
-                return isRightDrawerOpen;
-            }
-            set
-            {
-                isRightDrawerOpen = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// 打开编辑抽屉
         /// </summary>
         public RelayCommand OpenEditDrawerCommand => new RelayCommand(DoOpenEditDrawer);
@@ -470,7 +480,7 @@ namespace SteamAccountChange.ViewModel
             currentSteamAccount = SelectedSteamAccoutInfo.Account;
             ReLoad();
             ShowToolTip("保存成功！");
-            
+
             IsRightDrawerOpen = false;
         }
 
@@ -606,10 +616,7 @@ namespace SteamAccountChange.ViewModel
         /// <param name="text">文本</param>
         private void ShowToolTip(string text)
         {
-            var tempToolTip = new ToolTip();
-            tempToolTip.Content = text;
-            tempToolTip.StaysOpen = false;
-            tempToolTip.IsOpen = true;
+            SnackbarMessageQueue.Enqueue(text);
         }
 
         /// <summary>

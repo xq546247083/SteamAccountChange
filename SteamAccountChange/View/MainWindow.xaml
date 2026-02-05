@@ -36,8 +36,7 @@
     </Window.Resources>
 
     <Grid>
-        <materialDesign:DrawerHost Grid.Row="1"
-                                   IsRightDrawerOpen="{Binding IsRightDrawerOpen}">
+        <materialDesign:DrawerHost IsRightDrawerOpen="{Binding IsRightDrawerOpen}">
             <materialDesign:DrawerHost.RightDrawerContent>
                 <Border Width="300"
                         Background="{DynamicResource MaterialDesignPaper}">
@@ -83,8 +82,8 @@
                 <!-- Home Tab - Dashboard -->
                 <TabItem>
                     <TabItem.Header>
-                        <StackPanel Width="70"
-                                    Height="60">
+                        <StackPanel Width="56"
+                                    Height="56">
                             <materialDesign:PackIcon Kind="Home"
                                                      Width="24"
                                                      Height="24"
@@ -237,8 +236,8 @@
                 <!-- Settings Tab -->
                 <TabItem>
                     <TabItem.Header>
-                        <StackPanel Width="70"
-                                    Height="60">
+                        <StackPanel Width="56"
+                                    Height="56">
                             <materialDesign:PackIcon Kind="Cog"
                                                      Width="24"
                                                      Height="24"
@@ -272,8 +271,7 @@
                                             Margin="0,0,0,12">
                                     <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
                                                  Content="系统进程"
-                                                 IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=System}"
-                                                 />
+                                                 IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=System}" />
                                     <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
                                                  Content="已存配置"
                                                  IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Saved}" />
@@ -335,5 +333,8 @@
                 </TabItem>
             </TabControl>
         </materialDesign:DrawerHost>
+        <materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}"
+                                 VerticalAlignment="Top"
+                                 HorizontalAlignment="Stretch" />
     </Grid>
 </Window>
