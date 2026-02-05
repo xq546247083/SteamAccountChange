@@ -5,6 +5,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:common="clr-namespace:SteamAccountChange.Common"
+        xmlns:convert="clr-namespace:SteamAccountChange.Convert"
         mc:Ignorable="d"
         Height="300"
         Width="400"
@@ -20,6 +21,9 @@
             <common:InvokeCommandActionEx Command="{Binding MainWindowClosingCommand}" />
         </i:EventTrigger >
     </i:Interaction.Triggers>
+    <Window.Resources>
+        <convert:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+    </Window.Resources>
     <Grid>
         <TabControl TabStripPlacement="Left">
             <TabItem>
@@ -194,16 +198,26 @@
                     <GroupBox Margin="0,10,0,0">
                         <GroupBox.Header>切换Steam账号时主动杀掉进程列表</GroupBox.Header>
                         <StackPanel>
-                            <ComboBox Margin="10,5,10,5"
+                            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                                <RadioButton Content="系统进程"
+                                             IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=System}"
+                                             Margin="0,10,0,0"
+                                             VerticalContentAlignment="Center"/>
+                                <RadioButton Content="已存配置"
+                                             Margin="10,10,0,0"
+                                             IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Saved}"
+                                             VerticalContentAlignment="Center"/>
+                            </StackPanel>
+                            <ComboBox Margin="10,10,10,5"
                                       Height="30"
                                       DisplayMemberPath="Name"
                                       SelectedValuePath="Name"
                                       HorizontalContentAlignment="Left"
                                       VerticalContentAlignment="Center"
                                       IsEditable="True"
-                                      IsTextSearchEnabled="False"
+                                      IsTextSearchEnabled="True"
                                       Text="{Binding SelectedProcessName}"
-                                      ItemsSource="{Binding KillProcessList}">
+                                      ItemsSource="{Binding DisplayProcessList}">
                             </ComboBox>
                             <StackPanel  Orientation="Horizontal"
                                          HorizontalAlignment="Right">

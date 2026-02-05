@@ -6,6 +6,7 @@ using SteamAccountChange.Model;
 using SteamAccountChange.View;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -85,22 +86,44 @@ namespace SteamAccountChange.ViewModel
         }
 
         /// <summary>
-        /// 要杀掉的进程列表
+        /// 进程列表模式
         /// </summary>
-        private List<ProcessInfo> killProcessList;
+        private ProcessListMode processListMode;
 
         /// <summary>
-        /// 要杀掉的进程列表
+        /// 进程列表模式
         /// </summary>
-        public List<ProcessInfo> KillProcessList
+        public ProcessListMode ProcessListMode
         {
             get
             {
-                return killProcessList;
+                return processListMode;
             }
             set
             {
-                killProcessList = value;
+                processListMode = value;
+                OnPropertyChanged();
+                LoadProcessList();
+            }
+        }
+
+        /// <summary>
+        /// 显示的进程列表
+        /// </summary>
+        private List<ProcessInfo> displayProcessList;
+
+        /// <summary>
+        /// 显示的进程列表
+        /// </summary>
+        public List<ProcessInfo> DisplayProcessList
+        {
+            get
+            {
+                return displayProcessList;
+            }
+            set
+            {
+                displayProcessList = value;
                 OnPropertyChanged();
             }
         }
@@ -434,6 +457,12 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void DoSaveGameProcessInfoBtnClick()
         {
+            if (ProcessListMode != ProcessListMode.System)
+            {
+                ShowToolTip("添加失败！必须是系统进程模式！");
+                return;
+            }
+
             if (string.IsNullOrEmpty(SelectedProcessName))
             {
                 ShowToolTip("添加失败！游戏进程必填！");
@@ -469,6 +498,12 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void DoDelGameProcessInfoBtnClick()
         {
+            if (ProcessListMode != ProcessListMode.Saved)
+            {
+                ShowToolTip("删除失败！必须是已保存配置模式！");
+                return;
+            }
+
             if (string.IsNullOrEmpty(SelectedProcessName))
             {
                 ShowToolTip("删除失败！游戏进程必填！");
@@ -530,7 +565,7 @@ namespace SteamAccountChange.ViewModel
             Notify.LoadMenu();
             LoadSaveInfo();
         }
-        
+
         #endregion
 
         #region 公共方法
@@ -563,10 +598,32 @@ namespace SteamAccountChange.ViewModel
                 SelectedSteamAccoutInfo = currentSteamAccountInfo;
             }
 
-            KillProcessList = saveInfo.KillProcessList.ToList();
-            if (KillProcessList != null && KillProcessList.Count > 0)
+            LoadProcessList();
+        }
+
+        /// <summary>
+        /// 加载进程列表
+        /// </summary>
+        private void LoadProcessList()
+        {
+            if (ProcessListMode == ProcessListMode.System)
             {
-                SelectedProcessName = KillProcessList.FirstOrDefault()?.Name;
+                var processes = Process.GetProcesses();
+                DisplayProcessList = processes.Select(p => p.ProcessName).Distinct().OrderBy(n => n).Select(n => new ProcessInfo { Name = n }).ToList();
+            }
+            else
+            {
+                var saveInfo = ConfigHelper.GetConfig();
+                DisplayProcessList = saveInfo.KillProcessList.ToList();
+            }
+
+            if (DisplayProcessList != null && DisplayProcessList.Count > 0)
+            {
+                SelectedProcessName = DisplayProcessList.FirstOrDefault()?.Name;
+            }
+            else
+            {
+                SelectedProcessName = string.Empty;
             }
         }
 
