@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using SteamAccountChange.Helper;
+﻿using SteamAccountChange.Helper;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -61,19 +60,13 @@ namespace SteamAccountChange.Manager
             newAccountMenu.Click += NewAccountMenu_Click;
             contextMenuStrip.Items.Add(newAccountMenu);
 
-            // 注册表
-            var launchOnSysPowerOnByRegisterMenu = new ToolStripMenuItem("注册表");
-            launchOnSysPowerOnByRegisterMenu.Checked = GetIsLaunchOnSysPowerOnByRegister();
-            launchOnSysPowerOnByRegisterMenu.Click += LaunchOnSysPowerOnByRegister_Click;
-
             // 计划任务
-            var launchOnSysPowerOnByTaskSchedulerMenu = new ToolStripMenuItem("计划任务(跳过UAC)");
+            var launchOnSysPowerOnByTaskSchedulerMenu = new ToolStripMenuItem("计划任务");
             launchOnSysPowerOnByTaskSchedulerMenu.Checked = GetIsLaunchOnSysPowerOnByTaskScheduler();
             launchOnSysPowerOnByTaskSchedulerMenu.Click += LaunchOnSysPowerOnByTaskScheduler_Click;
 
             // 开机自启用菜单项
             var launchOnSysPowerOnMenu = new ToolStripMenuItem("开机自启动");
-            launchOnSysPowerOnMenu.DropDownItems.Add(launchOnSysPowerOnByRegisterMenu);
             launchOnSysPowerOnMenu.DropDownItems.Add(launchOnSysPowerOnByTaskSchedulerMenu);
             contextMenuStrip.Items.Add(launchOnSysPowerOnMenu);
 
@@ -87,27 +80,6 @@ namespace SteamAccountChange.Manager
         }
 
         #endregion
-
-        /// <summary>
-        /// 获取是否注册表自启动
-        /// </summary>
-        /// <returns></returns>
-        private static bool GetIsLaunchOnSysPowerOnByRegister()
-        {
-            var (getSuccess, appPathInfo) = RegistryHelper.Get(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Registry.LocalMachine);
-            if (getSuccess == false || appPathInfo == null)
-            {
-                return false;
-            }
-
-            var appPathStr = appPathInfo.ToString();
-            if (string.IsNullOrEmpty(appPathStr))
-            {
-                return false;
-            }
-
-            return appPathStr == Application.ExecutablePath;
-        }
 
         /// <summary>
         /// 获取是否计划任务自启动
@@ -156,38 +128,7 @@ namespace SteamAccountChange.Manager
         private static void Exit_Click(object sender, EventArgs e)
         {
             notifyIcon.Visible = false;
-            System.Environment.Exit(0);
-        }
-
-        /// <summary>
-        /// 注册表，开机自启用
-        /// </summary>
-        /// <param name="sender">sender</param>
-        /// <param name="e">e</param>
-        private static void LaunchOnSysPowerOnByRegister_Click(object sender, EventArgs e)
-        {
-            var launchOnSysPowerOnByRegisterMenu = sender as ToolStripMenuItem;
-            if (launchOnSysPowerOnByRegisterMenu == null)
-            {
-                return;
-            }
-
-            // 修改是否自启动
-            var currentValue = !launchOnSysPowerOnByRegisterMenu.Checked;
-            if (currentValue)
-            {
-                if (RegistryHelper.Set(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Application.ExecutablePath, Registry.LocalMachine))
-                {
-                    launchOnSysPowerOnByRegisterMenu.Checked = currentValue;
-                }
-            }
-            else
-            {
-                if (RegistryHelper.Del(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", Local.AppName, Registry.LocalMachine))
-                {
-                    launchOnSysPowerOnByRegisterMenu.Checked = currentValue;
-                }
-            }
+            Environment.Exit(0);
         }
 
         /// <summary>
