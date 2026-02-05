@@ -29,7 +29,7 @@ namespace SteamAccountChange.Common
 
                 var fileBytes = File.ReadAllBytes(infoFilePath);
                 var decryptedStr = EncryptionHelper.AesDecrypt(fileBytes);
-                
+
                 var saveInfo = JsonConvert.DeserializeObject<SaveInfo>(decryptedStr);
                 return saveInfo ?? new SaveInfo();
             }
@@ -55,7 +55,7 @@ namespace SteamAccountChange.Common
                 var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigFileName);
                 var jsonStr = JsonConvert.SerializeObject(saveInfo);
                 var encryptedBytes = EncryptionHelper.AesEncrypt(jsonStr);
-                
+
                 File.WriteAllBytes(infoFilePath, encryptedBytes);
             }
             catch (Exception ex)

@@ -1,9 +1,9 @@
-﻿using SteamAccountChange.Common;
+﻿using Microsoft.Win32;
+using SteamAccountChange.Common;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
-using Microsoft.Win32;
 
 namespace SteamAccountChange.View
 {
@@ -62,38 +62,38 @@ namespace SteamAccountChange.View
 
             // 切换新账号
             // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-                        var newAccountMenu = new MenuItem("添加新账号");
-            newAccountMenu.Click += NewAccountMenu_Click; 
+            var newAccountMenu = new MenuItem("添加新账号");
+            newAccountMenu.Click += NewAccountMenu_Click;
             menuList.Add(newAccountMenu);
 
             // 注册表
             // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-                        var launchOnSysPowerOnByRegisterMenu = new MenuItem("注册表");
+            var launchOnSysPowerOnByRegisterMenu = new MenuItem("注册表");
             launchOnSysPowerOnByRegisterMenu.Checked = GetIsLaunchOnSysPowerOnByRegister();
             launchOnSysPowerOnByRegisterMenu.Click += LaunchOnSysPowerOnByRegister_Click;
 
             // 计划任务
             // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-                        var launchOnSysPowerOnByTaskSchedulerMenu = new MenuItem("计划任务(跳过UAC)");
+            var launchOnSysPowerOnByTaskSchedulerMenu = new MenuItem("计划任务(跳过UAC)");
             launchOnSysPowerOnByTaskSchedulerMenu.Checked = GetIsLaunchOnSysPowerOnByTaskScheduler();
             launchOnSysPowerOnByTaskSchedulerMenu.Click += LaunchOnSysPowerOnByTaskScheduler_Click;
 
             // 开机自启用菜单项
             // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-                        var launchOnSysPowerOnMenu = new MenuItem("开机自启动");
+            var launchOnSysPowerOnMenu = new MenuItem("开机自启动");
             launchOnSysPowerOnMenu.MenuItems.Add(launchOnSysPowerOnByRegisterMenu);
             launchOnSysPowerOnMenu.MenuItems.Add(launchOnSysPowerOnByTaskSchedulerMenu);
             menuList.Add(launchOnSysPowerOnMenu);
 
             // 退出菜单项
             // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-                        var exitMenu = new MenuItem("退出");
+            var exitMenu = new MenuItem("退出");
             exitMenu.Click += Exit_Click;
             menuList.Add(exitMenu);
 
             // 关联托盘控件
             // TODO 不再支持 ContextMenu。请改用 ContextMenuStrip。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-                        notifyIcon.ContextMenu = new ContextMenu(menuList.ToArray());
+            notifyIcon.ContextMenu = new ContextMenu(menuList.ToArray());
         }
 
         #endregion

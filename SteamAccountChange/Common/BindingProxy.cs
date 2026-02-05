@@ -21,8 +21,14 @@ namespace SteamAccountChange.Common
         /// </summary>
         public object Data
         {
-            get { return (object)GetValue(DataProperty); }
-            set { SetValue(DataProperty, value); }
+            get
+            {
+                return (object)GetValue(DataProperty);
+            }
+            set
+            {
+                SetValue(DataProperty, value);
+            }
         }
 
         /// <summary>

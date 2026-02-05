@@ -1,6 +1,4 @@
-﻿using TaskScheduler;
-
-namespace SteamAccountChange.Common
+﻿namespace SteamAccountChange.Common
 {
     /// <summary>
     /// 计划任务帮助类

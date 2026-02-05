@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using SteamAccountChange.Common;
+﻿using SteamAccountChange.Common;
 using SteamAccountChange.Model;
 using SteamAccountChange.View;
 using System;
