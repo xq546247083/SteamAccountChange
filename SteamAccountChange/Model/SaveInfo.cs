@@ -23,13 +23,7 @@ namespace SteamAccountChange.Model
             get; set;
         }
 
-        /// <summary>
-        /// steam游戏路径
-        /// </summary>
-        public string SteamGamePath
-        {
-            get; set;
-        }
+
 
         /// <summary>
         /// 构造方法

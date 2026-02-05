@@ -4,10 +4,8 @@ using SteamAccountChange.Common;
 using SteamAccountChange.Helper;
 using SteamAccountChange.Model;
 using SteamAccountChange.View;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -500,60 +498,6 @@ namespace SteamAccountChange.ViewModel
             cm.IsOpen = true;
         }
 
-        /// <summary>
-        /// 配置Steam游戏库路径
-        /// </summary>
-        public RelayCommand ConfigSteamGamePathClickCommand => new RelayCommand(DoConfigSteamGamePathClick);
-
-        /// <summary>
-        /// 配置Steam游戏库路径
-        /// </summary>
-        /// <param name="window">窗体</param>
-        private void DoConfigSteamGamePathClick()
-        {
-            // 弹出选择文件夹弹窗
-            var folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                // 保存
-                var saveInfo = ConfigHelper.GetConfig();
-                saveInfo.SteamGamePath = folderBrowserDialog.SelectedPath;
-
-                ConfigHelper.Save(saveInfo);
-            }
-        }
-
-        /// <summary>
-        /// csgo反和谐
-        /// </summary>
-        public RelayCommand CsgoClearClickCommand => new RelayCommand(DoCsgoClearClick);
-
-        /// <summary>
-        /// csgo反和谐
-        /// </summary>
-        /// <param name="window">窗体</param>
-        private void DoCsgoClearClick()
-        {
-            var saveInfo = ConfigHelper.GetConfig();
-            if (string.IsNullOrEmpty(saveInfo.SteamGamePath))
-            {
-                ShowToolTip("请先配置Steam游戏库路径！");
-                return;
-            }
-
-            // 获取csgo路径
-            var csgoFullPath = $"{saveInfo.SteamGamePath}\\steamapps\\common\\Counter-Strike Global Offensive";
-            if (!Directory.Exists(csgoFullPath))
-            {
-                ShowToolTip("Steam游戏库路径不正确，请重新配置！");
-                return;
-            }
-
-            DeleteAudioChineseFile(csgoFullPath);
-            DeletePerfectWorldFile(csgoFullPath);
-            ShowToolTip("和谐成功！");
-        }
-
         #endregion
 
         #region 私有方法
@@ -586,73 +530,7 @@ namespace SteamAccountChange.ViewModel
             Notify.LoadMenu();
             LoadSaveInfo();
         }
-
-        /// <summary>
-        /// 删除中文文件
-        /// </summary>
-        /// <param name="csgoFullPath">csgo路径</param>
-        private void DeleteAudioChineseFile(string csgoFullPath)
-        {
-            try
-            {
-                var directoryInfo = new DirectoryInfo(csgoFullPath);
-
-                // 删除文件
-                var files = directoryInfo.GetFiles();
-                foreach (var item in files)
-                {
-                    if (item.Name.ToLower().Contains("audiochinese"))
-                    {
-                        item.Delete();
-                    }
-                }
-
-                // 递归
-                var directories = directoryInfo.GetDirectories();
-                foreach (var item in directories)
-                {
-                    DeleteAudioChineseFile(item.FullName);
-                }
-            }
-            catch (Exception ex)
-            {
-                ShowToolTip($"删除中文文件失败！错误信息为:{ex}");
-            }
-        }
-
-        /// <summary>
-        /// 删除完美文件
-        /// </summary>
-        /// <param name="csgoFullPath">csgo路径</param>
-        private void DeletePerfectWorldFile(string csgoFullPath)
-        {
-            try
-            {
-                var directoryInfo = new DirectoryInfo(csgoFullPath);
-
-                // 删除文件
-                var files = directoryInfo.GetFiles();
-                foreach (var item in files)
-                {
-                    if (item.Name.ToLower().Contains("perfectworld") && !item.Name.ToLower().Contains("webm"))
-                    {
-                        item.Delete();
-                    }
-                }
-
-                // 递归
-                var directories = directoryInfo.GetDirectories();
-                foreach (var item in directories)
-                {
-                    DeletePerfectWorldFile(item.FullName);
-                }
-            }
-            catch (Exception ex)
-            {
-                ShowToolTip($"删除完美文件失败！错误信息为:{ex}");
-            }
-        }
-
+        
         #endregion
 
         #region 公共方法

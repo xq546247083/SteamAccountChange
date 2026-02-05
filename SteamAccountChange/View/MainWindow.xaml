@@ -190,26 +190,7 @@
                     </StackPanel>
                 </TabItem.Header>
                 <StackPanel>
-                    <GroupBox>
-                        <GroupBox.Header>Steam配置</GroupBox.Header>
-                        <StackPanel HorizontalAlignment="Left">
-                            <Button Height="30"
-                                    Margin="5,5,5,0"
-                                    Padding="5,5,5,5"
-                                    BorderBrush="LightBlue"
-                                    ToolTipService.ToolTip="配置Steam游戏库路径"
-                                    Content="配置Steam游戏库路径"
-                                    Command="{Binding ConfigSteamGamePathClickCommand}"></Button>
-                            <Button Height="30"
-                                    Margin="5,5,5,5"
-                                    Padding="5,5,5,5"
-                                    BorderBrush="LightBlue"
-                                    ToolTipService.ToolTip="CSGO反和谐"
-                                    Content="CSGO反和谐"
-                                    Command="{Binding CsgoClearClickCommand}"></Button>
 
-                        </StackPanel>
-                    </GroupBox>
                     <GroupBox Margin="0,10,0,0">
                         <GroupBox.Header>切换Steam账号时主动杀掉进程列表</GroupBox.Header>
                         <StackPanel>
