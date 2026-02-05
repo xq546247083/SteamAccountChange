@@ -15,11 +15,7 @@ namespace SteamAccountChange.Helper
         /// </summary>
         private static void KillProcess(string processName)
         {
-            // 处理进程名
-            var hendleProcessName = processName.ToLower();
-            var strList = processName.Split('.');
-            hendleProcessName = strList[0];
-
+            var hendleProcessName = processName.ToLower().Split('.')[0];
             var processList = Process.GetProcesses();
             foreach (Process item in processList)
             {
