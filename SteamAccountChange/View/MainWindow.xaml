@@ -41,35 +41,27 @@
             <materialDesign:DrawerHost.RightDrawerContent>
                 <Border Width="300"
                         Background="{DynamicResource MaterialDesignPaper}">
-                    <StackPanel Margin="24">
-                        <TextBlock Text="编辑账号"
-                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                   Margin="0,0,0,24" />
-
+                    <StackPanel Margin="12">
                         <TextBlock Text="{Binding SteamAccountAccountText}"
                                    Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                    Opacity="0.6"
-                                   Margin="0,0,0,24"
+                                   Margin="0,0,0,12"
                                    HorizontalAlignment="Center" />
-
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:HintAssist.Hint="昵称 (必填)"
                                  Text="{Binding SteamAccountNameText}"
-                                 Margin="0,0,0,16"
+                                 Margin="0,0,0,12"
                                  FontSize="14" />
-
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:HintAssist.Hint="密码 (选填)"
                                  Text="{Binding SteamAccountPasswordText}"
-                                 Margin="0,0,0,16"
+                                 Margin="0,0,0,12"
                                  FontSize="14" />
-
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:HintAssist.Hint="排序序号 (选填)"
                                  Text="{Binding SteamAccountOrderText}"
-                                 Margin="0,0,0,32"
+                                 Margin="0,0,0,12"
                                  FontSize="14" />
-
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Right">
                             <Button Style="{StaticResource MaterialDesignOutlinedButton}"
