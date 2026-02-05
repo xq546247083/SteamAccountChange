@@ -387,6 +387,58 @@ namespace SteamAccountChange.ViewModel
         }
 
         /// <summary>
+        /// 是否打开右侧抽屉
+        /// </summary>
+        private bool isRightDrawerOpen;
+
+        /// <summary>
+        /// 是否打开右侧抽屉
+        /// </summary>
+        public bool IsRightDrawerOpen
+        {
+            get
+            {
+                return isRightDrawerOpen;
+            }
+            set
+            {
+                isRightDrawerOpen = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 打开编辑抽屉
+        /// </summary>
+        public RelayCommand OpenEditDrawerCommand => new RelayCommand(DoOpenEditDrawer);
+
+        /// <summary>
+        /// 打开编辑抽屉
+        /// </summary>
+        private void DoOpenEditDrawer()
+        {
+            if (SelectedSteamAccoutInfo == null)
+            {
+                ShowToolTip("请先选择账号！");
+                return;
+            }
+            IsRightDrawerOpen = true;
+        }
+
+        /// <summary>
+        /// 关闭抽屉
+        /// </summary>
+        public RelayCommand CloseDrawerCommand => new RelayCommand(DoCloseDrawer);
+
+        /// <summary>
+        /// 关闭抽屉
+        /// </summary>
+        private void DoCloseDrawer()
+        {
+            IsRightDrawerOpen = false;
+        }
+
+        /// <summary>
         /// 保存steam账号信息
         /// </summary>
         public RelayCommand SaveSteamAccoutInfoBtnClickCommand => new RelayCommand(DoSaveSteamAccoutInfoBtnClick);
@@ -398,6 +450,7 @@ namespace SteamAccountChange.ViewModel
         {
             if (SelectedSteamAccoutInfo == null)
             {
+                IsRightDrawerOpen = false;
                 ShowToolTip("保存失败！请选择要修改的账号！");
                 return;
             }
@@ -417,6 +470,8 @@ namespace SteamAccountChange.ViewModel
             currentSteamAccount = SelectedSteamAccoutInfo.Account;
             ReLoad();
             ShowToolTip("保存成功！");
+            
+            IsRightDrawerOpen = false;
         }
 
         /// <summary>
