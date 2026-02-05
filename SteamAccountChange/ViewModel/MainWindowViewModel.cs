@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using SteamAccountChange.Common;
 using SteamAccountChange.Helper;
+using SteamAccountChange.Manager;
 using SteamAccountChange.Model;
-using SteamAccountChange.View;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -562,7 +562,7 @@ namespace SteamAccountChange.ViewModel
         /// </summary>
         private void ReLoad()
         {
-            Notify.LoadMenu();
+            NotifyIconManager.LoadMenu();
             LoadSaveInfo();
         }
 

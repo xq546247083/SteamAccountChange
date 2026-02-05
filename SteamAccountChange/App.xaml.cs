@@ -1,4 +1,4 @@
-﻿using SteamAccountChange.View;
+﻿using SteamAccountChange.Manager;
 using System.Diagnostics;
 using System.Windows;
 
@@ -22,7 +22,7 @@ namespace SteamAccountChange
                 System.Environment.Exit(0);
             }
 
-            Notify.Init();
+            NotifyIconManager.Init();
         }
 
         /// <summary>

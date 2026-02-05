@@ -1,16 +1,15 @@
 ﻿using Microsoft.Win32;
-using SteamAccountChange.Common;
 using SteamAccountChange.Helper;
 using System;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace SteamAccountChange.View
+namespace SteamAccountChange.Manager
 {
     /// <summary>
-    /// 通知
+    /// 通知管理
     /// </summary>
-    public static class Notify
+    public static class NotifyIconManager
     {
         #region 私有属性
 

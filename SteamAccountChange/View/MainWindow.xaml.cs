@@ -1,4 +1,4 @@
-﻿using SteamAccountChange.Common;
+﻿using SteamAccountChange.Manager;
 using System.Windows;
 
 namespace SteamAccountChange
