@@ -33,6 +33,10 @@
 
     <Window.Resources>
         <convert:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        
+        <Style x:Key="CompactTabItemStyle" TargetType="TabItem" BasedOn="{StaticResource MaterialDesignNavigationRailTabItem}">
+            <Setter Property="Width" Value="56" />
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -80,7 +84,7 @@
                         materialDesign:ColorZoneAssist.Mode="PrimaryDark">
 
                 <!-- Home Tab - Dashboard -->
-                <TabItem>
+                <TabItem Style="{StaticResource CompactTabItemStyle}">
                     <TabItem.Header>
                         <StackPanel Width="56"
                                     Height="56">
@@ -101,7 +105,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Steam 账号管理"
+                        <TextBlock Text="首页"
                                    Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                    Margin="0,0,0,12" />
 
@@ -111,7 +115,7 @@
                                                  Padding="12"
                                                  UniformCornerRadius="8">
                                 <StackPanel>
-                                    <TextBlock Text="当前账号"
+                                    <TextBlock Text="账号"
                                                Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                                Margin="0,0,0,12" />
                                     <ComboBox x:Name="cbAccount"
@@ -129,7 +133,7 @@
                             <materialDesign:Card Padding="12"
                                                  UniformCornerRadius="8">
                                 <StackPanel>
-                                    <TextBlock Text="快捷操作"
+                                    <TextBlock Text="操作"
                                                Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                                Margin="0,0,0,12" />
 
@@ -234,7 +238,7 @@
                 </TabItem>
 
                 <!-- Settings Tab -->
-                <TabItem>
+                <TabItem Style="{StaticResource CompactTabItemStyle}">
                     <TabItem.Header>
                         <StackPanel Width="56"
                                     Height="56">
@@ -254,7 +258,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="进程管理"
+                        <TextBlock Text="设置"
                                    Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                    Margin="0,0,0,12" />
 
@@ -263,17 +267,17 @@
                                              UniformCornerRadius="8"
                                              VerticalAlignment="Top">
                             <StackPanel>
-                                <TextBlock Text="切换账号时自动关闭的进程"
+                                <TextBlock Text="关闭进程(切换账号)"
                                            Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                            Margin="0,0,0,12" />
 
                                 <StackPanel Orientation="Horizontal"
                                             Margin="0,0,0,12">
                                     <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
-                                                 Content="系统进程"
+                                                 Content="所有进程列表"
                                                  IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=System}" />
                                     <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
-                                                 Content="已存配置"
+                                                 Content="关闭进程列表"
                                                  IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Saved}" />
                                 </StackPanel>
 
@@ -323,10 +327,6 @@
                                         </Button>
                                     </StackPanel>
                                 </Grid>
-
-                                <TextBlock Text="* 提示：仅在系统进程模式下可添加，仅在已存配置模式下可删除"
-                                           Style="{StaticResource MaterialDesignCaptionTextBlock}"
-                                           Foreground="{DynamicResource MaterialDesignBodyLight}" />
                             </StackPanel>
                         </materialDesign:Card>
                     </Grid>
