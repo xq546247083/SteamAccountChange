@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace SteamAccountChange.Common
+namespace SteamAccountChange.Helper
 {
     /// <summary>
     /// 注册表帮助类

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using SteamAccountChange.Common;
+using SteamAccountChange.Helper;
 using System;
 using System.Linq;
 using System.Windows.Forms;

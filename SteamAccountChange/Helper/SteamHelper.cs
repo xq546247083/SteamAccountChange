@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 
-namespace SteamAccountChange.Common
+namespace SteamAccountChange.Helper
 {
     /// <summary>
     /// steam帮助类

@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Windows;
 
-namespace SteamAccountChange.Common
+namespace SteamAccountChange.Helper
 {
     /// <summary>
     /// 配置帮助类
