@@ -1,4 +1,6 @@
-﻿using SteamAccountChange.Common;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using SteamAccountChange.Common;
 using SteamAccountChange.Model;
 using SteamAccountChange.View;
 using System;
@@ -15,7 +17,7 @@ namespace SteamAccountChange.ViewModel
     /// <summary>
     /// 主界面的ViewModel
     /// </summary>
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ObservableObject
     {
         /// <summary>
         /// 当前的Steam账号
@@ -49,7 +51,7 @@ namespace SteamAccountChange.ViewModel
             set
             {
                 steamAccoutInfoList = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -79,7 +81,7 @@ namespace SteamAccountChange.ViewModel
                     SteamAccountOrderText = selectedSteamAccoutInfo.Order;
                 }
 
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -100,7 +102,7 @@ namespace SteamAccountChange.ViewModel
             set
             {
                 killProcessList = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -121,7 +123,7 @@ namespace SteamAccountChange.ViewModel
             set
             {
                 selectedProcessName = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -142,7 +144,7 @@ namespace SteamAccountChange.ViewModel
             set
             {
                 steamAccountAccountText = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -163,7 +165,7 @@ namespace SteamAccountChange.ViewModel
             set
             {
                 steamAccountNameText = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -184,7 +186,7 @@ namespace SteamAccountChange.ViewModel
             set
             {
                 steamAccountPasswordText = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -205,7 +207,7 @@ namespace SteamAccountChange.ViewModel
             set
             {
                 steamAccountOrderText = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
