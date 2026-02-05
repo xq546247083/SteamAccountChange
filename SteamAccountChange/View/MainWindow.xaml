@@ -8,19 +8,19 @@
         xmlns:convert="clr-namespace:SteamAccountChange.Convert"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Height="500"
-        Width="800"
+        Height="400"
+        Width="600"
         ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen"
         x:Name="mainWindowView"
         Title="Steam 账号切换器"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto"
-        Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        TextOptions.TextRenderingMode="Auto">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="KeyDown">
@@ -104,7 +104,7 @@
                         </StackPanel>
                     </TabItem.Header>
 
-                    <Grid Margin="24">
+                    <Grid Margin="12">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -112,20 +112,20 @@
 
                         <TextBlock Text="Steam 账号管理"
                                    Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                   Margin="0,0,0,24" />
+                                   Margin="0,0,0,12" />
 
                         <StackPanel Grid.Row="1">
                             <!-- Account Selection Card -->
-                            <materialDesign:Card Margin="0,0,0,24"
-                                                 Padding="16"
+                            <materialDesign:Card Margin="0,0,0,12"
+                                                 Padding="12"
                                                  UniformCornerRadius="8">
                                 <StackPanel>
                                     <TextBlock Text="当前账号"
                                                Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                               Margin="0,0,0,16" />
+                                               Margin="0,0,0,12" />
                                     <ComboBox x:Name="cbAccount"
                                               Style="{StaticResource MaterialDesignFilledComboBox}"
-                                              materialDesign:HintAssist.Hint="选择要切换的账号"
+                                              materialDesign:HintAssist.Hint="账号列表"
                                               DisplayMemberPath="Name"
                                               SelectedValuePath="Account"
                                               ItemsSource="{Binding SteamAccoutInfoList}"
@@ -135,12 +135,12 @@
                             </materialDesign:Card>
 
                             <!-- Quick Actions Card -->
-                            <materialDesign:Card Padding="16"
+                            <materialDesign:Card Padding="12"
                                                  UniformCornerRadius="8">
                                 <StackPanel>
                                     <TextBlock Text="快捷操作"
                                                Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                               Margin="0,0,0,16" />
+                                               Margin="0,0,0,12" />
 
                                     <UniformGrid Columns="5"
                                                  Rows="1">
@@ -158,24 +158,6 @@
                                                                          Height="24" />
                                             </Button>
                                             <TextBlock Text="添加账号"
-                                                       HorizontalAlignment="Center"
-                                                       FontSize="12" />
-                                        </StackPanel>
-
-                                        <!-- Edit Button -->
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                    ToolTip="编辑账号信息"
-                                                    Command="{Binding OpenEditDrawerCommand}"
-                                                    Margin="0,0,0,8"
-                                                    Width="40"
-                                                    Height="40"
-                                                    Padding="0">
-                                                <materialDesign:PackIcon Kind="Pencil"
-                                                                         Width="22"
-                                                                         Height="22" />
-                                            </Button>
-                                            <TextBlock Text="编辑账号"
                                                        HorizontalAlignment="Center"
                                                        FontSize="12" />
                                         </StackPanel>
@@ -216,6 +198,24 @@
                                                        FontSize="12" />
                                         </StackPanel>
 
+                                        <!-- Edit Button -->
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                    ToolTip="编辑账号信息"
+                                                    Command="{Binding OpenEditDrawerCommand}"
+                                                    Margin="0,0,0,8"
+                                                    Width="40"
+                                                    Height="40"
+                                                    Padding="0">
+                                                <materialDesign:PackIcon Kind="Pencil"
+                                                                         Width="22"
+                                                                         Height="22" />
+                                            </Button>
+                                            <TextBlock Text="编辑账号"
+                                                       HorizontalAlignment="Center"
+                                                       FontSize="12" />
+                                        </StackPanel>
+
                                         <!-- Delete Button -->
                                         <StackPanel HorizontalAlignment="Center">
                                             <Button Style="{StaticResource MaterialDesignOutlinedButton}"
@@ -250,15 +250,14 @@
                             <materialDesign:PackIcon Kind="Cog"
                                                      Width="24"
                                                      Height="24"
-                                                     HorizontalAlignment="Center"
-                                                     Margin="0,12,0,4" />
+                                                     HorizontalAlignment="Center" />
                             <TextBlock Text="设置"
                                        HorizontalAlignment="Center"
                                        FontSize="11" />
                         </StackPanel>
                     </TabItem.Header>
 
-                    <Grid Margin="24">
+                    <Grid Margin="12">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -266,29 +265,29 @@
 
                         <TextBlock Text="进程管理"
                                    Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                   Margin="0,0,0,24" />
+                                   Margin="0,0,0,12" />
 
                         <materialDesign:Card Grid.Row="1"
-                                             Padding="24"
+                                             Padding="12"
                                              UniformCornerRadius="8"
                                              VerticalAlignment="Top">
                             <StackPanel>
                                 <TextBlock Text="切换账号时自动关闭的进程"
                                            Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                           Margin="0,0,0,16" />
+                                           Margin="0,0,0,12" />
 
                                 <StackPanel Orientation="Horizontal"
-                                            Margin="0,0,0,24">
+                                            Margin="0,0,0,12">
                                     <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
                                                  Content="系统进程"
                                                  IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=System}"
-                                                 Margin="0,0,16,0" />
+                                                 />
                                     <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
                                                  Content="已存配置"
                                                  IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Saved}" />
                                 </StackPanel>
 
-                                <Grid Margin="0,0,0,24">
+                                <Grid Margin="0,0,0,12">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
@@ -303,7 +302,7 @@
                                               IsTextSearchEnabled="True"
                                               Text="{Binding SelectedProcessName}"
                                               ItemsSource="{Binding DisplayProcessList}"
-                                              Margin="0,0,16,0" />
+                                              Margin="0,0,12,0" />
 
                                     <StackPanel Grid.Column="1"
                                                 Orientation="Horizontal"
