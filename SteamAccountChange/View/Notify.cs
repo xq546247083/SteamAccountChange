@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using SteamAccountChange.Common;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -30,7 +29,7 @@ namespace SteamAccountChange.View
         {
             notifyIcon = new NotifyIcon();
             notifyIcon.Text = "Steam账号切换器";
-            notifyIcon.Icon = SteamAccountChange.Properties.Resources.steam;
+            notifyIcon.Icon = Properties.Resources.steam;
             notifyIcon.Visible = true;
             notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
 
@@ -42,58 +41,49 @@ namespace SteamAccountChange.View
         /// </summary>
         public static void LoadMenu()
         {
-            // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            var menuList = new List<MenuItem>();
+            var contextMenuStrip = new ContextMenuStrip();
 
             // 添加账号到菜单
             var steamAccoutInfoList = ConfigHelper.GetConfig().SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
             foreach (var item in steamAccoutInfoList)
             {
-                // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-                var steamAccountMenu = new MenuItem(item.Name);
+                var steamAccountMenu = new ToolStripMenuItem(item.Name);
                 steamAccountMenu.Tag = item.Account;
                 steamAccountMenu.Click += SteamAccountMenu_Click;
 
-                menuList.Add(steamAccountMenu);
+                contextMenuStrip.Items.Add(steamAccountMenu);
             }
 
-            // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            menuList.Add(new MenuItem("-"));
+            contextMenuStrip.Items.Add(new ToolStripSeparator());
 
             // 切换新账号
-            // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            var newAccountMenu = new MenuItem("添加新账号");
+            var newAccountMenu = new ToolStripMenuItem("添加新账号");
             newAccountMenu.Click += NewAccountMenu_Click;
-            menuList.Add(newAccountMenu);
+            contextMenuStrip.Items.Add(newAccountMenu);
 
             // 注册表
-            // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            var launchOnSysPowerOnByRegisterMenu = new MenuItem("注册表");
+            var launchOnSysPowerOnByRegisterMenu = new ToolStripMenuItem("注册表");
             launchOnSysPowerOnByRegisterMenu.Checked = GetIsLaunchOnSysPowerOnByRegister();
             launchOnSysPowerOnByRegisterMenu.Click += LaunchOnSysPowerOnByRegister_Click;
 
             // 计划任务
-            // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            var launchOnSysPowerOnByTaskSchedulerMenu = new MenuItem("计划任务(跳过UAC)");
+            var launchOnSysPowerOnByTaskSchedulerMenu = new ToolStripMenuItem("计划任务(跳过UAC)");
             launchOnSysPowerOnByTaskSchedulerMenu.Checked = GetIsLaunchOnSysPowerOnByTaskScheduler();
             launchOnSysPowerOnByTaskSchedulerMenu.Click += LaunchOnSysPowerOnByTaskScheduler_Click;
 
             // 开机自启用菜单项
-            // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            var launchOnSysPowerOnMenu = new MenuItem("开机自启动");
-            launchOnSysPowerOnMenu.MenuItems.Add(launchOnSysPowerOnByRegisterMenu);
-            launchOnSysPowerOnMenu.MenuItems.Add(launchOnSysPowerOnByTaskSchedulerMenu);
-            menuList.Add(launchOnSysPowerOnMenu);
+            var launchOnSysPowerOnMenu = new ToolStripMenuItem("开机自启动");
+            launchOnSysPowerOnMenu.DropDownItems.Add(launchOnSysPowerOnByRegisterMenu);
+            launchOnSysPowerOnMenu.DropDownItems.Add(launchOnSysPowerOnByTaskSchedulerMenu);
+            contextMenuStrip.Items.Add(launchOnSysPowerOnMenu);
 
             // 退出菜单项
-            // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            var exitMenu = new MenuItem("退出");
+            var exitMenu = new ToolStripMenuItem("退出");
             exitMenu.Click += Exit_Click;
-            menuList.Add(exitMenu);
+            contextMenuStrip.Items.Add(exitMenu);
 
             // 关联托盘控件
-            // TODO 不再支持 ContextMenu。请改用 ContextMenuStrip。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            notifyIcon.ContextMenu = new ContextMenu(menuList.ToArray());
+            notifyIcon.ContextMenuStrip = contextMenuStrip;
         }
 
         #endregion
@@ -149,8 +139,7 @@ namespace SteamAccountChange.View
         /// <param name="e">e</param>
         private static void SteamAccountMenu_Click(object sender, EventArgs e)
         {
-            // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            var steamAccountMenu = sender as MenuItem;
+            var steamAccountMenu = sender as ToolStripMenuItem;
             if (steamAccountMenu == null)
             {
                 return;
@@ -177,8 +166,7 @@ namespace SteamAccountChange.View
         /// <param name="e">e</param>
         private static void LaunchOnSysPowerOnByRegister_Click(object sender, EventArgs e)
         {
-            // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            var launchOnSysPowerOnByRegisterMenu = sender as MenuItem;
+            var launchOnSysPowerOnByRegisterMenu = sender as ToolStripMenuItem;
             if (launchOnSysPowerOnByRegisterMenu == null)
             {
                 return;
@@ -209,8 +197,7 @@ namespace SteamAccountChange.View
         /// <param name="e">e</param>
         private static void LaunchOnSysPowerOnByTaskScheduler_Click(object sender, EventArgs e)
         {
-            // TODO 不再支持 MenuItem。请改用 ToolStripMenuItem。有关更多详细信息，请参阅 https://docs.microsoft.com/en-us/dotnet/core/compatibility/winforms#removed-controls。
-            var launchOnSysPowerOnByTaskSchedulerMenu = sender as MenuItem;
+            var launchOnSysPowerOnByTaskSchedulerMenu = sender as ToolStripMenuItem;
             if (launchOnSysPowerOnByTaskSchedulerMenu == null)
             {
                 return;
