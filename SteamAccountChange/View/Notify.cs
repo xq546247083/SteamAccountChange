@@ -45,7 +45,7 @@ namespace SteamAccountChange.View
             var contextMenuStrip = new ContextMenuStrip();
 
             // 添加账号到菜单
-            var steamAccoutInfoList = ConfigHelper.GetConfig().SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
+            var steamAccoutInfoList = LocalDataHelper.GetLocalData().SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
             foreach (var item in steamAccoutInfoList)
             {
                 var steamAccountMenu = new ToolStripMenuItem(item.Name);

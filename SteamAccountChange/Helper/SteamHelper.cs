@@ -42,8 +42,8 @@ namespace SteamAccountChange.Helper
                 RegistryHelper.Set(@"Software\Valve\Steam", "AutoLoginUser", account);
 
                 // 杀掉游戏进程
-                var saveInfo = ConfigHelper.GetConfig();
-                foreach (var item in saveInfo.KillProcessList)
+                var localData = LocalDataHelper.GetLocalData();
+                foreach (var item in localData.KillProcessList)
                 {
                     KillProcess(item.Name);
                 }

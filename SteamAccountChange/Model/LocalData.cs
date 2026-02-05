@@ -3,9 +3,9 @@
 namespace SteamAccountChange.Model
 {
     /// <summary>
-    /// 保存的消息
+    /// 本地数据
     /// </summary>
-    public class SaveInfo
+    public class LocalData
     {
         /// <summary>
         /// 游戏账号信息列表
@@ -23,12 +23,10 @@ namespace SteamAccountChange.Model
             get; set;
         }
 
-
-
         /// <summary>
         /// 构造方法
         /// </summary>
-        public SaveInfo()
+        public LocalData()
         {
             SteamAccoutInfoList = new List<SteamAccoutInfo>();
             KillProcessList = new List<ProcessInfo>();

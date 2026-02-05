@@ -7,35 +7,35 @@ using System.Windows;
 namespace SteamAccountChange.Helper
 {
     /// <summary>
-    /// 配置帮助类
+    /// 本地数据帮助类
     /// </summary>
-    public static class ConfigHelper
+    public static class LocalDataHelper
     {
-        private const string ConfigFileName = "data.bin";
+        private const string DataFileName = "data.bin";
 
         /// <summary>
         /// 读取steam账号信息
         /// </summary>
         /// <returns></returns>
-        public static SaveInfo GetConfig()
+        public static LocalData GetLocalData()
         {
             try
             {
-                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigFileName);
+                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DataFileName);
                 if (!File.Exists(infoFilePath))
                 {
-                    return new SaveInfo();
+                    return new LocalData();
                 }
 
                 var fileBytes = File.ReadAllBytes(infoFilePath);
                 var decryptedStr = EncryptionHelper.AesDecrypt(fileBytes);
 
-                var saveInfo = JsonConvert.DeserializeObject<SaveInfo>(decryptedStr);
-                return saveInfo ?? new SaveInfo();
+                var saveInfo = JsonConvert.DeserializeObject<LocalData>(decryptedStr);
+                return saveInfo ?? new LocalData();
             }
             catch (Exception)
             {
-                return new SaveInfo();
+                return new LocalData();
             }
         }
 
@@ -43,17 +43,17 @@ namespace SteamAccountChange.Helper
         /// 保存保存信息
         /// </summary>
         /// <returns></returns>
-        public static void Save(SaveInfo saveInfo)
+        public static void Save(LocalData localData)
         {
-            if (saveInfo == null)
+            if (localData == null)
             {
                 return;
             }
 
             try
             {
-                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigFileName);
-                var jsonStr = JsonConvert.SerializeObject(saveInfo);
+                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DataFileName);
+                var jsonStr = JsonConvert.SerializeObject(localData);
                 var encryptedBytes = EncryptionHelper.AesEncrypt(jsonStr);
 
                 File.WriteAllBytes(infoFilePath, encryptedBytes);

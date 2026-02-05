@@ -317,15 +317,15 @@ namespace SteamAccountChange.ViewModel
             steamAccount.Order = "0";
 
             // 添加账号
-            var saveInfo = ConfigHelper.GetConfig();
-            if (saveInfo.SteamAccoutInfoList.Any(r => r.Account == steamAccount.Account))
+            var localData = LocalDataHelper.GetLocalData();
+            if (localData.SteamAccoutInfoList.Any(r => r.Account == steamAccount.Account))
             {
                 ShowToolTip("添加失败！账号已存在！");
                 return;
             }
 
-            saveInfo.SteamAccoutInfoList.Add(steamAccount);
-            ConfigHelper.Save(saveInfo);
+            localData.SteamAccoutInfoList.Add(steamAccount);
+            LocalDataHelper.Save(localData);
 
             currentSteamAccount = steamAccount.Account;
             ReLoad();
@@ -407,12 +407,12 @@ namespace SteamAccountChange.ViewModel
             SelectedSteamAccoutInfo.Order = SteamAccountOrderText;
 
             // 删除账号
-            var saveInfo = ConfigHelper.GetConfig();
-            saveInfo.SteamAccoutInfoList.RemoveAll(r => r.Account == SelectedSteamAccoutInfo.Account);
+            var localData = LocalDataHelper.GetLocalData();
+            localData.SteamAccoutInfoList.RemoveAll(r => r.Account == SelectedSteamAccoutInfo.Account);
 
             // 再新增账号
-            saveInfo.SteamAccoutInfoList.Add(SelectedSteamAccoutInfo);
-            ConfigHelper.Save(saveInfo);
+            localData.SteamAccoutInfoList.Add(SelectedSteamAccoutInfo);
+            LocalDataHelper.Save(localData);
 
             currentSteamAccount = SelectedSteamAccoutInfo.Account;
             ReLoad();
@@ -436,9 +436,9 @@ namespace SteamAccountChange.ViewModel
             }
 
             // 删除账号
-            var saveInfo = ConfigHelper.GetConfig();
-            saveInfo.SteamAccoutInfoList = saveInfo.SteamAccoutInfoList.Where(r => r.Account != SelectedSteamAccoutInfo.Account).ToList();
-            ConfigHelper.Save(saveInfo);
+            var localData = LocalDataHelper.GetLocalData();
+            localData.SteamAccoutInfoList = localData.SteamAccoutInfoList.Where(r => r.Account != SelectedSteamAccoutInfo.Account).ToList();
+            LocalDataHelper.Save(localData);
 
             // 清理Steam本地数据
             SteamHelper.DeleteSteamAccount(SelectedSteamAccoutInfo.Account);
@@ -474,15 +474,15 @@ namespace SteamAccountChange.ViewModel
             processInfo.Name = SelectedProcessName;
 
             // 添加游戏进程
-            var saveInfo = ConfigHelper.GetConfig();
-            if (saveInfo.KillProcessList.Any(r => r.Name == processInfo.Name))
+            var localData = LocalDataHelper.GetLocalData();
+            if (localData.KillProcessList.Any(r => r.Name == processInfo.Name))
             {
                 ShowToolTip("添加失败！游戏进程已存在！");
                 return;
             }
 
-            saveInfo.KillProcessList.Insert(0, processInfo);
-            ConfigHelper.Save(saveInfo);
+            localData.KillProcessList.Insert(0, processInfo);
+            LocalDataHelper.Save(localData);
 
             ReLoad();
             ShowToolTip("添加成功！");
@@ -511,9 +511,9 @@ namespace SteamAccountChange.ViewModel
             }
 
             // 删除游戏进程
-            var saveInfo = ConfigHelper.GetConfig();
-            saveInfo.KillProcessList = saveInfo.KillProcessList.Where(r => r.Name != SelectedProcessName).ToList();
-            ConfigHelper.Save(saveInfo);
+            var localData = LocalDataHelper.GetLocalData();
+            localData.KillProcessList = localData.KillProcessList.Where(r => r.Name != SelectedProcessName).ToList();
+            LocalDataHelper.Save(localData);
 
             ReLoad();
             ShowToolTip("删除成功！");
@@ -576,8 +576,8 @@ namespace SteamAccountChange.ViewModel
         public void LoadSaveInfo()
         {
             // 加载账号信息
-            var saveInfo = ConfigHelper.GetConfig();
-            SteamAccoutInfoList = saveInfo.SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
+            var localData = LocalDataHelper.GetLocalData();
+            SteamAccoutInfoList = localData.SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
 
             // 选中第一个
             if (selectedSteamAccoutInfo == null && SteamAccoutInfoList != null && SteamAccoutInfoList.Count > 0)
@@ -613,8 +613,8 @@ namespace SteamAccountChange.ViewModel
             }
             else
             {
-                var saveInfo = ConfigHelper.GetConfig();
-                DisplayProcessList = saveInfo.KillProcessList.ToList();
+                var localData = LocalDataHelper.GetLocalData();
+                DisplayProcessList = localData.KillProcessList.ToList();
             }
 
             if (DisplayProcessList != null && DisplayProcessList.Count > 0)
