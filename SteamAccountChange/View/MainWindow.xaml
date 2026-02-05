@@ -33,9 +33,12 @@
 
     <Window.Resources>
         <convert:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
-        
-        <Style x:Key="CompactTabItemStyle" TargetType="TabItem" BasedOn="{StaticResource MaterialDesignNavigationRailTabItem}">
-            <Setter Property="Width" Value="56" />
+
+        <Style x:Key="CompactTabItemStyle"
+               TargetType="TabItem"
+               BasedOn="{StaticResource MaterialDesignNavigationRailTabItem}">
+            <Setter Property="Width"
+                    Value="56" />
         </Style>
     </Window.Resources>
 
@@ -99,142 +102,131 @@
                         </StackPanel>
                     </TabItem.Header>
 
-                    <Grid Margin="12">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+                    <StackPanel Margin="12">
+                        <!-- Account Selection Card -->
+                        <materialDesign:Card Margin="0,0,0,12"
+                                             Padding="12"
+                                             UniformCornerRadius="8">
+                            <StackPanel>
+                                <TextBlock Text="账号"
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           Margin="0,0,0,12" />
+                                <ComboBox x:Name="cbAccount"
+                                          Style="{StaticResource MaterialDesignFilledComboBox}"
+                                          materialDesign:HintAssist.Hint="账号列表"
+                                          DisplayMemberPath="Name"
+                                          SelectedValuePath="Account"
+                                          ItemsSource="{Binding SteamAccoutInfoList}"
+                                          SelectedItem="{Binding SelectedSteamAccoutInfo}">
+                                </ComboBox>
+                            </StackPanel>
+                        </materialDesign:Card>
 
-                        <TextBlock Text="首页"
-                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                   Margin="0,0,0,12" />
+                        <!-- Quick Actions Card -->
+                        <materialDesign:Card Padding="12"
+                                             UniformCornerRadius="8">
+                            <StackPanel>
+                                <TextBlock Text="操作"
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           Margin="0,0,0,12" />
 
-                        <StackPanel Grid.Row="1">
-                            <!-- Account Selection Card -->
-                            <materialDesign:Card Margin="0,0,0,12"
-                                                 Padding="12"
-                                                 UniformCornerRadius="8">
-                                <StackPanel>
-                                    <TextBlock Text="账号"
-                                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                               Margin="0,0,0,12" />
-                                    <ComboBox x:Name="cbAccount"
-                                              Style="{StaticResource MaterialDesignFilledComboBox}"
-                                              materialDesign:HintAssist.Hint="账号列表"
-                                              DisplayMemberPath="Name"
-                                              SelectedValuePath="Account"
-                                              ItemsSource="{Binding SteamAccoutInfoList}"
-                                              SelectedItem="{Binding SelectedSteamAccoutInfo}">
-                                    </ComboBox>
-                                </StackPanel>
-                            </materialDesign:Card>
+                                <UniformGrid Columns="5"
+                                             Rows="1">
+                                    <!-- Add Button -->
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                ToolTip="添加当前登录的Steam账号"
+                                                Command="{Binding NewBtnClickCommand}"
+                                                Margin="0,0,0,8"
+                                                Width="40"
+                                                Height="40"
+                                                Padding="0">
+                                            <materialDesign:PackIcon Kind="AccountPlus"
+                                                                     Width="24"
+                                                                     Height="24" />
+                                        </Button>
+                                        <TextBlock Text="添加账号"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="12" />
+                                    </StackPanel>
 
-                            <!-- Quick Actions Card -->
-                            <materialDesign:Card Padding="12"
-                                                 UniformCornerRadius="8">
-                                <StackPanel>
-                                    <TextBlock Text="操作"
-                                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                               Margin="0,0,0,12" />
+                                    <!-- Copy Account Button -->
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                ToolTip="复制账号"
+                                                Command="{Binding CopyUserAccountBtnClickCommand}"
+                                                Margin="0,0,0,8"
+                                                Width="40"
+                                                Height="40"
+                                                Padding="0">
+                                            <materialDesign:PackIcon Kind="ContentCopy"
+                                                                     Width="20"
+                                                                     Height="20" />
+                                        </Button>
+                                        <TextBlock Text="复制账号"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="12" />
+                                    </StackPanel>
 
-                                    <UniformGrid Columns="5"
-                                                 Rows="1">
-                                        <!-- Add Button -->
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                    ToolTip="添加当前登录的Steam账号"
-                                                    Command="{Binding NewBtnClickCommand}"
-                                                    Margin="0,0,0,8"
-                                                    Width="40"
-                                                    Height="40"
-                                                    Padding="0">
-                                                <materialDesign:PackIcon Kind="AccountPlus"
-                                                                         Width="24"
-                                                                         Height="24" />
-                                            </Button>
-                                            <TextBlock Text="添加账号"
-                                                       HorizontalAlignment="Center"
-                                                       FontSize="12" />
-                                        </StackPanel>
+                                    <!-- Copy Password Button -->
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                ToolTip="复制密码"
+                                                Command="{Binding CopyPasswordBtnClickCommand}"
+                                                Margin="0,0,0,8"
+                                                Width="40"
+                                                Height="40"
+                                                Padding="0">
+                                            <materialDesign:PackIcon Kind="KeyVariant"
+                                                                     Width="20"
+                                                                     Height="20" />
+                                        </Button>
+                                        <TextBlock Text="复制密码"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="12" />
+                                    </StackPanel>
 
-                                        <!-- Copy Account Button -->
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                    ToolTip="复制账号"
-                                                    Command="{Binding CopyUserAccountBtnClickCommand}"
-                                                    Margin="0,0,0,8"
-                                                    Width="40"
-                                                    Height="40"
-                                                    Padding="0">
-                                                <materialDesign:PackIcon Kind="ContentCopy"
-                                                                         Width="20"
-                                                                         Height="20" />
-                                            </Button>
-                                            <TextBlock Text="复制账号"
-                                                       HorizontalAlignment="Center"
-                                                       FontSize="12" />
-                                        </StackPanel>
+                                    <!-- Edit Button -->
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                ToolTip="编辑账号信息"
+                                                Command="{Binding OpenEditDrawerCommand}"
+                                                Margin="0,0,0,8"
+                                                Width="40"
+                                                Height="40"
+                                                Padding="0">
+                                            <materialDesign:PackIcon Kind="Pencil"
+                                                                     Width="22"
+                                                                     Height="22" />
+                                        </Button>
+                                        <TextBlock Text="编辑账号"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="12" />
+                                    </StackPanel>
 
-                                        <!-- Copy Password Button -->
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                    ToolTip="复制密码"
-                                                    Command="{Binding CopyPasswordBtnClickCommand}"
-                                                    Margin="0,0,0,8"
-                                                    Width="40"
-                                                    Height="40"
-                                                    Padding="0">
-                                                <materialDesign:PackIcon Kind="KeyVariant"
-                                                                         Width="20"
-                                                                         Height="20" />
-                                            </Button>
-                                            <TextBlock Text="复制密码"
-                                                       HorizontalAlignment="Center"
-                                                       FontSize="12" />
-                                        </StackPanel>
-
-                                        <!-- Edit Button -->
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                    ToolTip="编辑账号信息"
-                                                    Command="{Binding OpenEditDrawerCommand}"
-                                                    Margin="0,0,0,8"
-                                                    Width="40"
-                                                    Height="40"
-                                                    Padding="0">
-                                                <materialDesign:PackIcon Kind="Pencil"
-                                                                         Width="22"
-                                                                         Height="22" />
-                                            </Button>
-                                            <TextBlock Text="编辑账号"
-                                                       HorizontalAlignment="Center"
-                                                       FontSize="12" />
-                                        </StackPanel>
-
-                                        <!-- Delete Button -->
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <Button Style="{StaticResource MaterialDesignOutlinedButton}"
-                                                    BorderBrush="{DynamicResource MaterialDesignErrorBrush}"
-                                                    Foreground="{DynamicResource MaterialDesignErrorBrush}"
-                                                    ToolTip="删除选中的账号"
-                                                    Command="{Binding DelSteamAccoutInfoBtnClickCommand}"
-                                                    Margin="0,0,0,8"
-                                                    Width="40"
-                                                    Height="40"
-                                                    Padding="0">
-                                                <materialDesign:PackIcon Kind="Delete"
-                                                                         Width="20"
-                                                                         Height="20" />
-                                            </Button>
-                                            <TextBlock Text="删除账号"
-                                                       HorizontalAlignment="Center"
-                                                       FontSize="12" />
-                                        </StackPanel>
-                                    </UniformGrid>
-                                </StackPanel>
-                            </materialDesign:Card>
-                        </StackPanel>
-                    </Grid>
+                                    <!-- Delete Button -->
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                                                BorderBrush="{DynamicResource MaterialDesignErrorBrush}"
+                                                Foreground="{DynamicResource MaterialDesignErrorBrush}"
+                                                ToolTip="删除选中的账号"
+                                                Command="{Binding DelSteamAccoutInfoBtnClickCommand}"
+                                                Margin="0,0,0,8"
+                                                Width="40"
+                                                Height="40"
+                                                Padding="0">
+                                            <materialDesign:PackIcon Kind="Delete"
+                                                                     Width="20"
+                                                                     Height="20" />
+                                        </Button>
+                                        <TextBlock Text="删除账号"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="12" />
+                                    </StackPanel>
+                                </UniformGrid>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </StackPanel>
                 </TabItem>
 
                 <!-- Settings Tab -->
@@ -252,23 +244,13 @@
                         </StackPanel>
                     </TabItem.Header>
 
-                    <Grid Margin="12">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Text="设置"
-                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                   Margin="0,0,0,12" />
-
-                        <materialDesign:Card Grid.Row="1"
-                                             Padding="12"
+                    <StackPanel Margin="12">
+                        <materialDesign:Card Padding="12"
                                              UniformCornerRadius="8"
                                              VerticalAlignment="Top">
                             <StackPanel>
-                                <TextBlock Text="关闭进程(切换账号)"
-                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                <TextBlock Text="关闭进程"
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                            Margin="0,0,0,12" />
 
                                 <StackPanel Orientation="Horizontal"
@@ -329,7 +311,7 @@
                                 </Grid>
                             </StackPanel>
                         </materialDesign:Card>
-                    </Grid>
+                    </StackPanel>
                 </TabItem>
             </TabControl>
         </materialDesign:DrawerHost>

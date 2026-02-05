@@ -330,13 +330,13 @@ namespace SteamAccountChange.ViewModel
             var (success, autoLoginUserObj) = RegistryHelper.Get(@"Software\Valve\Steam", "AutoLoginUser");
             if (success == false || autoLoginUserObj == null)
             {
-                ShowToolTip("请先登陆Steam！");
+                ShowMessage("请先登陆Steam！");
                 return;
             }
             var autoLoginUser = autoLoginUserObj.ToString();
             if (string.IsNullOrEmpty(autoLoginUser))
             {
-                ShowToolTip("请先登陆Steam！");
+                ShowMessage("请先登陆Steam！");
                 return;
             }
 
@@ -351,7 +351,6 @@ namespace SteamAccountChange.ViewModel
             var localData = LocalDataHelper.GetLocalData();
             if (localData.SteamAccoutInfoList.Any(r => r.Account == steamAccount.Account))
             {
-                ShowToolTip("添加失败！账号已存在！");
                 return;
             }
 
@@ -360,7 +359,7 @@ namespace SteamAccountChange.ViewModel
 
             currentSteamAccount = steamAccount.Account;
             ReLoad();
-            ShowToolTip("添加成功！");
+            ShowMessage("添加成功！");
         }
 
         /// <summary>
@@ -375,12 +374,11 @@ namespace SteamAccountChange.ViewModel
         {
             if (SelectedSteamAccoutInfo == null || SelectedSteamAccoutInfo.Account == null)
             {
-                ShowToolTip("复制失败！");
                 return;
             }
 
             Clipboard.SetDataObject(SelectedSteamAccoutInfo.Account);
-            ShowToolTip("复制成功！");
+            ShowMessage("复制成功！");
         }
 
         /// <summary>
@@ -395,12 +393,11 @@ namespace SteamAccountChange.ViewModel
         {
             if (SelectedSteamAccoutInfo == null || SelectedSteamAccoutInfo.Password == null)
             {
-                ShowToolTip("复制失败！");
                 return;
             }
 
             Clipboard.SetDataObject(SelectedSteamAccoutInfo.Password);
-            ShowToolTip("复制成功！");
+            ShowMessage("复制成功！");
         }
 
         /// <summary>
@@ -429,7 +426,6 @@ namespace SteamAccountChange.ViewModel
         {
             if (SelectedSteamAccoutInfo == null)
             {
-                ShowToolTip("请先选择账号！");
                 return;
             }
             IsRightDrawerOpen = true;
@@ -461,7 +457,6 @@ namespace SteamAccountChange.ViewModel
             if (SelectedSteamAccoutInfo == null)
             {
                 IsRightDrawerOpen = false;
-                ShowToolTip("保存失败！请选择要修改的账号！");
                 return;
             }
 
@@ -479,7 +474,7 @@ namespace SteamAccountChange.ViewModel
 
             currentSteamAccount = SelectedSteamAccoutInfo.Account;
             ReLoad();
-            ShowToolTip("保存成功！");
+            ShowMessage("保存成功！");
 
             IsRightDrawerOpen = false;
         }
@@ -496,7 +491,6 @@ namespace SteamAccountChange.ViewModel
         {
             if (SelectedSteamAccoutInfo == null)
             {
-                ShowToolTip("删除失败！请选择要修改的账号！");
                 return;
             }
 
@@ -509,7 +503,7 @@ namespace SteamAccountChange.ViewModel
             SteamHelper.DeleteSteamAccount(SelectedSteamAccoutInfo.Account);
 
             ReLoad();
-            ShowToolTip("删除成功！");
+            ShowMessage("删除成功！");
         }
 
         /// <summary>
@@ -524,13 +518,11 @@ namespace SteamAccountChange.ViewModel
         {
             if (ProcessListMode != ProcessListMode.System)
             {
-                ShowToolTip("添加失败！必须是系统进程模式！");
                 return;
             }
 
             if (string.IsNullOrEmpty(SelectedProcessName))
             {
-                ShowToolTip("添加失败！游戏进程必填！");
                 return;
             }
 
@@ -542,7 +534,6 @@ namespace SteamAccountChange.ViewModel
             var localData = LocalDataHelper.GetLocalData();
             if (localData.KillProcessList.Any(r => r.Name == processInfo.Name))
             {
-                ShowToolTip("添加失败！游戏进程已存在！");
                 return;
             }
 
@@ -550,7 +541,7 @@ namespace SteamAccountChange.ViewModel
             LocalDataHelper.Save(localData);
 
             ReLoad();
-            ShowToolTip("添加成功！");
+            ShowMessage("添加成功！");
         }
 
         /// <summary>
@@ -565,13 +556,11 @@ namespace SteamAccountChange.ViewModel
         {
             if (ProcessListMode != ProcessListMode.Saved)
             {
-                ShowToolTip("删除失败！必须是已保存配置模式！");
                 return;
             }
 
             if (string.IsNullOrEmpty(SelectedProcessName))
             {
-                ShowToolTip("删除失败！游戏进程必填！");
                 return;
             }
 
@@ -581,7 +570,7 @@ namespace SteamAccountChange.ViewModel
             LocalDataHelper.Save(localData);
 
             ReLoad();
-            ShowToolTip("删除成功！");
+            ShowMessage("删除成功！");
         }
 
         /// <summary>
@@ -614,7 +603,7 @@ namespace SteamAccountChange.ViewModel
         /// 显示提示框
         /// </summary>
         /// <param name="text">文本</param>
-        private void ShowToolTip(string text)
+        private void ShowMessage(string text)
         {
             SnackbarMessageQueue.Enqueue(text);
         }
