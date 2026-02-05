@@ -55,8 +55,8 @@ namespace SteamAccountChange.Manager
 
             contextMenuStrip.Items.Add(new ToolStripSeparator());
 
-            // 切换新账号
-            var newAccountMenu = new ToolStripMenuItem("添加新账号");
+            // 登录新账号
+            var newAccountMenu = new ToolStripMenuItem("登录新账号");
             newAccountMenu.Click += NewAccountMenu_Click;
             contextMenuStrip.Items.Add(newAccountMenu);
 

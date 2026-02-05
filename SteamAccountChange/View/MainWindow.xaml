@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:common="clr-namespace:SteamAccountChange.Common"
         xmlns:convert="clr-namespace:SteamAccountChange.Convert"
+        Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d"
         Height="300"
         Width="400"
@@ -60,37 +61,33 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel  Orientation="Horizontal"
                                          FlowDirection="LeftToRight">
-                                <Button  Style="{StaticResource ResourceKey=AddMainButtonStyle}"
-                                         Height="30"
-                                         Width="44"
-                                         Margin="0,0,10,0"
-                                         ToolTip="添加当前登录的Steam账号到切换列表"
-                                         Command="{Binding NewBtnClickCommand}">
+                                <Button Height="30"
+                                        Width="44"
+                                        Margin="0,0,10,0"
+                                        ToolTip="添加当前登录的Steam账号到切换列表"
+                                        Command="{Binding NewBtnClickCommand}">
                                 </Button>
-                                <Button  Style="{StaticResource ResourceKey=CopyButtonStyle}"
-                                         Height="30"
-                                         Width="44"
-                                         Margin="0,0,10,0"
-                                         ToolTip="复制Steam账号"
-                                         Command="{Binding CopyUserAccountBtnClickCommand}">
+                                <Button Height="30"
+                                        Width="44"
+                                        Margin="0,0,10,0"
+                                        ToolTip="复制Steam账号"
+                                        Command="{Binding CopyUserAccountBtnClickCommand}">
                                 </Button>
-                                <Button  Style="{StaticResource ResourceKey=CopyNewButtonStyle}"
-                                         Height="30"
-                                         Width="44"
-                                         Margin="0,0,10,0"
-                                         ToolTip="复制Steam密码"
-                                         Command="{Binding CopyPasswordBtnClickCommand}">
+                                <Button Height="30"
+                                        Width="44"
+                                        Margin="0,0,10,0"
+                                        ToolTip="复制Steam密码"
+                                        Command="{Binding CopyPasswordBtnClickCommand}">
                                 </Button>
                             </StackPanel>
                             <StackPanel Grid.Column="1"
                                         Orientation="Horizontal"
                                         FlowDirection="RightToLeft">
-                                <Button  Style="{StaticResource ResourceKey=DelButtonStyle}"
-                                         Height="30"
-                                         Width="44"
-                                         Margin="0,0,10,0"
-                                         ToolTip="删除选中的Steam账号"
-                                         Command="{Binding DelSteamAccoutInfoBtnClickCommand}">
+                                <Button Height="30"
+                                        Width="44"
+                                        Margin="0,0,10,0"
+                                        ToolTip="删除选中的Steam账号"
+                                        Command="{Binding DelSteamAccoutInfoBtnClickCommand}">
                                 </Button>
                             </StackPanel>
                         </Grid>
@@ -175,8 +172,7 @@
                                         Margin="0,0,20,0"
                                         HorizontalAlignment="Right"
                                         Orientation="Horizontal">
-                                <Button Style="{StaticResource SaveButtonStyle}"
-                                        ToolTipService.ToolTip="保存"
+                                <Button ToolTipService.ToolTip="保存"
                                         Command="{Binding SaveSteamAccoutInfoBtnClickCommand}"></Button>
                             </StackPanel>
                         </Grid>
@@ -198,15 +194,16 @@
                     <GroupBox Margin="0,10,0,0">
                         <GroupBox.Header>切换Steam账号时主动杀掉进程列表</GroupBox.Header>
                         <StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="10,0,0,0">
                                 <RadioButton Content="系统进程"
                                              IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=System}"
                                              Margin="0,10,0,0"
-                                             VerticalContentAlignment="Center"/>
+                                             VerticalContentAlignment="Center" />
                                 <RadioButton Content="已存配置"
                                              Margin="10,10,0,0"
                                              IsChecked="{Binding ProcessListMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Saved}"
-                                             VerticalContentAlignment="Center"/>
+                                             VerticalContentAlignment="Center" />
                             </StackPanel>
                             <ComboBox Margin="10,10,10,5"
                                       Height="30"
@@ -221,19 +218,17 @@
                             </ComboBox>
                             <StackPanel  Orientation="Horizontal"
                                          HorizontalAlignment="Right">
-                                <Button  Style="{StaticResource ResourceKey=AddButtonStyle}"
-                                         Height="35"
-                                         Width="40"
-                                         Margin="0,0,20,0"
-                                         ToolTip="添加"
-                                         Command="{Binding SaveGameProcessInfoBtnClickCommand}">
+                                <Button Height="35"
+                                        Width="40"
+                                        Margin="0,0,20,0"
+                                        ToolTip="添加"
+                                        Command="{Binding SaveGameProcessInfoBtnClickCommand}">
                                 </Button>
-                                <Button  Style="{StaticResource ResourceKey=DelButtonStyle}"
-                                         Height="35"
-                                         Width="40"
-                                         Margin="0,0,20,0"
-                                         ToolTip="删除"
-                                         Command="{Binding DelGameProcessInfoBtnClickCommand}">
+                                <Button Height="35"
+                                        Width="40"
+                                        Margin="0,0,20,0"
+                                        ToolTip="删除"
+                                        Command="{Binding DelGameProcessInfoBtnClickCommand}">
                                 </Button>
                             </StackPanel>
                         </StackPanel>
