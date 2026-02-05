@@ -419,6 +419,9 @@ namespace SteamAccountChange.ViewModel
             saveInfo.SteamAccoutInfoList = saveInfo.SteamAccoutInfoList.Where(r => r.Account != SelectedSteamAccoutInfo.Account).ToList();
             ConfigHelper.Save(saveInfo);
 
+            // 清理Steam本地数据
+            SteamHelper.DeleteSteamAccount(SelectedSteamAccoutInfo.Account);
+
             ReLoad();
             ShowToolTip("删除成功！");
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 
 namespace SteamAccountChange.Helper
@@ -68,6 +69,43 @@ namespace SteamAccountChange.Helper
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 删除Steam账号相关的本地配置
+        /// </summary>
+        /// <param name="account">账号</param>
+        public static void DeleteSteamAccount(string account)
+        {
+            try
+            {
+                // 1. 检查注册表中的 AutoLoginUser 是否为待删除账号
+                var (success, autoLoginUserObj) = RegistryHelper.Get(@"Software\Valve\Steam", "AutoLoginUser");
+                if (success && autoLoginUserObj != null)
+                {
+                    var currentAutoLoginUser = autoLoginUserObj.ToString();
+                    if (string.Equals(currentAutoLoginUser, account, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // 清空自动登录用户
+                        RegistryHelper.Set(@"Software\Valve\Steam", "AutoLoginUser", "");
+                        RegistryHelper.Set(@"Software\Valve\Steam", "RememberPassword", "0");
+
+                        // 2. 删除 loginusers.vdf
+                        var (pathSuccess, steamPathObj) = RegistryHelper.Get(@"Software\Valve\Steam", "SteamPath");
+                        if (pathSuccess && steamPathObj != null)
+                        {
+                            var configPath = Path.Combine(steamPathObj.ToString(), "config", "loginusers.vdf");
+                            if (File.Exists(configPath))
+                            {
+                                File.Delete(configPath);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"清理Steam数据失败: {ex.Message}");
             }
         }
     }
