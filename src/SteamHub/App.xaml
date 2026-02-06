@@ -13,6 +13,7 @@
 
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="MaterialDesignFont">Source Han Serif SC, Source Han Serif CN, 思源宋体, Microsoft YaHei UI, Microsoft YaHei</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
