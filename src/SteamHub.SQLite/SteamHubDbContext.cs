@@ -1,0 +1,53 @@
+using Microsoft.EntityFrameworkCore;
+using SteamHub.Entities;
+
+namespace SteamHub;
+
+/// <summary>
+/// SteamHub 数据库上下文
+/// </summary>
+public class SteamHubDbContext : DbContext
+{
+    /// <summary>
+    /// Steam 账号表
+    /// </summary>
+    public DbSet<SteamAccount> SteamAccounts { get; set; }
+
+    /// <summary>
+    /// 配置表
+    /// </summary>
+    public DbSet<Setting> Settings { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            var dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "steamhub.db");
+            optionsBuilder.UseSqlite($"Data Source={dbPath}");
+        }
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Steam 账号配置
+        modelBuilder.Entity<SteamAccount>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.Account).IsUnique();
+            entity.Property(e => e.Account).IsRequired().HasMaxLength(64);
+            entity.Property(e => e.Name).HasMaxLength(64);
+            entity.Property(e => e.Password).HasMaxLength(64);
+        });
+
+        // 配置表配置
+        modelBuilder.Entity<Setting>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.Key).IsUnique();
+            entity.Property(e => e.Key).IsRequired().HasMaxLength(64);
+            entity.Property(e => e.Value).IsRequired();
+        });
+    }
+}
