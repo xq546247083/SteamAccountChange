@@ -58,10 +58,11 @@ public static class SteamAnalyzer
     /// </summary>
     /// <param name="steamPath">Steam 安装路径</param>
     /// <returns>游戏列表</returns>
-    public static List<SteamGameSource> GetAllGames(string steamPath)
+    public static List<SteamGameSource> GetAllGames()
     {
         var games = new List<SteamGameSource>();
 
+        var steamPath = SteamTool.GetSteamPath();
         var steamAppsPath = Path.Combine(steamPath, "steamapps");
         if (!Directory.Exists(steamAppsPath))
         {

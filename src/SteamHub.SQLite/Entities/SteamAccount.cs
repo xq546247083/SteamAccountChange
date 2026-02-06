@@ -39,4 +39,19 @@ public class SteamAccount
     /// 头像数据
     /// </summary>
     public byte[] Icon { get; set; }
+
+    public SteamAccount()
+    {
+    }
+
+    public SteamAccount(Guid id, string steamId, string account, string name, string password, string order, byte[] icon)
+    {
+        Id = id;
+        SteamId = steamId;
+        Account = account;
+        Name = name;
+        Password = password;
+        Order = order;
+        Icon = icon;
+    }
 }

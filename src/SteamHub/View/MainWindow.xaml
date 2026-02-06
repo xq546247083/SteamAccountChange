@@ -133,7 +133,7 @@
                                            Margin="0,0,0,12" />
 
                                 <UniformGrid Columns="5"
-                                             Rows="1">
+                                             Rows="2">
                                     <!-- Add Button -->
                                     <StackPanel HorizontalAlignment="Center">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
@@ -225,10 +225,113 @@
                                                    HorizontalAlignment="Center"
                                                    FontSize="12" />
                                     </StackPanel>
+
+                                    <!-- Refresh Button -->
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                                ToolTip="刷新Steam数据"
+                                                Command="{Binding RefreshSteamDataCommand}"
+                                                Margin="0,0,0,8"
+                                                Width="40"
+                                                Height="40"
+                                                Padding="0">
+                                            <materialDesign:PackIcon Kind="Refresh"
+                                                                     Width="22"
+                                                                     Height="22" />
+                                        </Button>
+                                        <TextBlock Text="刷新数据"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="12" />
+                                    </StackPanel>
                                 </UniformGrid>
                             </StackPanel>
                         </materialDesign:Card>
                     </StackPanel>
+                </TabItem>
+
+                <!-- Games Tab -->
+                <TabItem Style="{StaticResource CompactTabItemStyle}">
+                    <TabItem.Header>
+                        <StackPanel Width="56"
+                                    Height="56">
+                            <materialDesign:PackIcon Kind="Gamepad"
+                                                     Width="24"
+                                                     Height="24"
+                                                     HorizontalAlignment="Center"
+                                                     Margin="0,12,0,4" />
+                            <TextBlock Text="游戏"
+                                       HorizontalAlignment="Center"
+                                       FontSize="11" />
+                        </StackPanel>
+                    </TabItem.Header>
+
+                    <Grid Margin="12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <materialDesign:Card Grid.Row="0"
+                                             Padding="12"
+                                             Margin="0,0,0,12"
+                                             UniformCornerRadius="8">
+                            <Grid>
+                                <TextBlock Text="游戏库"
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding SteamGameList.Count, StringFormat='共 {0} 款游戏'}"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Opacity="0.6" />
+                            </Grid>
+                        </materialDesign:Card>
+
+                        <!-- Games List -->
+                        <materialDesign:Card Grid.Row="1"
+                                             Padding="0"
+                                             UniformCornerRadius="8">
+                            <ListBox ItemsSource="{Binding SteamGameList}"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Game Icon -->
+                                            <Border Grid.Column="0"
+                                                    Width="32"
+                                                    Height="32"
+                                                    Background="{DynamicResource MaterialDesignDivider}"
+                                                    CornerRadius="4"
+                                                    Margin="0,0,12,0">
+                                                <materialDesign:PackIcon Kind="Gamepad"
+                                                                         Width="20"
+                                                                         Height="20"
+                                                                         HorizontalAlignment="Center"
+                                                                         VerticalAlignment="Center"
+                                                                         Opacity="0.6" />
+                                            </Border>
+
+                                            <!-- Game Info -->
+                                            <StackPanel Grid.Column="1"
+                                                        VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Name}"
+                                                           Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                                           TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding AppId, StringFormat='AppID: {0}'}"
+                                                           Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                                           Opacity="0.6" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </materialDesign:Card>
+                    </Grid>
                 </TabItem>
 
                 <!-- Settings Tab -->

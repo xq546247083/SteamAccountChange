@@ -29,4 +29,17 @@ public class SteamGame
     /// 所属账号
     /// </summary>
     public string SteamId { get; set; }
+
+    public SteamGame()
+    {
+    }
+
+    public SteamGame(Guid id, string appId, string name, byte[] icon, string steamId)
+    {
+        Id = id;
+        AppId = appId;
+        Name = name;
+        Icon = icon;
+        SteamId = steamId;
+    }
 }

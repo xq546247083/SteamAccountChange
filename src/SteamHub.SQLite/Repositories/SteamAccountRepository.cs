@@ -80,5 +80,34 @@ namespace SteamHub.Repositories
             using var context = new SteamHubDbContext();
             return context.SteamAccounts.Any(a => a.Account == account);
         }
+
+        /// <summary>
+        /// 批量添加或更新游戏
+        /// </summary>
+        public static void AddOrUpdateRange(List<SteamAccount> steamAccounts)
+        {
+            using var context = new SteamHubDbContext();
+
+            foreach (var steamAccount in steamAccounts)
+            {
+                var existing = context.SteamAccounts.FirstOrDefault(g => g.Account == steamAccount.Account);
+                if (existing != null)
+                {
+                    existing.Name = steamAccount.Name;
+                    existing.Icon = steamAccount.Icon;
+                    existing.SteamId = steamAccount.SteamId;
+                }
+                else
+                {
+                    if (steamAccount.Id == Guid.Empty)
+                    {
+                        steamAccount.Id = Guid.NewGuid();
+                    }
+                    context.SteamAccounts.Add(steamAccount);
+                }
+            }
+
+            context.SaveChanges();
+        }
     }
 }

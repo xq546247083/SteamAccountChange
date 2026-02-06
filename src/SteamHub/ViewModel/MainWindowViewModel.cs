@@ -9,7 +9,6 @@ using SteamHub.Model;
 using SteamHub.Repositories;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace SteamHub.ViewModel
@@ -261,6 +260,27 @@ namespace SteamHub.ViewModel
         {
             get;
         } = new SnackbarMessageQueue(TimeSpan.FromSeconds(2));
+
+        /// <summary>
+        /// 游戏列表
+        /// </summary>
+        private List<SteamGame> steamGameList;
+
+        /// <summary>
+        /// 游戏列表
+        /// </summary>
+        public List<SteamGame> SteamGameList
+        {
+            get
+            {
+                return steamGameList;
+            }
+            set
+            {
+                steamGameList = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -532,7 +552,31 @@ namespace SteamHub.ViewModel
             SettingRepository.DeleteKillProcess(SelectedProcessName);
 
             ReLoad();
-            Lactor.ShowToolTip("删除成功！");
+            Lactor.ShowToolTip("删除成功!");
+        }
+
+        /// <summary>
+        /// 刷新 Steam 数据
+        /// </summary>
+        public RelayCommand RefreshSteamDataCommand => new RelayCommand(DoRefreshSteamData);
+
+        /// <summary>
+        /// 刷新 Steam 数据
+        /// </summary>
+        private void DoRefreshSteamData()
+        {
+            // 刷新账号数据
+            var steamAccountSources = SteamAnalyzer.GetAllLoginUsers();
+            var steamAccounts = steamAccountSources.Select(r => new SteamAccount(Guid.NewGuid(), r.SteamId, r.AccountName, r.PersonaName ?? r.AccountName, string.Empty, "0", r.Icon)).ToList();
+            SteamAccountRepository.AddOrUpdateRange(steamAccounts);
+
+            // 刷新游戏数据
+            var steamGameSources = SteamAnalyzer.GetAllGames();
+            var steamGames = steamGameSources.Select(r => new SteamGame(Guid.Empty, r.AppId, r.Name, r.Icon, r.LastOwnerSteamId)).ToList();
+            SteamGameRepository.AddOrUpdateRange(steamGames);
+
+            ReLoad();
+            Lactor.ShowToolTip("刷新成功!");
         }
 
         #endregion
@@ -586,6 +630,9 @@ namespace SteamHub.ViewModel
 
                 SelectedSteamAccoutInfo = currentSteamAccountInfo;
             }
+
+            // 加载游戏信息
+            SteamGameList = SteamGameRepository.GetAll();
 
             LoadProcessList();
         }
