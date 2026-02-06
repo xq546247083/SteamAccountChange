@@ -478,7 +478,6 @@ namespace SteamHub.ViewModel
             }
 
             SteamAccountRepository.Delete(SelectedSteamAccoutInfo.Account);
-            SteamHelper.DeleteSteamAccount(SelectedSteamAccoutInfo.Account);
 
             ReLoad();
             Lactor.ShowToolTip("删除成功！");
