@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -22,7 +21,7 @@ namespace SteamHub.Convert
         {
             if (value == null || parameter == null)
             {
-                return Binding.DoNothing;
+                return System.Windows.Data.Binding.DoNothing;
             }
 
             bool useValue = (bool)value;
@@ -32,7 +31,7 @@ namespace SteamHub.Convert
                 return Enum.Parse(targetType, targetValue);
             }
 
-            return Binding.DoNothing;
+            return System.Windows.Data.Binding.DoNothing;
         }
     }
 }

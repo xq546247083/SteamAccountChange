@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32.TaskScheduler;
-using System;
 
 namespace SteamHub.Helper
 {
@@ -31,7 +30,7 @@ namespace SteamHub.Helper
         /// </summary>
         /// <param name="taskName"></param>
         /// <returns></returns>
-        public static Task Get(string taskName)
+        public static Microsoft.Win32.TaskScheduler.Task Get(string taskName)
         {
             using (var ts = new TaskService())
             {
@@ -58,8 +57,8 @@ namespace SteamHub.Helper
                     }
 
                     var td = ts.NewTask();
-                    td.RegistrationInfo.Author = Local.AppName;
-                    td.RegistrationInfo.Description = Local.AppName;
+                    td.RegistrationInfo.Author = AppGlobal.AppName;
+                    td.RegistrationInfo.Description = AppGlobal.AppName;
                     td.Principal.RunLevel = TaskRunLevel.Highest;
 
                     // 触发类型: 登录时

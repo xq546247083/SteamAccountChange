@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Windows;
+﻿using System.Diagnostics;
 
 namespace SteamHub.Helper
 {
@@ -64,7 +61,6 @@ namespace SteamHub.Helper
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
             }
         }
         /// <summary>
@@ -101,7 +97,6 @@ namespace SteamHub.Helper
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"清理Steam数据失败: {ex.Message}");
             }
         }
     }

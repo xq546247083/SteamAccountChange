@@ -1,9 +1,9 @@
 ﻿namespace SteamHub
 {
     /// <summary>
-    /// 本地信息
+    /// 全局信息
     /// </summary>
-    public static class Local
+    public static class AppGlobal
     {
         /// <summary>
         /// 应用名

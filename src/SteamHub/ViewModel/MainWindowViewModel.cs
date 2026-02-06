@@ -5,12 +5,8 @@ using SteamHub.Common;
 using SteamHub.Helper;
 using SteamHub.Manager;
 using SteamHub.Model;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -280,7 +276,7 @@ namespace SteamHub.ViewModel
         private void DoMainWindowKeyDown(CommandParameterEx commandParameterEx)
         {
             // 转换参数
-            var keyEventArgs = commandParameterEx.EventArgs as KeyEventArgs;
+            var keyEventArgs = commandParameterEx.EventArgs as System.Windows.Input.KeyEventArgs;
             if (keyEventArgs == null)
             {
                 return;
@@ -289,7 +285,7 @@ namespace SteamHub.ViewModel
             switch (keyEventArgs.Key)
             {
                 case Key.F1:
-                    MessageBox.Show("1、点击【新建】添加游戏账号\r\n2、点击【修改】编辑\r\n3、自行摸索，很简单的", "帮助");
+                    System.Windows.MessageBox.Show("1、点击【新建】添加游戏账号\r\n2、点击【修改】编辑\r\n3、自行摸索，很简单的", "帮助");
                     break;
             }
         }
@@ -377,7 +373,7 @@ namespace SteamHub.ViewModel
                 return;
             }
 
-            Clipboard.SetDataObject(SelectedSteamAccoutInfo.Account);
+            System.Windows.Clipboard.SetDataObject(SelectedSteamAccoutInfo.Account);
             ShowMessage("复制成功！");
         }
 
@@ -396,7 +392,7 @@ namespace SteamHub.ViewModel
                 return;
             }
 
-            Clipboard.SetDataObject(SelectedSteamAccoutInfo.Password);
+            System.Windows.Clipboard.SetDataObject(SelectedSteamAccoutInfo.Password);
             ShowMessage("复制成功！");
         }
 

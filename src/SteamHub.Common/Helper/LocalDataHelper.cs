@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
 using SteamHub.Model;
-using System;
-using System.IO;
-using System.Windows;
 
 namespace SteamHub.Helper
 {
@@ -60,7 +57,6 @@ namespace SteamHub.Helper
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
             }
         }
     }

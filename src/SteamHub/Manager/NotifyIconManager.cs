@@ -1,11 +1,7 @@
 ﻿using SteamHub.Helper;
-using System;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Interop;
 
 namespace SteamHub.Manager
@@ -107,7 +103,7 @@ namespace SteamHub.Manager
         /// <returns></returns>
         private static bool GetIsLaunchOnSysPowerOnByTaskScheduler()
         {
-            var taslScheduler = TaskSchedulerHelper.Get(Local.AppName);
+            var taslScheduler = TaskSchedulerHelper.Get(AppGlobal.AppName);
             return taslScheduler != null;
         }
 
@@ -168,14 +164,14 @@ namespace SteamHub.Manager
             var currentValue = !launchOnSysPowerOnByTaskSchedulerMenu.Checked;
             if (currentValue)
             {
-                if (TaskSchedulerHelper.AddLuanchTask(Local.AppName, System.Windows.Forms.Application.ExecutablePath))
+                if (TaskSchedulerHelper.AddLuanchTask(AppGlobal.AppName, System.Windows.Forms.Application.ExecutablePath))
                 {
                     launchOnSysPowerOnByTaskSchedulerMenu.Checked = currentValue;
                 }
             }
             else
             {
-                TaskSchedulerHelper.Del(Local.AppName);
+                TaskSchedulerHelper.Del(AppGlobal.AppName);
                 launchOnSysPowerOnByTaskSchedulerMenu.Checked = currentValue;
             }
         }
@@ -188,24 +184,24 @@ namespace SteamHub.Manager
         private static void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             var window = Lactor.MainWindow;
-            
+
             // 显示窗口
             window.Show();
             window.ShowInTaskbar = true;
-            
+
             // 恢复窗口状态
             if (window.WindowState == WindowState.Minimized)
             {
                 window.WindowState = WindowState.Normal;
             }
-            
+
             // 使用 Win32 API 强制窗口显示在前面
             var helper = new WindowInteropHelper(window);
             var hwnd = helper.Handle;
-            
+
             ShowWindow(hwnd, SW_RESTORE);
             SetForegroundWindow(hwnd);
-            
+
             // WPF 层面的激活
             window.Activate();
             window.Topmost = true;

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SteamHub.Model
+﻿namespace SteamHub.Model
 {
     /// <summary>
     /// 本地数据

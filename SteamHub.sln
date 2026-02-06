@@ -5,6 +5,10 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamHub", "src\SteamHub\SteamHub.csproj", "{3708905D-DC2F-8FCA-E50C-47A72E577177}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamHub.Common", "src\SteamHub.Common\SteamHub.Common.csproj", "{88E5629A-E791-4EC2-A029-2B8EF5C93472}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamHub.SQLite", "src\SteamHub.SQLite\SteamHub.SQLite.csproj", "{0E219DD3-2734-4812-B1DB-5641C03929DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{3708905D-DC2F-8FCA-E50C-47A72E577177}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3708905D-DC2F-8FCA-E50C-47A72E577177}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3708905D-DC2F-8FCA-E50C-47A72E577177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88E5629A-E791-4EC2-A029-2B8EF5C93472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88E5629A-E791-4EC2-A029-2B8EF5C93472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88E5629A-E791-4EC2-A029-2B8EF5C93472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88E5629A-E791-4EC2-A029-2B8EF5C93472}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E219DD3-2734-4812-B1DB-5641C03929DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E219DD3-2734-4812-B1DB-5641C03929DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E219DD3-2734-4812-B1DB-5641C03929DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E219DD3-2734-4812-B1DB-5641C03929DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
