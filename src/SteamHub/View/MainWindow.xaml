@@ -272,8 +272,6 @@
                                     <ComboBox Grid.Column="0"
                                               Style="{StaticResource MaterialDesignFilledComboBox}"
                                               materialDesign:HintAssist.Hint="输入或选择进程名"
-                                              DisplayMemberPath="Name"
-                                              SelectedValuePath="Name"
                                               IsEditable="True"
                                               IsTextSearchEnabled="True"
                                               Text="{Binding SelectedProcessName}"
