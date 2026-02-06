@@ -287,7 +287,6 @@ namespace SteamHub.ViewModel
             switch (keyEventArgs.Key)
             {
                 case Key.F1:
-                    System.Windows.MessageBox.Show("1、点击【新建】添加游戏账号\r\n2、点击【修改】编辑\r\n3、自行摸索，很简单的", "帮助");
                     break;
             }
         }
@@ -396,20 +395,6 @@ namespace SteamHub.ViewModel
         }
 
         /// <summary>
-        /// 点击更多
-        /// </summary>
-        public RelayCommand<ContextMenu> OperateBtnClickCommand => new RelayCommand<ContextMenu>(DoOperateBtnClick);
-
-        /// <summary>
-        /// 点击更多
-        /// </summary>
-        /// <param name="window">窗体</param>
-        private void DoOperateBtnClick(ContextMenu cm)
-        {
-            cm.IsOpen = true;
-        }
-
-        /// <summary>
         /// 打开编辑抽屉
         /// </summary>
         public RelayCommand OpenEditDrawerCommand => new RelayCommand(DoOpenEditDrawer);
@@ -466,10 +451,10 @@ namespace SteamHub.ViewModel
             SteamAccountRepository.Update(SelectedSteamAccoutInfo);
 
             currentSteamAccount = SelectedSteamAccoutInfo.Account;
+            IsRightDrawerOpen = false;
+
             ReLoad();
             Lactor.ShowToolTip("保存成功！");
-
-            IsRightDrawerOpen = false;
         }
 
         /// <summary>
@@ -549,20 +534,6 @@ namespace SteamHub.ViewModel
 
             ReLoad();
             Lactor.ShowToolTip("删除成功！");
-        }
-
-        /// <summary>
-        /// 其它
-        /// </summary>
-        public RelayCommand<ContextMenu> OtherBtnClickCommand => new RelayCommand<ContextMenu>(DoOtherBtnClick);
-
-        /// <summary>
-        /// 其它
-        /// </summary>
-        /// <param name="window">窗体</param>
-        private void DoOtherBtnClick(ContextMenu cm)
-        {
-            cm.IsOpen = true;
         }
 
         #endregion
