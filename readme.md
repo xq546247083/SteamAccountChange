@@ -1,6 +1,7 @@
-# Steam账号切换器
+# Steam游戏中心
 
-	1、用来切换Steam账号
+	1、切换Steam账号
+	2、切换Steam游戏
 
 
 ![image](/UI/main.png) 
