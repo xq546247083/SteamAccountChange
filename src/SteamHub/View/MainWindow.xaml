@@ -273,12 +273,11 @@
 
                                     <ComboBox Grid.Column="0"
                                               Style="{StaticResource MaterialDesignFilledComboBox}"
-                                              materialDesign:HintAssist.Hint="输入或选择进程名"
-                                              IsEditable="True"
-                                              IsTextSearchEnabled="True"
+                                              materialDesign:HintAssist.Hint="选择进程"
                                               Text="{Binding SelectedProcessName}"
                                               ItemsSource="{Binding DisplayProcessList}"
-                                              Margin="0,0,12,0" />
+                                              Margin="0,0,12,0">
+                                    </ComboBox>
 
                                     <StackPanel Grid.Column="1"
                                                 Orientation="Horizontal"
