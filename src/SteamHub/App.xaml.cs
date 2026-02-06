@@ -23,6 +23,7 @@ namespace SteamHub
                 System.Environment.Exit(0);
             }
 
+            DbInitializer.Initialize();
             RegisterGlobalExceptionHandling();
             NotifyIconManager.Init();
         }

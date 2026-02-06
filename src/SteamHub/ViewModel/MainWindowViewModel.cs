@@ -2,9 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
 using SteamHub.Common;
+using SteamHub.Entities;
 using SteamHub.Helper;
 using SteamHub.Manager;
 using SteamHub.Model;
+using SteamHub.Repositories;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Controls;
@@ -35,12 +37,12 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 账号列表
         /// </summary>
-        private List<SteamAccoutInfo> steamAccoutInfoList;
+        private List<SteamAccount> steamAccoutInfoList;
 
         /// <summary>
         /// 账号列表
         /// </summary>
-        public List<SteamAccoutInfo> SteamAccoutInfoList
+        public List<SteamAccount> SteamAccoutInfoList
         {
             get
             {
@@ -56,12 +58,12 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 选中账号
         /// </summary>
-        private SteamAccoutInfo selectedSteamAccoutInfo;
+        private SteamAccount selectedSteamAccoutInfo;
 
         /// <summary>
         /// 选中账号
         /// </summary>
-        public SteamAccoutInfo SelectedSteamAccoutInfo
+        public SteamAccount SelectedSteamAccoutInfo
         {
             get
             {
@@ -108,12 +110,12 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 显示的进程列表
         /// </summary>
-        private List<ProcessInfo> displayProcessList;
+        private List<string> displayProcessList;
 
         /// <summary>
         /// 显示的进程列表
         /// </summary>
-        public List<ProcessInfo> DisplayProcessList
+        public List<string> DisplayProcessList
         {
             get
             {
@@ -329,6 +331,7 @@ namespace SteamHub.ViewModel
                 Lactor.ShowToolTip("请先登陆Steam！");
                 return;
             }
+
             var autoLoginUser = autoLoginUserObj.ToString();
             if (string.IsNullOrEmpty(autoLoginUser))
             {
@@ -336,22 +339,18 @@ namespace SteamHub.ViewModel
                 return;
             }
 
-            // 构建账号信息
-            var steamAccount = new SteamAccoutInfo();
-            steamAccount.Account = autoLoginUser;
-            steamAccount.Name = autoLoginUser;
-            steamAccount.Password = "";
-            steamAccount.Order = "0";
-
-            // 添加账号
-            var localData = LocalDataHelper.GetLocalData();
-            if (localData.SteamAccoutInfoList.Any(r => r.Account == steamAccount.Account))
+            if (SteamAccountRepository.Exists(autoLoginUser))
             {
                 return;
             }
 
-            localData.SteamAccoutInfoList.Add(steamAccount);
-            LocalDataHelper.Save(localData);
+            // 构建账号信息
+            var steamAccount = new SteamAccount();
+            steamAccount.Account = autoLoginUser;
+            steamAccount.Name = autoLoginUser;
+            steamAccount.Password = "";
+            steamAccount.Order = "0";
+            SteamAccountRepository.Add(steamAccount);
 
             currentSteamAccount = steamAccount.Account;
             ReLoad();
@@ -456,17 +455,15 @@ namespace SteamHub.ViewModel
                 return;
             }
 
+            if (!SteamAccountRepository.Exists(SelectedSteamAccoutInfo.Account))
+            {
+                return;
+            }
+
             SelectedSteamAccoutInfo.Name = SteamAccountNameText;
             SelectedSteamAccoutInfo.Password = SteamAccountPasswordText;
             SelectedSteamAccoutInfo.Order = SteamAccountOrderText;
-
-            // 删除账号
-            var localData = LocalDataHelper.GetLocalData();
-            localData.SteamAccoutInfoList.RemoveAll(r => r.Account == SelectedSteamAccoutInfo.Account);
-
-            // 再新增账号
-            localData.SteamAccoutInfoList.Add(SelectedSteamAccoutInfo);
-            LocalDataHelper.Save(localData);
+            SteamAccountRepository.Update(SelectedSteamAccoutInfo);
 
             currentSteamAccount = SelectedSteamAccoutInfo.Account;
             ReLoad();
@@ -490,12 +487,12 @@ namespace SteamHub.ViewModel
                 return;
             }
 
-            // 删除账号
-            var localData = LocalDataHelper.GetLocalData();
-            localData.SteamAccoutInfoList = localData.SteamAccoutInfoList.Where(r => r.Account != SelectedSteamAccoutInfo.Account).ToList();
-            LocalDataHelper.Save(localData);
+            if (!SteamAccountRepository.Exists(SelectedSteamAccoutInfo.Account))
+            {
+                return;
+            }
 
-            // 清理Steam本地数据
+            SteamAccountRepository.Delete(SelectedSteamAccoutInfo.Account);
             SteamHelper.DeleteSteamAccount(SelectedSteamAccoutInfo.Account);
 
             ReLoad();
@@ -522,19 +519,7 @@ namespace SteamHub.ViewModel
                 return;
             }
 
-            // 构建游戏进程信息
-            var processInfo = new ProcessInfo();
-            processInfo.Name = SelectedProcessName;
-
-            // 添加游戏进程
-            var localData = LocalDataHelper.GetLocalData();
-            if (localData.KillProcessList.Any(r => r.Name == processInfo.Name))
-            {
-                return;
-            }
-
-            localData.KillProcessList.Insert(0, processInfo);
-            LocalDataHelper.Save(localData);
+            SettingRepository.AddKillProcess(SelectedProcessName);
 
             ReLoad();
             Lactor.ShowToolTip("添加成功！");
@@ -560,10 +545,7 @@ namespace SteamHub.ViewModel
                 return;
             }
 
-            // 删除游戏进程
-            var localData = LocalDataHelper.GetLocalData();
-            localData.KillProcessList = localData.KillProcessList.Where(r => r.Name != SelectedProcessName).ToList();
-            LocalDataHelper.Save(localData);
+            SettingRepository.DeleteKillProcess(SelectedProcessName);
 
             ReLoad();
             Lactor.ShowToolTip("删除成功！");
@@ -614,14 +596,13 @@ namespace SteamHub.ViewModel
         public void LoadSaveInfo()
         {
             // 加载账号信息
-            var localData = LocalDataHelper.GetLocalData();
-            SteamAccoutInfoList = localData.SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
+            SteamAccoutInfoList = SteamAccountRepository.GetAll();
 
             // 选中第一个
             if (selectedSteamAccoutInfo == null && SteamAccoutInfoList != null && SteamAccoutInfoList.Count > 0)
             {
                 // 选回之前的账号
-                SteamAccoutInfo currentSteamAccountInfo = null;
+                SteamAccount currentSteamAccountInfo = null;
                 if (!string.IsNullOrEmpty(currentSteamAccount))
                 {
                     currentSteamAccountInfo = SteamAccoutInfoList.FirstOrDefault(r => r.Account == currentSteamAccount);
@@ -647,17 +628,16 @@ namespace SteamHub.ViewModel
             if (ProcessListMode == ProcessListMode.System)
             {
                 var processes = Process.GetProcesses();
-                DisplayProcessList = processes.Select(p => p.ProcessName).Distinct().OrderBy(n => n).Select(n => new ProcessInfo { Name = n }).ToList();
+                DisplayProcessList = processes.Select(p => p.ProcessName).Distinct().OrderBy(n => n).ToList();
             }
             else
             {
-                var localData = LocalDataHelper.GetLocalData();
-                DisplayProcessList = localData.KillProcessList.ToList();
+                DisplayProcessList = SettingRepository.GetKillProcessList();
             }
 
             if (DisplayProcessList != null && DisplayProcessList.Count > 0)
             {
-                SelectedProcessName = DisplayProcessList.FirstOrDefault()?.Name;
+                SelectedProcessName = DisplayProcessList.FirstOrDefault();
             }
             else
             {

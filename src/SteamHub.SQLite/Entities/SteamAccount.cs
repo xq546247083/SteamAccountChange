@@ -28,5 +28,5 @@ public class SteamAccount
     /// <summary>
     /// 排序序号
     /// </summary>
-    public int Order { get; set; }
+    public string Order { get; set; }
 }

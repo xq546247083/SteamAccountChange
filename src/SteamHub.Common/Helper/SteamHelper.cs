@@ -27,16 +27,19 @@ namespace SteamHub.Helper
         /// 打开steam
         /// </summary>
         /// <param name="account">账号</param>
-        public static void OpenSteam(string account)
+        /// <param name="killProcessList">要杀掉的进程列表</param>
+        public static void OpenSteam(string account, List<string>? killProcessList = null)
         {
             // 设置注册信息
             RegistryHelper.Set(@"Software\Valve\Steam", "AutoLoginUser", account);
 
             // 杀掉游戏进程
-            var localData = LocalDataHelper.GetLocalData();
-            foreach (var item in localData.KillProcessList)
+            if (killProcessList != null)
             {
-                KillProcess(item.Name);
+                foreach (var processName in killProcessList)
+                {
+                    KillProcess(processName);
+                }
             }
 
             // 杀掉steam进程

@@ -1,4 +1,5 @@
 ﻿using SteamHub.Helper;
+using SteamHub.Repositories;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -59,8 +60,8 @@ namespace SteamHub.Manager
             var contextMenuStrip = new ContextMenuStrip();
 
             // 添加账号到菜单
-            var steamAccoutInfoList = LocalDataHelper.GetLocalData().SteamAccoutInfoList.OrderBy(r => r.Order).ThenBy(r => r.Account).ToList();
-            foreach (var item in steamAccoutInfoList)
+            var steamAccounts = SteamAccountRepository.GetAll();
+            foreach (var item in steamAccounts)
             {
                 var steamAccountMenu = new ToolStripMenuItem(item.Name);
                 steamAccountMenu.Tag = item.Account;
@@ -117,7 +118,8 @@ namespace SteamHub.Manager
         /// <exception cref="NotImplementedException"></exception>
         private static void NewAccountMenu_Click(object sender, EventArgs e)
         {
-            SteamHelper.OpenSteam(Guid.NewGuid().ToString());
+            var processList = SettingRepository.GetKillProcessList();
+            SteamHelper.OpenSteam(Guid.NewGuid().ToString(), processList);
         }
 
         /// <summary>
@@ -133,7 +135,8 @@ namespace SteamHub.Manager
                 return;
             }
 
-            SteamHelper.OpenSteam(steamAccountMenu.Tag.ToString());
+            var processList = SettingRepository.GetKillProcessList();
+            SteamHelper.OpenSteam(steamAccountMenu.Tag.ToString(), processList);
         }
 
         /// <summary>

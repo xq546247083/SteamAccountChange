@@ -92,7 +92,7 @@ namespace SteamHub.Repositories
         /// <summary>
         /// 从列表中删除进程
         /// </summary>
-        public static void RemoveKillProcess(string processName)
+        public static void DeleteKillProcess(string processName)
         {
             var processes = GetKillProcessList();
             processes.Remove(processName);
