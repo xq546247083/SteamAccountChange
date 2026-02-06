@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
-using SteamAccountChange.Common;
-using SteamAccountChange.Helper;
-using SteamAccountChange.Manager;
-using SteamAccountChange.Model;
+using SteamHub.Common;
+using SteamHub.Helper;
+using SteamHub.Manager;
+using SteamHub.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +14,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SteamAccountChange.ViewModel
+namespace SteamHub.ViewModel
 {
     /// <summary>
     /// 主界面的ViewModel

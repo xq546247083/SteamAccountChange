@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SteamAccountChange.Model
+namespace SteamHub.Model
 {
     /// <summary>
     /// 本地数据

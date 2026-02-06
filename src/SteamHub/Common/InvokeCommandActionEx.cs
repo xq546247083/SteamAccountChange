@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 
-namespace SteamAccountChange.Common
+namespace SteamHub.Common
 {
     /// <summary>
     /// 扩展的InvokeCommandAction

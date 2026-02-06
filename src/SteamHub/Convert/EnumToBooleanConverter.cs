@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace SteamAccountChange.Convert
+namespace SteamHub.Convert
 {
     public class EnumToBooleanConverter : IValueConverter
     {

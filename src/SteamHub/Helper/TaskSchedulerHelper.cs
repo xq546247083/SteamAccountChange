@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32.TaskScheduler;
 using System;
 
-namespace SteamAccountChange.Helper
+namespace SteamHub.Helper
 {
     /// <summary>
     /// 计划任务帮助类

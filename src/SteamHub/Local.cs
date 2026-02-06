@@ -1,4 +1,4 @@
-﻿namespace SteamAccountChange
+﻿namespace SteamHub
 {
     /// <summary>
     /// 本地信息
@@ -8,6 +8,6 @@
         /// <summary>
         /// 应用名
         /// </summary>
-        public static string AppName = "SteamAccountChange";
+        public static string AppName = "SteamHub";
     }
 }

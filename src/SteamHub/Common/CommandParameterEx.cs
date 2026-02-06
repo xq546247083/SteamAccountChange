@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace SteamAccountChange.Common
+namespace SteamHub.Common
 {
     /// <summary>
 	/// 扩展CommandParameter，使CommandParameter可以带事件参数

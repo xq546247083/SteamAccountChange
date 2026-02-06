@@ -1,4 +1,4 @@
-namespace SteamAccountChange.Model
+namespace SteamHub.Model
 {
     /// <summary>
     /// 进程列表模式

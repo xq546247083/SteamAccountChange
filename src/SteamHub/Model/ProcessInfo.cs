@@ -1,4 +1,4 @@
-﻿namespace SteamAccountChange.Model
+﻿namespace SteamHub.Model
 {
 
     /// <summary>

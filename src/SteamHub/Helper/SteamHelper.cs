@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
-namespace SteamAccountChange.Helper
+namespace SteamHub.Helper
 {
     /// <summary>
     /// steam帮助类

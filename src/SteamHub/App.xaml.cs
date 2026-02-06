@@ -1,8 +1,8 @@
-﻿using SteamAccountChange.Manager;
+﻿using SteamHub.Manager;
 using System.Diagnostics;
 using System.Windows;
 
-namespace SteamAccountChange
+namespace SteamHub
 {
     /// <summary>
     /// App.xaml 的交互逻辑

@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using SteamAccountChange.Model;
+using SteamHub.Model;
 using System;
 using System.IO;
 using System.Windows;
 
-namespace SteamAccountChange.Helper
+namespace SteamHub.Helper
 {
     /// <summary>
     /// 本地数据帮助类

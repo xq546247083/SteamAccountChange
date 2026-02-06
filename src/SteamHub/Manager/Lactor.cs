@@ -1,6 +1,6 @@
-﻿using SteamAccountChange.ViewModel;
+﻿using SteamHub.ViewModel;
 
-namespace SteamAccountChange.Manager
+namespace SteamHub.Manager
 {
     /// <summary>
     /// 加载器

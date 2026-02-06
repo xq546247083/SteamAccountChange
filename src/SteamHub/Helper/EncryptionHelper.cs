@@ -2,7 +2,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SteamAccountChange.Helper
+namespace SteamHub.Helper
 {
     public static class EncryptionHelper
     {
