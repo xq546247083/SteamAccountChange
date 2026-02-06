@@ -13,7 +13,7 @@ namespace SteamHub.Repositories
         /// </summary>
         public static string? GetValue(string key)
         {
-            using var context = new SteamHub.SteamHubDbContext();
+            using var context = new SteamHubDbContext();
             var config = context.Settings.FirstOrDefault(c => c.Key == key);
             return config?.Value;
         }
@@ -23,7 +23,7 @@ namespace SteamHub.Repositories
         /// </summary>
         public static void SetValue(string key, string value)
         {
-            using var context = new SteamHub.SteamHubDbContext();
+            using var context = new SteamHubDbContext();
             var config = context.Settings.FirstOrDefault(c => c.Key == key);
 
             if (config != null)
