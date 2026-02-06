@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SteamHub.Common\SteamHub.Common.csproj" />
+    <ProjectReference Include="..\SteamHub.Source\SteamHub.Source.csproj" />
     <ProjectReference Include="..\SteamHub.SQLite\SteamHub.SQLite.csproj" />
   </ItemGroup>
 </Project>

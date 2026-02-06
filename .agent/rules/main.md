@@ -12,4 +12,9 @@ trigger: always_on
 - **语言**: 所有对话、文档、代码注释、Git Commit Message 等均严格使用 **中文**。
 - **思考先行**: 编写复杂逻辑前先阐述设计思路。
 - **无需自我纠错**: 生成代码后结束
-- 所有项目的命名空间都是SteamHub
+- 所有项目的根命名空间都是SteamHub
+- SteamHub为主程序
+- SteamHub.Common为通用代码
+- SteamHub.Source为采集数据源
+- SteamHub.SQLite为数据库
+- 不要使用异步

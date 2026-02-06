@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamHub.Common", "src\Stea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamHub.SQLite", "src\SteamHub.SQLite\SteamHub.SQLite.csproj", "{0E219DD3-2734-4812-B1DB-5641C03929DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteamHub.Source", "src\SteamHub.Source\SteamHub.Source.csproj", "{D1F133CA-7E68-49CB-90DF-7C4CE3D4688F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0E219DD3-2734-4812-B1DB-5641C03929DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E219DD3-2734-4812-B1DB-5641C03929DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E219DD3-2734-4812-B1DB-5641C03929DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1F133CA-7E68-49CB-90DF-7C4CE3D4688F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1F133CA-7E68-49CB-90DF-7C4CE3D4688F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1F133CA-7E68-49CB-90DF-7C4CE3D4688F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1F133CA-7E68-49CB-90DF-7C4CE3D4688F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

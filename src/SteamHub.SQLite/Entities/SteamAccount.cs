@@ -11,6 +11,11 @@ public class SteamAccount
     public Guid Id { get; set; }
 
     /// <summary>
+    /// SteamId
+    /// </summary>
+    public string SteamId { get; set; }
+
+    /// <summary>
     /// 账号（唯一）
     /// </summary>
     public string Account { get; set; }
@@ -29,4 +34,9 @@ public class SteamAccount
     /// 排序序号
     /// </summary>
     public string Order { get; set; }
+
+    /// <summary>
+    /// 头像数据
+    /// </summary>
+    public byte[] Icon { get; set; }
 }

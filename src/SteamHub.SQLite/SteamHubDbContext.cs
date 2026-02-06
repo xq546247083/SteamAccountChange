@@ -18,6 +18,11 @@ public class SteamHubDbContext : DbContext
     /// </summary>
     public DbSet<Setting> Settings { get; set; }
 
+    /// <summary>
+    /// Steam 游戏表
+    /// </summary>
+    public DbSet<SteamGame> SteamGames { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -37,6 +42,7 @@ public class SteamHubDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.HasIndex(e => e.Account).IsUnique();
             entity.Property(e => e.Account).IsRequired().HasMaxLength(64);
+            entity.Property(e => e.SteamId).HasMaxLength(64);
             entity.Property(e => e.Name).HasMaxLength(64);
             entity.Property(e => e.Password).HasMaxLength(64);
             entity.Property(e => e.Order).HasMaxLength(8);
@@ -49,6 +55,16 @@ public class SteamHubDbContext : DbContext
             entity.HasIndex(e => e.Key).IsUnique();
             entity.Property(e => e.Key).IsRequired().HasMaxLength(64);
             entity.Property(e => e.Value).IsRequired();
+        });
+
+        // Steam 游戏配置
+        modelBuilder.Entity<SteamGame>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.AppId);
+            entity.Property(e => e.AppId).IsRequired().HasMaxLength(64);
+            entity.Property(e => e.Name).HasMaxLength(64);
+            entity.Property(e => e.SteamId).HasMaxLength(64);
         });
     }
 }

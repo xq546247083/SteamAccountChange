@@ -119,7 +119,7 @@ namespace SteamHub.Manager
         private static void NewAccountMenu_Click(object sender, EventArgs e)
         {
             var processList = SettingRepository.GetKillProcessList();
-            ProcessHelper.OpenSteam(string.Empty, processList);
+            SteamTool.Open(string.Empty, processList);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace SteamHub.Manager
             }
 
             var processList = SettingRepository.GetKillProcessList();
-            ProcessHelper.OpenSteam(steamAccountMenu.Tag.ToString(), processList);
+            SteamTool.Open(steamAccountMenu.Tag.ToString(), processList);
         }
 
         /// <summary>
