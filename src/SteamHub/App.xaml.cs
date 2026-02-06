@@ -1,6 +1,7 @@
 ﻿using SteamHub.Manager;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace SteamHub
 {
@@ -22,7 +23,43 @@ namespace SteamHub
                 System.Environment.Exit(0);
             }
 
+            RegisterGlobalExceptionHandling();
             NotifyIconManager.Init();
+        }
+
+        /// <summary>
+        /// 注册全局异常处理
+        /// </summary>
+        private void RegisterGlobalExceptionHandling()
+        {
+            DispatcherUnhandledException += Application_DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+        }
+
+        /// <summary>
+        /// UI 线程未捕获异常处理
+        /// </summary>
+        private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            Lactor.ShowToolTip($"出现异常，错误信息为:{e.Exception?.Message ?? string.Empty}");
+        }
+
+        /// <summary>
+        /// 非 UI 线程未捕获异常处理
+        /// </summary>
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var exception = e.ExceptionObject as Exception;
+            Lactor.ShowToolTip($"出现异常，错误信息为:{exception?.Message ?? string.Empty}");
+        }
+
+        /// <summary>
+        /// Task 未捕获异常处理
+        /// </summary>
+        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            Lactor.ShowToolTip($"出现异常，错误信息为:{e.Exception?.Message ?? string.Empty}");
         }
 
         /// <summary>

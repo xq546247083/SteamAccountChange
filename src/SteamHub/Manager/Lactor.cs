@@ -70,5 +70,23 @@ namespace SteamHub.Manager
                 return mainWindowViewModel;
             }
         }
+
+        /// <summary>
+        /// 显示消息
+        /// </summary>
+        /// <param name="message">消息内容</param>
+        public static void ShowToolTip(string message)
+        {
+            if (System.Windows.Application.Current.Dispatcher.CheckAccess())
+            {
+                MainWindowViewModel.SnackbarMessageQueue.Enqueue(message);
+                return;
+            }
+
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                MainWindowViewModel.SnackbarMessageQueue.Enqueue(message);
+            });
+        }
     }
 }

@@ -16,24 +16,17 @@ namespace SteamHub.Helper
         /// <returns></returns>
         public static LocalData GetLocalData()
         {
-            try
-            {
-                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DataFileName);
-                if (!File.Exists(infoFilePath))
-                {
-                    return new LocalData();
-                }
-
-                var fileBytes = File.ReadAllBytes(infoFilePath);
-                var decryptedStr = EncryptionHelper.AesDecrypt(fileBytes);
-
-                var saveInfo = JsonConvert.DeserializeObject<LocalData>(decryptedStr);
-                return saveInfo ?? new LocalData();
-            }
-            catch (Exception)
+            var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DataFileName);
+            if (!File.Exists(infoFilePath))
             {
                 return new LocalData();
             }
+
+            var fileBytes = File.ReadAllBytes(infoFilePath);
+            var decryptedStr = EncryptionHelper.AesDecrypt(fileBytes);
+
+            var saveInfo = JsonConvert.DeserializeObject<LocalData>(decryptedStr);
+            return saveInfo ?? new LocalData();
         }
 
         /// <summary>
@@ -47,17 +40,11 @@ namespace SteamHub.Helper
                 return;
             }
 
-            try
-            {
-                var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DataFileName);
-                var jsonStr = JsonConvert.SerializeObject(localData);
-                var encryptedBytes = EncryptionHelper.AesEncrypt(jsonStr);
+            var infoFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DataFileName);
+            var jsonStr = JsonConvert.SerializeObject(localData);
+            var encryptedBytes = EncryptionHelper.AesEncrypt(jsonStr);
 
-                File.WriteAllBytes(infoFilePath, encryptedBytes);
-            }
-            catch (Exception ex)
-            {
-            }
+            File.WriteAllBytes(infoFilePath, encryptedBytes);
         }
     }
 }

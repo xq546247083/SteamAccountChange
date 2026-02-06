@@ -13,15 +13,9 @@ namespace SteamHub.Helper
         /// <param name="taskName"></param>
         public static void Del(string taskName)
         {
-            try
+            using (var ts = new TaskService())
             {
-                using (var ts = new TaskService())
-                {
-                    ts.RootFolder.DeleteTask(taskName, exceptionOnNotExists: false);
-                }
-            }
-            catch (Exception)
-            {
+                ts.RootFolder.DeleteTask(taskName, exceptionOnNotExists: false);
             }
         }
 
@@ -46,39 +40,32 @@ namespace SteamHub.Helper
         /// <returns></returns>
         public static bool AddLuanchTask(string taskName, string path)
         {
-            try
+            using (var ts = new TaskService())
             {
-                using (var ts = new TaskService())
+                var existingTask = ts.FindTask(taskName);
+                if (existingTask != null)
                 {
-                    var existingTask = ts.FindTask(taskName);
-                    if (existingTask != null)
-                    {
-                        ts.RootFolder.DeleteTask(taskName);
-                    }
-
-                    var td = ts.NewTask();
-                    td.RegistrationInfo.Author = AppGlobal.AppName;
-                    td.RegistrationInfo.Description = AppGlobal.AppName;
-                    td.Principal.RunLevel = TaskRunLevel.Highest;
-
-                    // 触发类型: 登录时
-                    td.Triggers.Add(new LogonTrigger());
-
-                    // 动作: 执行程序
-                    td.Actions.Add(new ExecAction(path));
-
-                    // 设置
-                    td.Settings.ExecutionTimeLimit = TimeSpan.Zero;
-                    td.Settings.DisallowStartIfOnBatteries = false;
-                    td.Settings.RunOnlyIfIdle = false;
-
-                    ts.RootFolder.RegisterTaskDefinition(taskName, td, TaskCreation.CreateOrUpdate, null, null, TaskLogonType.InteractiveToken);
-                    return true;
+                    ts.RootFolder.DeleteTask(taskName);
                 }
-            }
-            catch (Exception)
-            {
-                return false;
+
+                var td = ts.NewTask();
+                td.RegistrationInfo.Author = AppGlobal.AppName;
+                td.RegistrationInfo.Description = AppGlobal.AppName;
+                td.Principal.RunLevel = TaskRunLevel.Highest;
+
+                // 触发类型: 登录时
+                td.Triggers.Add(new LogonTrigger());
+
+                // 动作: 执行程序
+                td.Actions.Add(new ExecAction(path));
+
+                // 设置
+                td.Settings.ExecutionTimeLimit = TimeSpan.Zero;
+                td.Settings.DisallowStartIfOnBatteries = false;
+                td.Settings.RunOnlyIfIdle = false;
+
+                ts.RootFolder.RegisterTaskDefinition(taskName, td, TaskCreation.CreateOrUpdate, null, null, TaskLogonType.InteractiveToken);
+                return true;
             }
         }
     }

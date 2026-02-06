@@ -326,13 +326,13 @@ namespace SteamHub.ViewModel
             var (success, autoLoginUserObj) = RegistryHelper.Get(@"Software\Valve\Steam", "AutoLoginUser");
             if (success == false || autoLoginUserObj == null)
             {
-                ShowMessage("请先登陆Steam！");
+                Lactor.ShowToolTip("请先登陆Steam！");
                 return;
             }
             var autoLoginUser = autoLoginUserObj.ToString();
             if (string.IsNullOrEmpty(autoLoginUser))
             {
-                ShowMessage("请先登陆Steam！");
+                Lactor.ShowToolTip("请先登陆Steam！");
                 return;
             }
 
@@ -355,7 +355,7 @@ namespace SteamHub.ViewModel
 
             currentSteamAccount = steamAccount.Account;
             ReLoad();
-            ShowMessage("添加成功！");
+            Lactor.ShowToolTip("添加成功！");
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace SteamHub.ViewModel
             }
 
             System.Windows.Clipboard.SetDataObject(SelectedSteamAccoutInfo.Account);
-            ShowMessage("复制成功！");
+            Lactor.ShowToolTip("复制成功！");
         }
 
         /// <summary>
@@ -393,7 +393,7 @@ namespace SteamHub.ViewModel
             }
 
             System.Windows.Clipboard.SetDataObject(SelectedSteamAccoutInfo.Password);
-            ShowMessage("复制成功！");
+            Lactor.ShowToolTip("复制成功！");
         }
 
         /// <summary>
@@ -470,7 +470,7 @@ namespace SteamHub.ViewModel
 
             currentSteamAccount = SelectedSteamAccoutInfo.Account;
             ReLoad();
-            ShowMessage("保存成功！");
+            Lactor.ShowToolTip("保存成功！");
 
             IsRightDrawerOpen = false;
         }
@@ -499,7 +499,7 @@ namespace SteamHub.ViewModel
             SteamHelper.DeleteSteamAccount(SelectedSteamAccoutInfo.Account);
 
             ReLoad();
-            ShowMessage("删除成功！");
+            Lactor.ShowToolTip("删除成功！");
         }
 
         /// <summary>
@@ -537,7 +537,7 @@ namespace SteamHub.ViewModel
             LocalDataHelper.Save(localData);
 
             ReLoad();
-            ShowMessage("添加成功！");
+            Lactor.ShowToolTip("添加成功！");
         }
 
         /// <summary>
@@ -566,7 +566,7 @@ namespace SteamHub.ViewModel
             LocalDataHelper.Save(localData);
 
             ReLoad();
-            ShowMessage("删除成功！");
+            Lactor.ShowToolTip("删除成功！");
         }
 
         /// <summary>
@@ -593,15 +593,6 @@ namespace SteamHub.ViewModel
         private void Init()
         {
             LoadSaveInfo();
-        }
-
-        /// <summary>
-        /// 显示提示框
-        /// </summary>
-        /// <param name="text">文本</param>
-        private void ShowMessage(string text)
-        {
-            SnackbarMessageQueue.Enqueue(text);
         }
 
         /// <summary>
