@@ -42,7 +42,8 @@ namespace SteamHub
         /// </summary>
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            Lactor.ShowToolTip($"出现异常，错误信息为:{e.Exception?.Message ?? string.Empty}");
+            e.Handled = true;
+            Lactor.ShowToolTip($"异常！错误信息为：{e.Exception?.Message ?? string.Empty}");
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace SteamHub
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = e.ExceptionObject as Exception;
-            Lactor.ShowToolTip($"出现异常，错误信息为:{exception?.Message ?? string.Empty}");
+            Lactor.ShowToolTip($"异常！错误信息为：{exception?.Message ?? string.Empty}");
         }
 
         /// <summary>
@@ -59,7 +60,8 @@ namespace SteamHub
         /// </summary>
         private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            Lactor.ShowToolTip($"出现异常，错误信息为:{e.Exception?.Message ?? string.Empty}");
+            e.SetObserved();
+            Lactor.ShowToolTip($"异常！错误信息为：{e.Exception?.Message ?? string.Empty}");
         }
 
         /// <summary>
