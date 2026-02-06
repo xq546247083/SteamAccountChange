@@ -22,7 +22,7 @@ namespace SteamHub.Repositories
         /// <summary>
         /// 根据账号名获取账号
         /// </summary>
-        public static SteamAccount? GetByAccount(string account)
+        public static SteamAccount GetByAccount(string account)
         {
             using var context = new SteamHubDbContext();
             return context.SteamAccounts.FirstOrDefault(a => a.Account == account);

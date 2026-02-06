@@ -11,7 +11,7 @@ namespace SteamHub.Repositories
         /// <summary>
         /// 获取配置值
         /// </summary>
-        public static string? GetValue(string key)
+        public static string GetValue(string key)
         {
             using var context = new SteamHubDbContext();
             var config = context.Settings.FirstOrDefault(c => c.Key == key);

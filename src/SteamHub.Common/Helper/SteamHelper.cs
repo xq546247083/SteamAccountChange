@@ -28,7 +28,7 @@ namespace SteamHub.Helper
         /// </summary>
         /// <param name="account">账号</param>
         /// <param name="killProcessList">要杀掉的进程列表</param>
-        public static void OpenSteam(string account, List<string>? killProcessList = null)
+        public static void OpenSteam(string account, List<string> killProcessList = null)
         {
             // 设置注册信息
             RegistryHelper.Set(@"Software\Valve\Steam", "AutoLoginUser", account);

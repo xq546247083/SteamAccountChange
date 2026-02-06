@@ -39,6 +39,7 @@ public class SteamHubDbContext : DbContext
             entity.Property(e => e.Account).IsRequired().HasMaxLength(64);
             entity.Property(e => e.Name).HasMaxLength(64);
             entity.Property(e => e.Password).HasMaxLength(64);
+            entity.Property(e => e.Order).HasMaxLength(8);
         });
 
         // 配置表配置
