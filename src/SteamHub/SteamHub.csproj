@@ -8,7 +8,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Resources\app.ico</ApplicationIcon>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <RootNamespace>SteamHub</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
