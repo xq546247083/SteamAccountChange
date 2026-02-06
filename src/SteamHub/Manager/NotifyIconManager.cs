@@ -1,6 +1,8 @@
 ﻿using SteamAccountChange.Helper;
 using System;
+using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
@@ -43,7 +45,10 @@ namespace SteamAccountChange.Manager
         {
             notifyIcon = new NotifyIcon();
             notifyIcon.Text = "Steam账号切换器";
-            notifyIcon.Icon = Properties.Resources.steam;
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SteamHub.Resources.app.ico"))
+            {
+                notifyIcon.Icon = new Icon(stream);
+            }
             notifyIcon.Visible = true;
             notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
 
