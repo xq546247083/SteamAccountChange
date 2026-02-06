@@ -4,4 +4,4 @@
 	2、切换Steam游戏
 
 
-![image](/UI/main.png) 
+![image](/ui/main.png) 
