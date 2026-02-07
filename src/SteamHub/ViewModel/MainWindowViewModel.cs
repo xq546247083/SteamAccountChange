@@ -292,6 +292,7 @@ namespace SteamHub.ViewModel
                     }
 
                     SteamAccountRepository.UpdateList(SteamAccounts.ToList());
+                    NotifyIconManager.LoadMenu();
                 }
             }
             else if (dropInfo.Data is SteamGame sourceGame && dropInfo.TargetItem is SteamGame targetGame)
