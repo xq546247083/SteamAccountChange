@@ -1,4 +1,4 @@
-namespace SteamHub.Model
+namespace SteamHub.Enums
 {
     /// <summary>
     /// 进程列表模式

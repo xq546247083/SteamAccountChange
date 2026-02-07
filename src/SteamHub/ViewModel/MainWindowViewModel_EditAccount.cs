@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SteamHub.Enums;
 using SteamHub.Manager;
 using SteamHub.Repositories;
 
@@ -21,12 +22,6 @@ namespace SteamHub.ViewModel
         [ObservableProperty]
         private string editSteamAccountPassword;
 
-        /// <summary>
-        /// 是否编辑
-        /// </summary>
-        [ObservableProperty]
-        private bool isEdit;
-
         #endregion
 
         #region 绑定方法
@@ -44,7 +39,7 @@ namespace SteamHub.ViewModel
 
             EditSteamAccountName = SelectedSteamAccount.Name;
             EditSteamAccountPassword = SelectedSteamAccount.Password;
-            IsEdit = true;
+            EditType = EditType.SteamAccount;
         }
 
         /// <summary>
@@ -53,7 +48,7 @@ namespace SteamHub.ViewModel
         [RelayCommand]
         private void CloseEditSteamAccountDrawer()
         {
-            IsEdit = false;
+            EditType = EditType.None;
         }
 
         /// <summary>
@@ -64,11 +59,11 @@ namespace SteamHub.ViewModel
         {
             if (SelectedSteamAccount == null)
             {
-                IsEdit = false;
+                EditType = EditType.None;
                 return;
             }
 
-            if (string.IsNullOrEmpty(EditSteamAccountName)) 
+            if (string.IsNullOrEmpty(EditSteamAccountName))
             {
                 return;
             }
@@ -83,7 +78,7 @@ namespace SteamHub.ViewModel
             SteamAccountRepository.Update(SelectedSteamAccount);
 
             currentSteamAccount = SelectedSteamAccount.Account;
-            IsEdit = false;
+            EditType = EditType.None;
 
             ReLoad();
             Lactor.ShowToolTip("保存成功！");

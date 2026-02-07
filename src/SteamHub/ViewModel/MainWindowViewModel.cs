@@ -1,16 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GongSolutions.Wpf.DragDrop;
 using MaterialDesignThemes.Wpf;
 using SteamHub.Common;
 using SteamHub.Entities;
+using SteamHub.Enums;
 using SteamHub.Manager;
-using SteamHub.Model;
 using SteamHub.Repositories;
-using GongSolutions.Wpf.DragDrop;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
 
 namespace SteamHub.ViewModel
 {
@@ -45,6 +45,12 @@ namespace SteamHub.ViewModel
         /// </summary>
         [ObservableProperty]
         private SteamAccount selectedSteamAccount;
+
+        /// <summary>
+        /// 编辑类型
+        /// </summary>
+        [ObservableProperty]
+        private EditType editType;
 
         /// <summary>
         /// Snackbar消息队列
@@ -286,7 +292,7 @@ namespace SteamHub.ViewModel
                 if (oldIndex != -1 && newIndex != -1)
                 {
                     SteamAccounts.Move(oldIndex, newIndex);
-                    for (int i = 0; i < SteamAccounts.Count; i++) 
+                    for (int i = 0; i < SteamAccounts.Count; i++)
                     {
                         SteamAccounts[i].Order = i;
                     }
@@ -302,7 +308,7 @@ namespace SteamHub.ViewModel
                 if (oldIndex != -1 && newIndex != -1)
                 {
                     SteamGames.Move(oldIndex, newIndex);
-                    for (int i = 0; i < SteamGames.Count; i++) 
+                    for (int i = 0; i < SteamGames.Count; i++)
                     {
                         SteamGames[i].Order = i;
                     }

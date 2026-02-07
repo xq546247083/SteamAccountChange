@@ -37,8 +37,12 @@
     </i:Interaction.Triggers>
 
     <Window.Resources>
-        <convert:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         <convert:ByteToImageSourceConverter x:Key="ByteToImageSourceConverter" />
+        <convert:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <convert:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+        <convert:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <convert:InverseEnumToBooleanConverter x:Key="InverseEnumToBooleanConverter" />
+        <convert:EqualsConverter x:Key="EqualsConverter" />
 
         <Style x:Key="CompactTabItemStyle"
                TargetType="TabItem"
@@ -49,37 +53,158 @@
     </Window.Resources>
 
     <Grid>
-        <materialDesign:DrawerHost IsRightDrawerOpen="{Binding IsEdit}">
+        <materialDesign:DrawerHost IsRightDrawerOpen="{Binding EditType, Converter={StaticResource InverseEnumToBooleanConverter}, ConverterParameter=None}">
             <materialDesign:DrawerHost.RightDrawerContent>
                 <Border Width="300"
                         Background="{DynamicResource MaterialDesignPaper}">
-                    <StackPanel Margin="12">
-                        <TextBlock Text="{Binding SelectedSteamAccount.Account}"
-                                   Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                   Opacity="0.6"
-                                   Margin="0,0,0,12"
-                                   HorizontalAlignment="Center" />
-                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:HintAssist.Hint="昵称 (必填)"
-                                 Text="{Binding EditSteamAccountName}"
-                                 Margin="0,0,0,12"
-                                 FontSize="14" />
-                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:HintAssist.Hint="密码 (选填)"
-                                 Text="{Binding EditSteamAccountPassword}"
-                                 Margin="0,0,0,12"
-                                 FontSize="14" />
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Right">
-                            <Button Style="{StaticResource MaterialDesignOutlinedButton}"
-                                    Content="取消"
-                                    Command="{Binding CloseEditSteamAccountDrawerCommand}"
-                                    Margin="0,0,8,0" />
-                            <Button Style="{StaticResource MaterialDesignRaisedButton}"
-                                    Content="保存"
-                                    Command="{Binding SaveSteamAccountCommand}" />
+                    <Grid>
+                        <!-- Account Edit -->
+                        <StackPanel Margin="12">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding EditType}"
+                                                     Value="SteamAccount">
+                                            <Setter Property="Visibility"
+                                                    Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <TextBlock Text="{Binding SelectedSteamAccount.Account}"
+                                       Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                       Opacity="0.6"
+                                       Margin="0,0,0,12"
+                                       HorizontalAlignment="Center" />
+                            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     materialDesign:HintAssist.Hint="昵称 (必填)"
+                                     Text="{Binding EditSteamAccountName}"
+                                     Margin="0,0,0,12"
+                                     FontSize="14" />
+                            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     materialDesign:HintAssist.Hint="密码 (选填)"
+                                     Text="{Binding EditSteamAccountPassword}"
+                                     Margin="0,0,0,12"
+                                     FontSize="14" />
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Right">
+                                <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Content="取消"
+                                        Command="{Binding CloseEditSteamAccountDrawerCommand}"
+                                        Margin="0,0,8,0" />
+                                <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Content="保存"
+                                        Command="{Binding SaveSteamAccountCommand}" />
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+
+                        <!-- Game Edit -->
+                        <Grid Margin="12">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding EditType}"
+                                                     Value="SteamGame">
+                                            <Setter Property="Visibility"
+                                                    Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+                                <TextBlock Text="编辑游戏"
+                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                           Opacity="0.6"
+                                           Margin="0,0,0,12"
+                                           HorizontalAlignment="Center" />
+                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                         materialDesign:HintAssist.Hint="游戏名称 (必填)"
+                                         Text="{Binding EditSteamGameName}"
+                                         Margin="0,0,0,12"
+                                         FontSize="14" />
+                                <TextBlock Text="选择图标"
+                                           Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                           Opacity="0.6"
+                                           Margin="0,0,0,8" />
+                            </StackPanel>
+
+                            <ListBox Grid.Row="1"
+                                     ItemsSource="{Binding AllGameIcons}"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     Margin="0,0,0,12">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel IsItemsHost="True" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Width="48"
+                                                Height="48"
+                                                CornerRadius="4"
+                                                Margin="4"
+                                                Cursor="Hand">
+                                            <Border.InputBindings>
+                                                <MouseBinding MouseAction="LeftClick"
+                                                              Command="{Binding DataContext.SelectGameIconCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                              CommandParameter="{Binding}" />
+                                            </Border.InputBindings>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="BorderThickness"
+                                                            Value="2" />
+                                                    <Setter Property="BorderBrush"
+                                                            Value="Transparent" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Value="True">
+                                                            <DataTrigger.Binding>
+                                                                <MultiBinding Converter="{StaticResource EqualsConverter}">
+                                                                    <Binding Path="DataContext.EditSteamGameIcon"
+                                                                             RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                                    <Binding Path="." />
+                                                                </MultiBinding>
+                                                            </DataTrigger.Binding>
+                                                            <Setter Property="BorderBrush"
+                                                                    Value="{DynamicResource MaterialDesign.Brush.Primary}" />
+                                                        </DataTrigger>
+                                                        <Trigger Property="IsMouseOver"
+                                                                 Value="True">
+                                                            <Setter Property="BorderBrush"
+                                                                    Value="{DynamicResource MaterialDesignDivider}" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <Image Source="{Binding Converter={StaticResource ByteToImageSourceConverter}}"
+                                                   Stretch="Uniform" />
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <StackPanel Grid.Row="2"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Right">
+                                <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Content="取消"
+                                        Command="{Binding CloseEditSteamGameDrawerCommand}"
+                                        Margin="0,0,8,0" />
+                                <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Content="保存"
+                                        Command="{Binding SaveSteamGameCommand}" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
                 </Border>
             </materialDesign:DrawerHost.RightDrawerContent>
 
@@ -522,10 +647,10 @@
                                                         <RowDefinition Height="70" />
                                                         <RowDefinition Height="*" />
                                                     </Grid.RowDefinitions>
-                                                    
+
                                                     <!-- Game Icon -->
                                                     <Grid Grid.Row="0"
-                                                            Background="{DynamicResource MaterialDesignDivider}">
+                                                          Background="{DynamicResource MaterialDesignDivider}">
                                                         <materialDesign:PackIcon Kind="QuestionMark"
                                                                                  Width="32"
                                                                                  Height="32"
@@ -576,6 +701,47 @@
                                                                 </Style.Triggers>
                                                             </Style>
                                                         </Border.Style>
+
+                                                        <!-- Edit Button -->
+                                                        <Button HorizontalAlignment="Right"
+                                                                VerticalAlignment="Top"
+                                                                Margin="0,4,4,0"
+                                                                Width="24"
+                                                                Height="24"
+                                                                Padding="0"
+                                                                ToolTip="编辑游戏"
+                                                                Command="{Binding DataContext.OpenEditSteamGameDrawerCommand, ElementName=mainWindowView}"
+                                                                CommandParameter="{Binding}">
+                                                            <materialDesign:PackIcon Kind="DotsHorizontal"
+                                                                                     Width="20"
+                                                                                     Height="20" />
+                                                            <!-- Visibility Triggers -->
+                                                            <Button.Triggers>
+                                                                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                                                                    <BeginStoryboard>
+                                                                        <Storyboard>
+                                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                                             To="1"
+                                                                                             Duration="0:0:0.2" />
+                                                                        </Storyboard>
+                                                                    </BeginStoryboard>
+                                                                </EventTrigger>
+                                                            </Button.Triggers>
+                                                            <Button.Style>
+                                                                <Style TargetType="Button"
+                                                                       BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                                                    <Setter Property="Visibility"
+                                                                            Value="Collapsed" />
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                                                                                     Value="True">
+                                                                            <Setter Property="Visibility"
+                                                                                    Value="Visible" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Button.Style>
+                                                        </Button>
                                                     </Border>
                                                 </Grid>
                                             </materialDesign:Card>

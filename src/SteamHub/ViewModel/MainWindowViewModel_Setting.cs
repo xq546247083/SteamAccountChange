@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SteamHub.Enums;
 using SteamHub.Manager;
-using SteamHub.Model;
 using SteamHub.Repositories;
 
 namespace SteamHub.ViewModel
