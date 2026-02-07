@@ -9,6 +9,7 @@
     <ApplicationIcon>Resources\app.ico</ApplicationIcon>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>SteamHub</RootNamespace>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
