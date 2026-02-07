@@ -29,6 +29,15 @@ namespace SteamHub.Repositories
         }
 
         /// <summary>
+        /// 根据SteamId获取账号
+        /// </summary>
+        public static SteamAccount GetBySteamId(string steamId)
+        {
+            using var context = new SteamHubDbContext();
+            return context.SteamAccounts.FirstOrDefault(a => a.SteamId == steamId);
+        }
+
+        /// <summary>
         /// 添加账号
         /// </summary>
         public static void Add(SteamAccount account)

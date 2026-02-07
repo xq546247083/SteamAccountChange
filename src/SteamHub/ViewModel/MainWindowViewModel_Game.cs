@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SteamHub.Entities;
+using SteamHub.Helper;
 using SteamHub.Repositories;
 using System.Collections.ObjectModel;
 
@@ -66,6 +67,16 @@ namespace SteamHub.ViewModel
                 return;
             }
 
+            // 先切换账号
+            var (success, currentLoginAccount) = RegistryHelper.Get(@"Software\Valve\Steam", "AutoLoginUser");
+            var steamAccount = SteamAccountRepository.GetBySteamId(game.AccountSteamId);
+            if (success && steamAccount != null && currentLoginAccount?.ToString() != steamAccount.Account)
+            {
+                var processList = SettingRepository.GetKillProcessList();
+                SteamTool.Open(steamAccount.Account, processList);
+            }
+
+            // 再打开游戏
             SteamTool.OpenGame(game.AppId);
         }
 
