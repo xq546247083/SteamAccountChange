@@ -191,6 +191,19 @@ namespace SteamHub.ViewModel
             Lactor.ShowToolTip("刷新成功!");
         }
 
+        /// <summary>
+        /// 打开 GitHub 仓库
+        /// </summary>
+        [RelayCommand]
+        private void OpenGitHub()
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/xq546247083/SteamHub",
+                UseShellExecute = true
+            });
+        }
+
         #endregion
 
         #region 私有方法
