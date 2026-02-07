@@ -70,28 +70,25 @@ namespace SteamHub.Repositories
         }
 
         /// <summary>
-        /// 批量添加或更新游戏
+        /// 批量添加游戏
         /// </summary>
-        public static void AddOrUpdateRange(List<SteamGame> games)
+        public static void AddList(List<SteamGame> games)
         {
             using var context = new SteamHubDbContext();
             
             foreach (var game in games)
             {
                 var existing = context.SteamGames.FirstOrDefault(g => g.AppId == game.AppId);
-                
                 if (existing != null)
                 {
-                    existing.AccountSteamId = game.AccountSteamId;
+                    continue;
                 }
-                else
+
+                if (game.Id == Guid.Empty)
                 {
-                    if (game.Id == Guid.Empty)
-                    {
-                        game.Id = Guid.NewGuid();
-                    }
-                    context.SteamGames.Add(game);
+                    game.Id = Guid.NewGuid();
                 }
+                context.SteamGames.Add(game);
             }
             
             context.SaveChanges();

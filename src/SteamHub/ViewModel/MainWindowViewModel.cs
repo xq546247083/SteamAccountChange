@@ -174,12 +174,12 @@ namespace SteamHub.ViewModel
             // 刷新账号数据
             var steamAccountSources = SteamAnalyzer.GetAllLoginAccounts();
             var steamAccounts = steamAccountSources.Select(r => new SteamAccount(Guid.NewGuid(), r.SteamId, r.AccountName, r.PersonaName ?? r.AccountName, string.Empty, 0, r.Icon)).ToList();
-            SteamAccountRepository.AddOrUpdateRange(steamAccounts);
+            SteamAccountRepository.AddList(steamAccounts);
 
             // 刷新游戏数据
             var steamGameSources = SteamAnalyzer.GetAllGames();
             var steamGames = steamGameSources.Select(r => new SteamGame(Guid.Empty, r.AppId, r.Name, r.Icon, r.AccountSteamId, 0)).ToList();
-            SteamGameRepository.AddOrUpdateRange(steamGames);
+            SteamGameRepository.AddList(steamGames);
 
             ReLoad();
             Lactor.ShowToolTip("刷新成功!");
