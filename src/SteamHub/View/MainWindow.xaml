@@ -153,6 +153,7 @@
 
                                 <ListBox Grid.Row="1"
                                          x:Name="lbAccount"
+                                         AllowDrop="True"
                                          ItemsSource="{Binding SteamAccounts}"
                                          SelectedItem="{Binding SelectedSteamAccount}"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -456,6 +457,7 @@
 
                                 <!-- List -->
                                 <ListBox Grid.Row="1"
+                                         AllowDrop="True"
                                          ItemsSource="{Binding SteamGames}"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          ScrollViewer.VerticalScrollBarVisibility="Auto">

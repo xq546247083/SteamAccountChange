@@ -31,7 +31,7 @@ namespace SteamHub.ViewModel
         /// 编辑steam账号顺序
         /// </summary>
         [ObservableProperty]
-        private string editSteamAccountOrder;
+        private int editSteamAccountOrder;
 
         /// <summary>
         /// 是否编辑

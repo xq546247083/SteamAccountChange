@@ -30,16 +30,22 @@ public class SteamGame
     /// </summary>
     public string AccountSteamId { get; set; }
 
+    /// <summary>
+    /// 排序序号
+    /// </summary>
+    public int Order { get; set; }
+
     public SteamGame()
     {
     }
 
-    public SteamGame(Guid id, string appId, string name, byte[] icon, string accountSteamId)
+    public SteamGame(Guid id, string appId, string name, byte[] icon, string accountSteamId, int order)
     {
         Id = id;
         AppId = appId;
         Name = name;
         Icon = icon;
         AccountSteamId = accountSteamId;
+        Order = order;
     }
 }

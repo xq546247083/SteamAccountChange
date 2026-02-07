@@ -14,7 +14,8 @@ namespace SteamHub.Repositories
         {
             using var context = new SteamHubDbContext();
             return context.SteamGames
-                .OrderBy(g => g.Name)
+                .OrderBy(g => g.Order)
+                .ThenBy(g => g.Name)
                 .ToList();
         }
 
@@ -26,7 +27,8 @@ namespace SteamHub.Repositories
             using var context = new SteamHubDbContext();
             return context.SteamGames
                 .Where(g => g.AccountSteamId == accountSteamId)
-                .OrderBy(g => g.Name)
+                .OrderBy(g => g.Order)
+                .ThenBy(g => g.Name)
                 .ToList();
         }
 

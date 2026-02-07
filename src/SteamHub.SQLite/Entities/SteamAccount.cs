@@ -33,7 +33,7 @@ public class SteamAccount
     /// <summary>
     /// 排序序号
     /// </summary>
-    public string Order { get; set; }
+    public int Order { get; set; }
 
     /// <summary>
     /// 头像数据
@@ -44,7 +44,7 @@ public class SteamAccount
     {
     }
 
-    public SteamAccount(Guid id, string steamId, string account, string name, string password, string order, byte[] icon)
+    public SteamAccount(Guid id, string steamId, string account, string name, string password, int order, byte[] icon)
     {
         Id = id;
         SteamId = steamId;

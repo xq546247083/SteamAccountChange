@@ -147,12 +147,12 @@ namespace SteamHub.ViewModel
             ReLoad();
             Lactor.ShowToolTip("删除成功！");
         }
-        
+
         /// <summary>
         /// 打开Steam登录账号
         /// </summary>
         [RelayCommand]
-        private void OpenSteamAccount(SteamAccount account) 
+        private void OpenSteamAccount(SteamAccount account)
         {
             if (account == null)
             {
@@ -171,12 +171,12 @@ namespace SteamHub.ViewModel
         {
             // 刷新账号数据
             var steamAccountSources = SteamAnalyzer.GetAllLoginAccounts();
-            var steamAccounts = steamAccountSources.Select(r => new SteamAccount(Guid.NewGuid(), r.SteamId, r.AccountName, r.PersonaName ?? r.AccountName, string.Empty, "0", r.Icon)).ToList();
+            var steamAccounts = steamAccountSources.Select(r => new SteamAccount(Guid.NewGuid(), r.SteamId, r.AccountName, r.PersonaName ?? r.AccountName, string.Empty, 0, r.Icon)).ToList();
             SteamAccountRepository.AddOrUpdateRange(steamAccounts);
 
             // 刷新游戏数据
             var steamGameSources = SteamAnalyzer.GetAllGames();
-            var steamGames = steamGameSources.Select(r => new SteamGame(Guid.Empty, r.AppId, r.Name, r.Icon, r.AccountSteamId)).ToList();
+            var steamGames = steamGameSources.Select(r => new SteamGame(Guid.Empty, r.AppId, r.Name, r.Icon, r.AccountSteamId, 0)).ToList();
             SteamGameRepository.AddOrUpdateRange(steamGames);
 
             ReLoad();
@@ -222,7 +222,7 @@ namespace SteamHub.ViewModel
             SelectedProcessName = DisplayProcessList != null && DisplayProcessList.Count > 0 ? DisplayProcessList.FirstOrDefault() : string.Empty;
         }
 
-        private void LoadSteamAccounts() 
+        private void LoadSteamAccounts()
         {
             // 加载账号信息
             SteamAccounts = SteamAccountRepository.GetAll();
