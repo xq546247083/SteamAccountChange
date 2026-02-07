@@ -109,6 +109,15 @@ namespace SteamHub.ViewModel
 
         #endregion
 
+        #region 属性变化引发的事件
+
+        partial void OnProcessListModeChanged(ProcessListMode oldValue, ProcessListMode newValue)
+        {
+            LoadProcessList();
+        }
+
+        #endregion
+
         #region 绑定方法
 
         /// <summary>
