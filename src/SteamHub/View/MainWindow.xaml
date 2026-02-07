@@ -273,14 +273,14 @@
 
                         <!-- Quick Actions Card -->
                         <materialDesign:Card Grid.Row="2"
-                                             Padding="12"
+                                             Padding="6"
                                              UniformCornerRadius="8">
                             <StackPanel>
                                 <TextBlock Text="操作"
                                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                           Margin="0,0,0,12" />
+                                           Margin="0,0,0,6" />
 
-                                <UniformGrid Columns="4"
+                                <UniformGrid Columns="10"
                                              Rows="1">
 
                                     <!-- Copy Account Button -->
