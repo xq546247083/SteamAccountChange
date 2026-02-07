@@ -162,7 +162,6 @@
                                     <DataTemplate>
                                         <Grid Width="48"
                                               Height="48"
-                                              Margin="4"
                                               Cursor="Hand"
                                               Background="Transparent">
                                             <Grid.InputBindings>
