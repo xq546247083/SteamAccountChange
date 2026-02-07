@@ -59,9 +59,9 @@
                         Background="{DynamicResource MaterialDesignPaper}">
                     <Grid>
                         <!-- Account Edit -->
-                        <StackPanel Margin="12">
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
+                        <Grid Margin="12">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
                                     <Setter Property="Visibility"
                                             Value="Collapsed" />
                                     <Style.Triggers>
@@ -72,23 +72,32 @@
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </StackPanel.Style>
-                            <TextBlock Text="{Binding SelectedSteamAccount.Account}"
-                                       Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-                                       Opacity="0.6"
-                                       Margin="0,0,0,12"
-                                       HorizontalAlignment="Center" />
-                            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     materialDesign:HintAssist.Hint="昵称 (必填)"
-                                     Text="{Binding EditSteamAccountName}"
-                                     Margin="0,0,0,12"
-                                     FontSize="14" />
-                            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     materialDesign:HintAssist.Hint="密码 (选填)"
-                                     Text="{Binding EditSteamAccountPassword}"
-                                     Margin="0,0,0,12"
-                                     FontSize="14" />
-                            <StackPanel Orientation="Horizontal"
+                            </Grid.Style>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel  Grid.Row="0">
+                                <TextBlock Text="{Binding SelectedSteamAccount.Account}"
+                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                           Opacity="0.6"
+                                           Margin="0,0,0,12"
+                                           HorizontalAlignment="Center" />
+                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                         materialDesign:HintAssist.Hint="昵称 (必填)"
+                                         Text="{Binding EditSteamAccountName}"
+                                         Margin="0,0,0,12"
+                                         FontSize="14" />
+                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                         materialDesign:HintAssist.Hint="密码 (选填)"
+                                         Text="{Binding EditSteamAccountPassword}"
+                                         Margin="0,0,0,12"
+                                         FontSize="14" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2"
+                                        Orientation="Horizontal"
                                         HorizontalAlignment="Right">
                                 <Button Style="{StaticResource MaterialDesignOutlinedButton}"
                                         Content="取消"
@@ -98,7 +107,7 @@
                                         Content="保存"
                                         Command="{Binding SaveSteamAccountCommand}" />
                             </StackPanel>
-                        </StackPanel>
+                        </Grid>
 
                         <!-- Game Edit -->
                         <Grid Margin="12">
@@ -116,6 +125,7 @@
                                 </Style>
                             </Grid.Style>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
@@ -141,6 +151,7 @@
                             <ListBox Grid.Row="1"
                                      ItemsSource="{Binding AllGameIcons}"
                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     MaxHeight="210"
                                      Margin="0,0,0,12">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -192,7 +203,7 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
 
-                            <StackPanel Grid.Row="2"
+                            <StackPanel Grid.Row="3"
                                         Orientation="Horizontal"
                                         HorizontalAlignment="Right">
                                 <Button Style="{StaticResource MaterialDesignOutlinedButton}"
@@ -714,7 +725,8 @@
                                                                 CommandParameter="{Binding}">
                                                             <materialDesign:PackIcon Kind="DotsHorizontal"
                                                                                      Width="20"
-                                                                                     Height="20" />
+                                                                                     Height="20"
+                                                                                     Background="LightGray" />
                                                             <!-- Visibility Triggers -->
                                                             <Button.Triggers>
                                                                 <EventTrigger RoutedEvent="Mouse.MouseEnter">

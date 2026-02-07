@@ -19,6 +19,18 @@ namespace SteamHub.Convert
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null || parameter == null)
+            {
+                return System.Windows.Data.Binding.DoNothing;
+            }
+
+            bool useValue = (bool)value;
+            string targetValue = parameter.ToString();
+            if (!useValue)
+            {
+                return Enum.Parse(targetType, targetValue);
+            }
+
             return System.Windows.Data.Binding.DoNothing;
         }
     }
