@@ -39,7 +39,7 @@ namespace SteamHub.ViewModel
         /// <param name="value"></param>
         partial void OnSearchSteamGameNameChanged(string value)
         {
-            LoadGames();
+            LoadSteamGames();
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace SteamHub.ViewModel
         /// <param name="value"></param>
         partial void OnSearchSteamAccountChanged(SteamAccount value)
         {
-            LoadGames();
+            LoadSteamGames();
         }
 
         #endregion
@@ -87,7 +87,7 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 应用游戏过滤
         /// </summary>
-        private void LoadGames()
+        private void LoadSteamGames()
         {
             var allSteamGames = SteamGameRepository.GetAll();
             if (allSteamGames == null)

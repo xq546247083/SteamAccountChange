@@ -266,7 +266,7 @@ namespace SteamHub.ViewModel
         public void LoadAllData()
         {
             LoadSteamAccounts();
-            LoadGames();
+            LoadSteamGames();
             LoadProcesses();
         }
 
