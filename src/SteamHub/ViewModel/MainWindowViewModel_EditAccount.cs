@@ -90,7 +90,7 @@ namespace SteamHub.ViewModel
                 return;
             }
 
-            SelectedSteamAccount.Name = EditSteamAccountAccount;
+            SelectedSteamAccount.Name = EditSteamAccountName;
             SelectedSteamAccount.Password = EditSteamAccountPassword;
             SelectedSteamAccount.Order = EditSteamAccountOrder;
             SteamAccountRepository.Update(SelectedSteamAccount);

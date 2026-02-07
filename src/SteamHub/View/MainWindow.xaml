@@ -156,7 +156,7 @@
                                     <StackPanel HorizontalAlignment="Center">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                 ToolTip="复制账号"
-                                                Command="{Binding CopySteamAccountAccount}"
+                                                Command="{Binding CopySteamAccountAccountCommand}"
                                                 Margin="0,0,0,8"
                                                 Width="40"
                                                 Height="40"
@@ -174,7 +174,7 @@
                                     <StackPanel HorizontalAlignment="Center">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                 ToolTip="复制密码"
-                                                Command="{Binding CopySteamAccountPassword}"
+                                                Command="{Binding CopySteamAccountPasswordCommand}"
                                                 Margin="0,0,0,8"
                                                 Width="40"
                                                 Height="40"
