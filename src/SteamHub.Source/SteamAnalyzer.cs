@@ -78,9 +78,6 @@ public static class SteamAnalyzer
             {
                 // 加载游戏用户
                 game.AccountSteamId = steamAccountPlayGames.LastOrDefault(r => r.AppId == game.AppId)?.SteamId ?? string.Empty;
-
-                // 加载游戏图标
-                game.Icon = LoadGameIcon(steamPath, game.AppId);
                 games.Add(game);
             }
         }
@@ -207,23 +204,6 @@ public static class SteamAnalyzer
         if (File.Exists(avatarPath))
         {
             return File.ReadAllBytes(avatarPath);
-        }
-
-        return null;
-    }
-
-    /// <summary>
-    /// 加载游戏图标
-    /// </summary>
-    /// <param name="steamPath">Steam 安装路径</param>
-    /// <param name="appId">游戏 ID</param>
-    /// <returns>图标数据</returns>
-    private static byte[] LoadGameIcon(string steamPath, string appId)
-    {
-        var iconPath = Path.Combine(steamPath, "steam", "games", $"{appId}.ico");
-        if (File.Exists(iconPath))
-        {
-            return File.ReadAllBytes(iconPath);
         }
 
         return null;
