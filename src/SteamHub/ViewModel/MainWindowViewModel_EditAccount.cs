@@ -10,12 +10,6 @@ namespace SteamHub.ViewModel
         #region 绑定属性
 
         /// <summary>
-        /// 编辑steam账号
-        /// </summary>
-        [ObservableProperty]
-        private string editSteamAccountAccount;
-
-        /// <summary>
         /// 编辑steam账号名称
         /// </summary>
         [ObservableProperty]
@@ -26,12 +20,6 @@ namespace SteamHub.ViewModel
         /// </summary>
         [ObservableProperty]
         private string editSteamAccountPassword;
-
-        /// <summary>
-        /// 编辑steam账号顺序
-        /// </summary>
-        [ObservableProperty]
-        private int editSteamAccountOrder;
 
         /// <summary>
         /// 是否编辑
@@ -54,10 +42,8 @@ namespace SteamHub.ViewModel
                 return;
             }
 
-            EditSteamAccountAccount = SelectedSteamAccount.Account;
             EditSteamAccountName = SelectedSteamAccount.Name;
             EditSteamAccountPassword = SelectedSteamAccount.Password;
-            EditSteamAccountOrder = SelectedSteamAccount.Order;
             IsEdit = true;
         }
 
@@ -82,6 +68,11 @@ namespace SteamHub.ViewModel
                 return;
             }
 
+            if (string.IsNullOrEmpty(EditSteamAccountName)) 
+            {
+                return;
+            }
+
             if (!SteamAccountRepository.Exists(SelectedSteamAccount.Account))
             {
                 return;
@@ -89,7 +80,6 @@ namespace SteamHub.ViewModel
 
             SelectedSteamAccount.Name = EditSteamAccountName;
             SelectedSteamAccount.Password = EditSteamAccountPassword;
-            SelectedSteamAccount.Order = EditSteamAccountOrder;
             SteamAccountRepository.Update(SelectedSteamAccount);
 
             currentSteamAccount = SelectedSteamAccount.Account;

@@ -54,7 +54,7 @@
                 <Border Width="300"
                         Background="{DynamicResource MaterialDesignPaper}">
                     <StackPanel Margin="12">
-                        <TextBlock Text="{Binding EditSteamAccountAccount}"
+                        <TextBlock Text="{Binding SelectedSteamAccount.Account}"
                                    Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                    Opacity="0.6"
                                    Margin="0,0,0,12"
@@ -67,11 +67,6 @@
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:HintAssist.Hint="密码 (选填)"
                                  Text="{Binding EditSteamAccountPassword}"
-                                 Margin="0,0,0,12"
-                                 FontSize="14" />
-                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 materialDesign:HintAssist.Hint="排序序号 (选填)"
-                                 Text="{Binding EditSteamAccountOrder}"
                                  Margin="0,0,0,12"
                                  FontSize="14" />
                         <StackPanel Orientation="Horizontal"
