@@ -17,11 +17,10 @@ trigger: always_on
 - **SteamHub.Common**: 通用代码(Helper、Enum等)
 - **SteamHub.SQLite**: 数据库层(Entities、DbContext)
 - **SteamHub.Source**: 数据源解析层(只负责解析Steam本地文件,不涉及数据库操作)
-- 所有项目的根命名空间都是 [SteamHub](cci:2://file:///d:/Code/github/xq546247083/SteamHub/src/SteamHub.SQLite/SteamHubDbContext.cs:8:0-69:1)
+- 所有项目的根命名空间都是 [SteamHub]
 
 ## 编码规范
 - **代码可读性优先**: 清晰的命名、适当的注释
-- **思考先行**: 编写复杂逻辑前先阐述设计思路
 - **不使用异步**: 项目中不使用 async/await
 
 ## 职责分离

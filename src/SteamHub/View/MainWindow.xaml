@@ -8,8 +8,8 @@
         xmlns:convert="clr-namespace:SteamHub.Convert"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Height="400"
-        Width="600"
+        Height="600"
+        Width="800"
         ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen"
         x:Name="mainWindowView"
@@ -35,6 +35,7 @@
 
     <Window.Resources>
         <convert:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <convert:ByteToImageSourceConverter x:Key="ByteToImageSourceConverter" />
 
         <Style x:Key="CompactTabItemStyle"
                TargetType="TabItem"
@@ -104,54 +105,184 @@
                         </StackPanel>
                     </TabItem.Header>
 
-                    <StackPanel Margin="12">
-                        <!-- Account Selection Card -->
-                        <materialDesign:Card Margin="0,0,0,12"
+                    <Grid Margin="12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Account List -->
+                        <materialDesign:Card Grid.Row="1"
+                                             Margin="0,0,0,12"
                                              Padding="12"
-                                             UniformCornerRadius="8">
-                            <StackPanel>
-                                <TextBlock Text="账号"
-                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                           Margin="0,0,0,12" />
-                                <ComboBox x:Name="cbAccount"
-                                          Style="{StaticResource MaterialDesignFilledComboBox}"
-                                          materialDesign:HintAssist.Hint="账号列表"
-                                          DisplayMemberPath="Name"
-                                          SelectedValuePath="Account"
-                                          ItemsSource="{Binding SteamAccounts}"
-                                          SelectedItem="{Binding SelectedSteamAccount}">
-                                </ComboBox>
-                            </StackPanel>
+                                             UniformCornerRadius="8"
+                                             VerticalAlignment="Stretch">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0"
+                                      Margin="0,0,0,12">
+                                    <TextBlock Text="账号"
+                                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                               VerticalAlignment="Center" />
+
+                                    <!-- Refresh Button Moved Here -->
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            ToolTip="刷新Steam数据"
+                                            Command="{Binding RefreshCommand}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Padding="8 0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Refresh"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     VerticalAlignment="Center"
+                                                                     Margin="0,0,4,0" />
+                                            <TextBlock Text="刷新"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+
+                                <ListBox Grid.Row="1"
+                                         x:Name="lbAccount"
+                                         ItemsSource="{Binding SteamAccounts}"
+                                         SelectedItem="{Binding SelectedSteamAccount}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Padding"
+                                                    Value="4" />
+                                            <Setter Property="Background"
+                                                    Value="Transparent" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                Padding="{TemplateBinding Padding}"
+                                                                SnapsToDevicePixels="true">
+                                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:Card Width="80"
+                                                                 Height="100"
+                                                                 UniformCornerRadius="4">
+                                                <materialDesign:Card.Style>
+                                                    <Style TargetType="materialDesign:Card"
+                                                           BasedOn="{StaticResource {x:Type materialDesign:Card}}">
+                                                        <Setter Property="materialDesign:ElevationAssist.Elevation"
+                                                                Value="Dp6" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                                                                         Value="True">
+                                                                <Setter Property="materialDesign:ElevationAssist.Elevation"
+                                                                        Value="Dp24" />
+                                                            </DataTrigger>
+                                                            <Trigger Property="IsMouseOver"
+                                                                     Value="True">
+                                                                <Setter Property="materialDesign:ElevationAssist.Elevation"
+                                                                        Value="Dp12" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </materialDesign:Card.Style>
+
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="70" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <!-- Avatar (Edge-to-Edge) -->
+                                                    <Grid Grid.Row="0"
+                                                          Background="{DynamicResource MaterialDesignDivider}">
+                                                        <materialDesign:PackIcon Kind="QuestionMark"
+                                                                                 Width="32"
+                                                                                 Height="32"
+                                                                                 HorizontalAlignment="Center"
+                                                                                 VerticalAlignment="Center"
+                                                                                 Opacity="0.5" />
+                                                        <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
+                                                               Stretch="UniformToFill" />
+                                                    </Grid>
+
+                                                    <!-- Name -->
+                                                    <TextBlock Grid.Row="1"
+                                                               Text="{Binding Name}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               ToolTip="{Binding Name}"
+                                                               FontWeight="Medium"
+                                                               FontSize="11"
+                                                               Margin="2" />
+
+                                                    <!-- Selection Border Overlay -->
+                                                    <Border Grid.Row="0"
+                                                            Grid.RowSpan="2"
+                                                            CornerRadius="4"
+                                                            BorderThickness="3"
+                                                            IsHitTestVisible="False">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="BorderBrush"
+                                                                        Value="Transparent" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                                                                                 Value="True">
+                                                                        <Setter Property="BorderBrush"
+                                                                                Value="{DynamicResource MaterialDesign.Brush.Primary}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                                                                                 Value="True">
+                                                                        <Setter Property="BorderBrush"
+                                                                                Value="{DynamicResource MaterialDesignDivider}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                    </Border>
+                                                </Grid>
+                                            </materialDesign:Card>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
                         </materialDesign:Card>
 
                         <!-- Quick Actions Card -->
-                        <materialDesign:Card Padding="12"
+                        <materialDesign:Card Grid.Row="2"
+                                             Padding="12"
                                              UniformCornerRadius="8">
                             <StackPanel>
                                 <TextBlock Text="操作"
                                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                            Margin="0,0,0,12" />
 
-                                <UniformGrid Columns="5"
+                                <UniformGrid Columns="4"
                                              Rows="1">
-                                    <!-- Refresh Button -->
-                                    <StackPanel HorizontalAlignment="Center">
-                                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
-                                                ToolTip="刷新Steam数据"
-                                                Command="{Binding RefreshCommand}"
-                                                Margin="0,0,0,8"
-                                                Width="40"
-                                                Height="40"
-                                                Padding="0">
-                                            <materialDesign:PackIcon Kind="Refresh"
-                                                                     Width="22"
-                                                                     Height="22" />
-                                        </Button>
-                                        <TextBlock Text="刷新数据"
-                                                   HorizontalAlignment="Center"
-                                                   FontSize="12" />
-                                    </StackPanel>
-                                    
+
                                     <!-- Copy Account Button -->
                                     <StackPanel HorizontalAlignment="Center">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
@@ -225,11 +356,11 @@
                                                    HorizontalAlignment="Center"
                                                    FontSize="12" />
                                     </StackPanel>
-                          
+
                                 </UniformGrid>
                             </StackPanel>
                         </materialDesign:Card>
-                    </StackPanel>
+                    </Grid>
                 </TabItem>
 
                 <!-- Games Tab -->
