@@ -50,7 +50,7 @@ namespace SteamHub.ViewModel
         /// 打开编辑抽屉
         /// </summary>
         [RelayCommand]
-        private void OpenEditDrawer()
+        private void OpenEditSteamAccountDrawer()
         {
             if (SelectedSteamAccount == null)
             {
@@ -68,7 +68,7 @@ namespace SteamHub.ViewModel
         /// 关闭抽屉
         /// </summary>
         [RelayCommand]
-        private void CloseDrawer()
+        private void CloseEditSteamAccountDrawer()
         {
             IsEdit = false;
         }
@@ -77,7 +77,7 @@ namespace SteamHub.ViewModel
         /// 保存steam账号信息
         /// </summary>
         [RelayCommand]
-        private void SaveSteamAccoutInfoBtnClick()
+        private void SaveSteamAccount()
         {
             if (SelectedSteamAccount == null)
             {

@@ -174,7 +174,7 @@ namespace SteamHub.Manager
             }
             else
             {
-                TaskSchedulerHelper.Del(AppGlobal.AppName);
+                TaskSchedulerHelper.Delete(AppGlobal.AppName);
                 launchOnSysPowerOnByTaskSchedulerMenu.Checked = currentValue;
             }
         }

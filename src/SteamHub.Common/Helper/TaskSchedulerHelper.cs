@@ -11,7 +11,7 @@ namespace SteamHub.Helper
         /// 删除任务
         /// </summary>
         /// <param name="taskName"></param>
-        public static void Del(string taskName)
+        public static void Delete(string taskName)
         {
             using (var ts = new TaskService())
             {

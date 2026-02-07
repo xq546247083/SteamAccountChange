@@ -74,11 +74,11 @@
                                     HorizontalAlignment="Right">
                             <Button Style="{StaticResource MaterialDesignOutlinedButton}"
                                     Content="取消"
-                                    Command="{Binding CloseDrawerCommand}"
+                                    Command="{Binding CloseEditSteamAccountDrawerCommand}"
                                     Margin="0,0,8,0" />
                             <Button Style="{StaticResource MaterialDesignRaisedButton}"
                                     Content="保存"
-                                    Command="{Binding SaveSteamAccoutInfoBtnClickCommand}" />
+                                    Command="{Binding SaveSteamAccountCommand}" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -138,7 +138,7 @@
                                     <StackPanel HorizontalAlignment="Center">
                                         <Button Style="{StaticResource MaterialDesignRaisedButton}"
                                                 ToolTip="刷新Steam数据"
-                                                Command="{Binding RefreshSteamDataCommand}"
+                                                Command="{Binding RefreshCommand}"
                                                 Margin="0,0,0,8"
                                                 Width="40"
                                                 Height="40"
@@ -156,7 +156,7 @@
                                     <StackPanel HorizontalAlignment="Center">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                 ToolTip="复制账号"
-                                                Command="{Binding CopyUserAccountBtnClickCommand}"
+                                                Command="{Binding CopySteamAccountAccount}"
                                                 Margin="0,0,0,8"
                                                 Width="40"
                                                 Height="40"
@@ -174,7 +174,7 @@
                                     <StackPanel HorizontalAlignment="Center">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                 ToolTip="复制密码"
-                                                Command="{Binding CopyPasswordBtnClickCommand}"
+                                                Command="{Binding CopySteamAccountPassword}"
                                                 Margin="0,0,0,8"
                                                 Width="40"
                                                 Height="40"
@@ -192,7 +192,7 @@
                                     <StackPanel HorizontalAlignment="Center">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                 ToolTip="编辑账号信息"
-                                                Command="{Binding OpenEditDrawerCommand}"
+                                                Command="{Binding OpenEditSteamAccountDrawerCommand}"
                                                 Margin="0,0,0,8"
                                                 Width="40"
                                                 Height="40"
@@ -212,7 +212,7 @@
                                                 BorderBrush="{DynamicResource MaterialDesignErrorBrush}"
                                                 Foreground="{DynamicResource MaterialDesignErrorBrush}"
                                                 ToolTip="删除选中的账号"
-                                                Command="{Binding DelSteamAccoutInfoBtnClickCommand}"
+                                                Command="{Binding DeleteSteamAccountCommand}"
                                                 Margin="0,0,0,8"
                                                 Width="40"
                                                 Height="40"
@@ -370,7 +370,7 @@
                                                 VerticalAlignment="Bottom">
                                         <Button Style="{StaticResource MaterialDesignRaisedButton}"
                                                 ToolTip="添加"
-                                                Command="{Binding SaveGameProcessInfoBtnClickCommand}"
+                                                Command="{Binding AddKillProcessCommand}"
                                                 Margin="0,0,8,0">
                                             <StackPanel Orientation="Horizontal">
                                                 <materialDesign:PackIcon Kind="Plus"
@@ -382,7 +382,7 @@
 
                                         <Button Style="{StaticResource MaterialDesignOutlinedButton}"
                                                 ToolTip="删除"
-                                                Command="{Binding DelGameProcessInfoBtnClickCommand}"
+                                                Command="{Binding DeleteKillProcessCommand}"
                                                 BorderBrush="{DynamicResource MaterialDesignErrorBrush}"
                                                 Foreground="{DynamicResource MaterialDesignErrorBrush}">
                                             <StackPanel Orientation="Horizontal">

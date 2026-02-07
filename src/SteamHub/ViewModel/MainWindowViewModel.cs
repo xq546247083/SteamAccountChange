@@ -133,7 +133,7 @@ namespace SteamHub.ViewModel
         /// 复制用户名
         /// </summary>
         [RelayCommand]
-        private void CopyUserAccountBtnClick()
+        private void CopySteamAccountAccount()
         {
             if (SelectedSteamAccount == null || SelectedSteamAccount.Account == null)
             {
@@ -148,7 +148,7 @@ namespace SteamHub.ViewModel
         /// 复制密码
         /// </summary>
         [RelayCommand]
-        private void CopyPasswordBtnClick()
+        private void CopySteamAccountPassword()
         {
             if (SelectedSteamAccount == null || SelectedSteamAccount.Password == null)
             {
@@ -163,7 +163,7 @@ namespace SteamHub.ViewModel
         /// 删除steam账号信息
         /// </summary>
         [RelayCommand]
-        private void DelSteamAccoutInfoBtnClick()
+        private void DeleteSteamAccount()
         {
             if (SelectedSteamAccount == null)
             {
@@ -185,7 +185,7 @@ namespace SteamHub.ViewModel
         /// 添加游戏进程信息
         /// </summary>
         [RelayCommand]
-        private void SaveGameProcessInfoBtnClick()
+        private void AddKillProcess()
         {
             if (ProcessListMode != ProcessListMode.System)
             {
@@ -207,7 +207,7 @@ namespace SteamHub.ViewModel
         /// 删除游戏进程信息
         /// </summary>
         [RelayCommand]
-        private void DelGameProcessInfoBtnClick()
+        private void DeleteKillProcess()
         {
             if (ProcessListMode != ProcessListMode.Saved)
             {
@@ -229,7 +229,7 @@ namespace SteamHub.ViewModel
         /// 刷新 Steam 数据
         /// </summary>
         [RelayCommand]
-        private void RefreshSteamData()
+        private void Refresh()
         {
             // 刷新账号数据
             var steamAccountSources = SteamAnalyzer.GetAllLoginUsers();
@@ -254,7 +254,7 @@ namespace SteamHub.ViewModel
         /// </summary>
         private void Init()
         {
-            LoadData();
+            LoadAllData();
         }
 
         /// <summary>
@@ -262,8 +262,8 @@ namespace SteamHub.ViewModel
         /// </summary>
         private void ReLoad()
         {
+            LoadAllData();
             NotifyIconManager.LoadMenu();
-            LoadData();
         }
 
         /// <summary>
@@ -289,9 +289,9 @@ namespace SteamHub.ViewModel
         #region 公共方法
 
         /// <summary>
-        /// 加载保存的信息
+        /// 加载所有数据
         /// </summary>
-        public void LoadData()
+        public void LoadAllData()
         {
             // 加载账号信息
             SteamAccounts = SteamAccountRepository.GetAll();
