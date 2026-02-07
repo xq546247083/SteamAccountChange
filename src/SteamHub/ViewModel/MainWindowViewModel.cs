@@ -207,7 +207,7 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 加载进程列表
         /// </summary>
-        private void LoadProcessList()
+        private void LoadProcesses()
         {
             if (ProcessListMode == ProcessListMode.System)
             {
@@ -222,14 +222,7 @@ namespace SteamHub.ViewModel
             SelectedProcessName = DisplayProcessList != null && DisplayProcessList.Count > 0 ? DisplayProcessList.FirstOrDefault() : string.Empty;
         }
 
-        #endregion
-
-        #region 公共方法
-
-        /// <summary>
-        /// 加载所有数据
-        /// </summary>
-        public void LoadAllData()
+        private void LoadSteamAccounts() 
         {
             // 加载账号信息
             SteamAccounts = SteamAccountRepository.GetAll();
@@ -240,11 +233,20 @@ namespace SteamHub.ViewModel
                 var currentSteamAccountInfo = string.IsNullOrEmpty(currentSteamAccount) ? null : SteamAccounts.FirstOrDefault(r => r.Account == currentSteamAccount);
                 SelectedSteamAccount = currentSteamAccountInfo == null ? SteamAccounts.FirstOrDefault() : currentSteamAccountInfo;
             }
+        }
 
-            // 加载游戏信息
-            SteamGames = SteamGameRepository.GetAll();
+        #endregion
 
-            LoadProcessList();
+        #region 公共方法
+
+        /// <summary>
+        /// 加载所有数据
+        /// </summary>
+        public void LoadAllData()
+        {
+            LoadSteamAccounts();
+            LoadGames();
+            LoadProcesses();
         }
 
         #endregion

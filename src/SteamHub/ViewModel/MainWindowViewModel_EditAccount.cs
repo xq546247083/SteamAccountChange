@@ -5,10 +5,7 @@ using SteamHub.Repositories;
 
 namespace SteamHub.ViewModel
 {
-    /// <summary>
-    /// 主界面的ViewModel
-    /// </summary>
-    public partial class MainWindowViewModel : ObservableObject
+    public partial class MainWindowViewModel
     {
         #region 绑定属性
 

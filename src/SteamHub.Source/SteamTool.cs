@@ -80,5 +80,19 @@ namespace SteamHub
             }
             Process.Start(steamExe);
         }
+
+        /// <summary>
+        /// 打开游戏
+        /// </summary>
+        /// <param name="appId">游戏AppId</param>
+        public static void OpenGame(string appId) 
+        {
+            if (string.IsNullOrEmpty(appId))
+            {
+                return;
+            }
+
+            Process.Start(new ProcessStartInfo($"steam://run/{appId}") { UseShellExecute = true });
+        }
     }
 }

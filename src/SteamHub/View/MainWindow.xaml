@@ -406,49 +406,177 @@
                             </Grid>
                         </materialDesign:Card>
 
-                        <!-- Games List -->
+                        <!-- Games List with Filter -->
                         <materialDesign:Card Grid.Row="1"
-                                             Padding="0"
-                                             UniformCornerRadius="8">
-                            <ListBox ItemsSource="{Binding SteamGames}"
-                                     ScrollViewer.VerticalScrollBarVisibility="Auto">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="8">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
+                                             Padding="12"
+                                             UniformCornerRadius="8"
+                                             VerticalAlignment="Stretch">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
 
-                                            <!-- Game Icon -->
-                                            <Border Grid.Column="0"
-                                                    Width="32"
-                                                    Height="32"
-                                                    Background="{DynamicResource MaterialDesignDivider}"
-                                                    CornerRadius="4"
-                                                    Margin="0,0,12,0">
-                                                <materialDesign:PackIcon Kind="Gamepad"
-                                                                         Width="20"
-                                                                         Height="20"
-                                                                         HorizontalAlignment="Center"
-                                                                         VerticalAlignment="Center"
-                                                                         Opacity="0.6" />
-                                            </Border>
+                                <!-- Filters -->
+                                <Grid Grid.Row="0"
+                                      Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                            <!-- Game Info -->
-                                            <StackPanel Grid.Column="1"
-                                                        VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Name}"
-                                                           Style="{StaticResource MaterialDesignBody1TextBlock}"
-                                                           TextTrimming="CharacterEllipsis" />
-                                                <TextBlock Text="{Binding AppId, StringFormat='AppID: {0}'}"
-                                                           Style="{StaticResource MaterialDesignCaptionTextBlock}"
-                                                           Opacity="0.6" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                                    <!-- Account Filter -->
+                                    <ComboBox Grid.Column="0"
+                                              Width="200"
+                                              Height="36"
+                                              Padding="8,6"
+                                              FontSize="13"
+                                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                              materialDesign:HintAssist.Hint="筛选账号"
+                                              ItemsSource="{Binding SteamAccounts}"
+                                              SelectedItem="{Binding SearchSteamAccount}"
+                                              DisplayMemberPath="Account"
+                                              materialDesign:TextFieldAssist.HasClearButton="True">
+                                    </ComboBox>
+
+                                    <!-- Name Filter -->
+                                    <TextBox Grid.Column="2"
+                                             Width="200"
+                                             Height="36"
+                                             Padding="8,6"
+                                             FontSize="13"
+                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             materialDesign:HintAssist.Hint="搜索游戏名称"
+                                             Text="{Binding SearchSteamGameName, UpdateSourceTrigger=PropertyChanged}"
+                                             materialDesign:TextFieldAssist.HasClearButton="True" />
+                                </Grid>
+
+                                <!-- List -->
+                                <ListBox Grid.Row="1"
+                                         ItemsSource="{Binding SteamGames}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Padding"
+                                                    Value="4" />
+                                            <Setter Property="Background"
+                                                    Value="Transparent" />
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border Background="{TemplateBinding Background}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                Padding="{TemplateBinding Padding}"
+                                                                SnapsToDevicePixels="true">
+                                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:Card Width="80"
+                                                                 Height="100"
+                                                                 UniformCornerRadius="4"
+                                                                 ToolTip="{Binding AppId, StringFormat='AppID: {0}'}">
+                                                <materialDesign:Card.Style>
+                                                    <Style TargetType="materialDesign:Card"
+                                                           BasedOn="{StaticResource {x:Type materialDesign:Card}}">
+                                                        <Setter Property="materialDesign:ElevationAssist.Elevation"
+                                                                Value="Dp6" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                                                                         Value="True">
+                                                                <Setter Property="materialDesign:ElevationAssist.Elevation"
+                                                                        Value="Dp24" />
+                                                            </DataTrigger>
+                                                            <Trigger Property="IsMouseOver"
+                                                                     Value="True">
+                                                                <Setter Property="materialDesign:ElevationAssist.Elevation"
+                                                                        Value="Dp12" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </materialDesign:Card.Style>
+
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="70" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    
+                                                    <!-- Game Icon -->
+                                                    <Grid Grid.Row="0"
+                                                            Background="{DynamicResource MaterialDesignDivider}">
+                                                        <materialDesign:PackIcon Kind="QuestionMark"
+                                                                                 Width="32"
+                                                                                 Height="32"
+                                                                                 HorizontalAlignment="Center"
+                                                                                 VerticalAlignment="Center"
+                                                                                 Opacity="0.5" />
+                                                        <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
+                                                               Stretch="UniformToFill" />
+                                                    </Grid>
+
+                                                    <!-- Game Name -->
+                                                    <TextBlock Grid.Row="1"
+                                                               Text="{Binding Name}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               ToolTip="{Binding Name}"
+                                                               FontWeight="Medium"
+                                                               FontSize="11"
+                                                               Margin="2" />
+
+                                                    <!-- Selection Border Overlay -->
+                                                    <Border Grid.Row="0"
+                                                            Grid.RowSpan="2"
+                                                            CornerRadius="4"
+                                                            BorderThickness="3"
+                                                            Background="Transparent">
+                                                        <Border.InputBindings>
+                                                            <MouseBinding MouseAction="LeftDoubleClick"
+                                                                          Command="{Binding DataContext.OpenSteamGameCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                          CommandParameter="{Binding}" />
+                                                        </Border.InputBindings>
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="BorderBrush"
+                                                                        Value="Transparent" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                                                                                 Value="True">
+                                                                        <Setter Property="BorderBrush"
+                                                                                Value="{DynamicResource MaterialDesign.Brush.Primary}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"
+                                                                                 Value="True">
+                                                                        <Setter Property="BorderBrush"
+                                                                                Value="{DynamicResource MaterialDesignDivider}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                    </Border>
+                                                </Grid>
+                                            </materialDesign:Card>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
                         </materialDesign:Card>
                     </Grid>
                 </TabItem>
@@ -494,7 +622,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <ComboBox Grid.Column="0"
-                                              Style="{StaticResource MaterialDesignFilledComboBox}"
+                                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
                                               materialDesign:HintAssist.Hint="选择进程"
                                               Text="{Binding SelectedProcessName}"
                                               ItemsSource="{Binding DisplayProcessList}"

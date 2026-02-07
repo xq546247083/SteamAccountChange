@@ -9,7 +9,7 @@ namespace SteamHub.ViewModel
     /// <summary>
     /// 主界面的ViewModel
     /// </summary>
-    public partial class MainWindowViewModel : ObservableObject
+    public partial class MainWindowViewModel
     {
         #region 绑定属性
 
@@ -37,7 +37,7 @@ namespace SteamHub.ViewModel
 
         partial void OnProcessListModeChanged(ProcessListMode oldValue, ProcessListMode newValue)
         {
-            LoadProcessList();
+            LoadProcesses();
         }
 
         #endregion
