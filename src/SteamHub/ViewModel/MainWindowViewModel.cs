@@ -153,6 +153,21 @@ namespace SteamHub.ViewModel
             ReLoad();
             Lactor.ShowToolTip("删除成功！");
         }
+        
+        /// <summary>
+        /// 打开Steam登录账号
+        /// </summary>
+        [RelayCommand]
+        private void OpenSteamAccount(SteamAccount account) 
+        {
+            if (account == null)
+            {
+                return;
+            }
+
+            var processList = SettingRepository.GetKillProcessList();
+            SteamTool.Open(account.Account, processList);
+        }
 
         /// <summary>
         /// 刷新 Steam 数据

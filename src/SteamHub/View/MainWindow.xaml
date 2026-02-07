@@ -243,7 +243,12 @@
                                                             Grid.RowSpan="2"
                                                             CornerRadius="4"
                                                             BorderThickness="3"
-                                                            IsHitTestVisible="False">
+                                                            Background="Transparent">
+                                                        <Border.InputBindings>
+                                                            <MouseBinding MouseAction="LeftDoubleClick"
+                                                                          Command="{Binding DataContext.OpenSteamAccountCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                          CommandParameter="{Binding}" />
+                                                        </Border.InputBindings>
                                                         <Border.Style>
                                                             <Style TargetType="Border">
                                                                 <Setter Property="BorderBrush"
