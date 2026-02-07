@@ -16,7 +16,7 @@ namespace SteamHub.ViewModel
     /// <summary>
     /// 主界面的ViewModel
     /// </summary>
-    public class MainWindowViewModel : ObservableObject
+    public partial class MainWindowViewModel : ObservableObject
     {
         /// <summary>
         /// 当前的Steam账号
@@ -36,222 +36,68 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 账号列表
         /// </summary>
+        [ObservableProperty]
         private List<SteamAccount> steamAccoutInfoList;
 
         /// <summary>
-        /// 账号列表
-        /// </summary>
-        public List<SteamAccount> SteamAccoutInfoList
-        {
-            get
-            {
-                return steamAccoutInfoList;
-            }
-            set
-            {
-                steamAccoutInfoList = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// 选中账号
         /// </summary>
+        [ObservableProperty]
         private SteamAccount selectedSteamAccoutInfo;
 
         /// <summary>
-        /// 选中账号
-        /// </summary>
-        public SteamAccount SelectedSteamAccoutInfo
-        {
-            get
-            {
-                return selectedSteamAccoutInfo;
-            }
-            set
-            {
-                selectedSteamAccoutInfo = value;
-
-                if (value != null)
-                {
-                    SteamAccountAccountText = selectedSteamAccoutInfo.Account;
-                    SteamAccountNameText = selectedSteamAccoutInfo.Name;
-                    SteamAccountPasswordText = selectedSteamAccoutInfo.Password;
-                    SteamAccountOrderText = selectedSteamAccoutInfo.Order;
-                }
-
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// 进程列表模式
         /// </summary>
+        [ObservableProperty]
         private ProcessListMode processListMode;
 
         /// <summary>
-        /// 进程列表模式
-        /// </summary>
-        public ProcessListMode ProcessListMode
-        {
-            get
-            {
-                return processListMode;
-            }
-            set
-            {
-                processListMode = value;
-                OnPropertyChanged();
-                LoadProcessList();
-            }
-        }
-
-        /// <summary>
         /// 显示的进程列表
         /// </summary>
+        [ObservableProperty]
         private List<string> displayProcessList;
 
         /// <summary>
-        /// 显示的进程列表
-        /// </summary>
-        public List<string> DisplayProcessList
-        {
-            get
-            {
-                return displayProcessList;
-            }
-            set
-            {
-                displayProcessList = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// 选中的进程名
         /// </summary>
+        [ObservableProperty]
         private string selectedProcessName;
 
         /// <summary>
-        /// 选中的进程名
-        /// </summary>
-        public string SelectedProcessName
-        {
-            get
-            {
-                return selectedProcessName;
-            }
-            set
-            {
-                selectedProcessName = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// steamAccount的Account文本内容
         /// </summary>
+        [ObservableProperty]
         private string steamAccountAccountText;
 
         /// <summary>
-        /// steamAccount的Account文本内容
-        /// </summary>
-        public string SteamAccountAccountText
-        {
-            get
-            {
-                return steamAccountAccountText;
-            }
-            set
-            {
-                steamAccountAccountText = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// steamAccount的Name文本内容
         /// </summary>
+        [ObservableProperty]
         private string steamAccountNameText;
 
         /// <summary>
-        /// steamAccount的Name文本内容
-        /// </summary>
-        public string SteamAccountNameText
-        {
-            get
-            {
-                return steamAccountNameText;
-            }
-            set
-            {
-                steamAccountNameText = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// steamAccount的Password文本内容
         /// </summary>
+        [ObservableProperty]
         private string steamAccountPasswordText;
 
         /// <summary>
-        /// steamAccount的Password文本内容
-        /// </summary>
-        public string SteamAccountPasswordText
-        {
-            get
-            {
-                return steamAccountPasswordText;
-            }
-            set
-            {
-                steamAccountPasswordText = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// steamAccount的Order文本内容
         /// </summary>
+        [ObservableProperty]
         private string steamAccountOrderText;
 
         /// <summary>
-        /// steamAccount的Order文本内容
-        /// </summary>
-        public string SteamAccountOrderText
-        {
-            get
-            {
-                return steamAccountOrderText;
-            }
-            set
-            {
-                steamAccountOrderText = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// 是否打开右侧抽屉
         /// </summary>
+        [ObservableProperty]
         private bool isRightDrawerOpen;
 
         /// <summary>
-        /// 是否打开右侧抽屉
+        /// 游戏列表
         /// </summary>
-        public bool IsRightDrawerOpen
-        {
-            get
-            {
-                return isRightDrawerOpen;
-            }
-            set
-            {
-                isRightDrawerOpen = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private List<SteamGame> steamGameList;
 
         /// <summary>
         /// Snackbar消息队列
@@ -261,27 +107,6 @@ namespace SteamHub.ViewModel
             get;
         } = new SnackbarMessageQueue(TimeSpan.FromSeconds(2));
 
-        /// <summary>
-        /// 游戏列表
-        /// </summary>
-        private List<SteamGame> steamGameList;
-
-        /// <summary>
-        /// 游戏列表
-        /// </summary>
-        public List<SteamGame> SteamGameList
-        {
-            get
-            {
-                return steamGameList;
-            }
-            set
-            {
-                steamGameList = value;
-                OnPropertyChanged();
-            }
-        }
-
         #endregion
 
         #region 绑定方法
@@ -289,13 +114,9 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 按键
         /// </summary>
-        public RelayCommand<CommandParameterEx> MainWindowKeyDownCommand => new RelayCommand<CommandParameterEx>(DoMainWindowKeyDown);
-
-        /// <summary>
-        /// 按键
-        /// </summary>
         /// <param name="commandParameterEx">参数</param>
-        private void DoMainWindowKeyDown(CommandParameterEx commandParameterEx)
+        [RelayCommand]
+        private void MainWindowKeyDown(CommandParameterEx commandParameterEx)
         {
             // 转换参数
             var keyEventArgs = commandParameterEx.EventArgs as System.Windows.Input.KeyEventArgs;
@@ -314,13 +135,9 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 正在关闭窗口
         /// </summary>
-        public RelayCommand<CommandParameterEx> MainWindowClosingCommand => new RelayCommand<CommandParameterEx>(DoMainWindowClosing);
-
-        /// <summary>
-        /// 正在关闭窗口
-        /// </summary>
         /// <param name="commandParameterEx">参数</param>
-        private void DoMainWindowClosing(CommandParameterEx commandParameterEx)
+        [RelayCommand]
+        private void MainWindowClosing(CommandParameterEx commandParameterEx)
         {
             // 转换参数
             var cancelEventArgs = commandParameterEx.EventArgs as CancelEventArgs;
@@ -337,12 +154,8 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 点击新建
         /// </summary>
-        public RelayCommand NewBtnClickCommand => new RelayCommand(DoNewBtnClickCommand);
-
-        /// <summary>
-        /// 点击新建
-        /// </summary>
-        private void DoNewBtnClickCommand()
+        [RelayCommand]
+        private void NewBtnClick()
         {
             var (success, autoLoginUserObj) = RegistryHelper.Get(@"Software\Valve\Steam", "AutoLoginUser");
             if (success == false || autoLoginUserObj == null)
@@ -379,12 +192,8 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 复制用户名
         /// </summary>
-        public RelayCommand CopyUserAccountBtnClickCommand => new RelayCommand(DoCopyUserAccountBtnClick);
-
-        /// <summary>
-        /// 复制用户名
-        /// </summary>
-        private void DoCopyUserAccountBtnClick()
+        [RelayCommand]
+        private void CopyUserAccountBtnClick()
         {
             if (SelectedSteamAccoutInfo == null || SelectedSteamAccoutInfo.Account == null)
             {
@@ -398,12 +207,8 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 复制密码
         /// </summary>
-        public RelayCommand CopyPasswordBtnClickCommand => new RelayCommand(DoCopyPasswordBtnClick);
-
-        /// <summary>
-        /// 复制密码
-        /// </summary>
-        private void DoCopyPasswordBtnClick()
+        [RelayCommand]
+        private void CopyPasswordBtnClick()
         {
             if (SelectedSteamAccoutInfo == null || SelectedSteamAccoutInfo.Password == null)
             {
@@ -417,29 +222,26 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 打开编辑抽屉
         /// </summary>
-        public RelayCommand OpenEditDrawerCommand => new RelayCommand(DoOpenEditDrawer);
-
-        /// <summary>
-        /// 打开编辑抽屉
-        /// </summary>
-        private void DoOpenEditDrawer()
+        [RelayCommand]
+        private void OpenEditDrawer()
         {
             if (SelectedSteamAccoutInfo == null)
             {
                 return;
             }
+
+            SteamAccountAccountText = SelectedSteamAccoutInfo.Account;
+            SteamAccountNameText = SelectedSteamAccoutInfo.Name;
+            SteamAccountPasswordText = SelectedSteamAccoutInfo.Password;
+            SteamAccountOrderText = SelectedSteamAccoutInfo.Order;
             IsRightDrawerOpen = true;
         }
 
         /// <summary>
         /// 关闭抽屉
         /// </summary>
-        public RelayCommand CloseDrawerCommand => new RelayCommand(DoCloseDrawer);
-
-        /// <summary>
-        /// 关闭抽屉
-        /// </summary>
-        private void DoCloseDrawer()
+        [RelayCommand]
+        private void CloseDrawer()
         {
             IsRightDrawerOpen = false;
         }
@@ -447,12 +249,8 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 保存steam账号信息
         /// </summary>
-        public RelayCommand SaveSteamAccoutInfoBtnClickCommand => new RelayCommand(DoSaveSteamAccoutInfoBtnClick);
-
-        /// <summary>
-        /// 保存steam账号信息
-        /// </summary>
-        private void DoSaveSteamAccoutInfoBtnClick()
+        [RelayCommand]
+        private void SaveSteamAccoutInfoBtnClick()
         {
             if (SelectedSteamAccoutInfo == null)
             {
@@ -480,12 +278,8 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 删除steam账号信息
         /// </summary>
-        public RelayCommand DelSteamAccoutInfoBtnClickCommand => new RelayCommand(DoDelSteamAccoutInfoBtnClick);
-
-        /// <summary>
-        /// 删除steam账号信息
-        /// </summary>
-        private void DoDelSteamAccoutInfoBtnClick()
+        [RelayCommand]
+        private void DelSteamAccoutInfoBtnClick()
         {
             if (SelectedSteamAccoutInfo == null)
             {
@@ -506,12 +300,8 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 添加游戏进程信息
         /// </summary>
-        public RelayCommand SaveGameProcessInfoBtnClickCommand => new RelayCommand(DoSaveGameProcessInfoBtnClick);
-
-        /// <summary>
-        /// 添加游戏进程信息
-        /// </summary>
-        private void DoSaveGameProcessInfoBtnClick()
+        [RelayCommand]
+        private void SaveGameProcessInfoBtnClick()
         {
             if (ProcessListMode != ProcessListMode.System)
             {
@@ -532,12 +322,8 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 删除游戏进程信息
         /// </summary>
-        public RelayCommand DelGameProcessInfoBtnClickCommand => new RelayCommand(DoDelGameProcessInfoBtnClick);
-
-        /// <summary>
-        /// 删除游戏进程信息
-        /// </summary>
-        private void DoDelGameProcessInfoBtnClick()
+        [RelayCommand]
+        private void DelGameProcessInfoBtnClick()
         {
             if (ProcessListMode != ProcessListMode.Saved)
             {
@@ -558,12 +344,8 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 刷新 Steam 数据
         /// </summary>
-        public RelayCommand RefreshSteamDataCommand => new RelayCommand(DoRefreshSteamData);
-
-        /// <summary>
-        /// 刷新 Steam 数据
-        /// </summary>
-        private void DoRefreshSteamData()
+        [RelayCommand]
+        private void RefreshSteamData()
         {
             // 刷新账号数据
             var steamAccountSources = SteamAnalyzer.GetAllLoginUsers();
@@ -613,7 +395,7 @@ namespace SteamHub.ViewModel
             SteamAccoutInfoList = SteamAccountRepository.GetAll();
 
             // 选中第一个
-            if (selectedSteamAccoutInfo == null && SteamAccoutInfoList != null && SteamAccoutInfoList.Count > 0)
+            if (SelectedSteamAccoutInfo == null && SteamAccoutInfoList != null && SteamAccoutInfoList.Count > 0)
             {
                 // 选回之前的账号
                 SteamAccount currentSteamAccountInfo = null;
