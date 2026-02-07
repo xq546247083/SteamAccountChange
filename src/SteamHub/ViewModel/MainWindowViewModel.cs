@@ -45,12 +45,6 @@ namespace SteamHub.ViewModel
         private SteamAccount selectedSteamAccount;
 
         /// <summary>
-        /// 游戏列表
-        /// </summary>
-        [ObservableProperty]
-        private List<SteamGame> steamGames;
-
-        /// <summary>
         /// Snackbar消息队列
         /// </summary>
         public SnackbarMessageQueue SnackbarMessageQueue
