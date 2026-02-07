@@ -88,9 +88,9 @@ public static class SteamAnalyzer
     /// <summary>
     /// 获取所有的游戏图标
     /// </summary>
-    public static HashSet<byte[]> GetAllSteamGameIcons()
+    public static List<byte[]> GetAllSteamGameIcons()
     {
-        var result = new HashSet<byte[]>();
+        var result = new List<byte[]>();
 
         var steamPath = SteamTool.GetSteamPath();
         if (string.IsNullOrEmpty(steamPath))

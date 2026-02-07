@@ -5,7 +5,6 @@ using SteamHub.Enums;
 using SteamHub.Manager;
 using SteamHub.Repositories;
 using System.Collections.ObjectModel;
-using System.IO;
 
 namespace SteamHub.ViewModel
 {
@@ -56,7 +55,15 @@ namespace SteamHub.ViewModel
             var allSteamGameIcons = SteamAnalyzer.GetAllSteamGameIcons();
             if (EditSteamGameIcon != null)
             {
-                allSteamGameIcons.Add(EditSteamGameIcon);
+                var editSteamGameIconStr = BitConverter.ToString(EditSteamGameIcon);
+                for (var i = 0; i < allSteamGameIcons.Count; i++)
+                {
+                    if (BitConverter.ToString(allSteamGameIcons[i]) == editSteamGameIconStr)
+                    {
+                        allSteamGameIcons.Remove(allSteamGameIcons[i]);
+                    }
+                }
+                allSteamGameIcons.Insert(0, EditSteamGameIcon);
             }
             AllGameIcons = new ObservableCollection<byte[]>(allSteamGameIcons);
             EditType = EditType.SteamGame;

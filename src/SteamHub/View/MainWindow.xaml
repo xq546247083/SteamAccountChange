@@ -160,45 +160,50 @@
                                 </ListBox.ItemsPanel>
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Width="48"
-                                                Height="48"
-                                                CornerRadius="4"
-                                                Margin="4"
-                                                Cursor="Hand">
-                                            <Border.InputBindings>
+                                        <Grid Width="48"
+                                              Height="48"
+                                              Margin="4"
+                                              Cursor="Hand"
+                                              Background="Transparent">
+                                            <Grid.InputBindings>
                                                 <MouseBinding MouseAction="LeftClick"
                                                               Command="{Binding DataContext.SelectGameIconCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                               CommandParameter="{Binding}" />
-                                            </Border.InputBindings>
-                                            <Border.Style>
-                                                <Style TargetType="Border">
-                                                    <Setter Property="BorderThickness"
-                                                            Value="2" />
-                                                    <Setter Property="BorderBrush"
-                                                            Value="Transparent" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Value="True">
-                                                            <DataTrigger.Binding>
-                                                                <MultiBinding Converter="{StaticResource EqualsConverter}">
-                                                                    <Binding Path="DataContext.EditSteamGameIcon"
-                                                                             RelativeSource="{RelativeSource AncestorType=Window}" />
-                                                                    <Binding Path="." />
-                                                                </MultiBinding>
-                                                            </DataTrigger.Binding>
-                                                            <Setter Property="BorderBrush"
-                                                                    Value="{DynamicResource MaterialDesign.Brush.Primary}" />
-                                                        </DataTrigger>
-                                                        <Trigger Property="IsMouseOver"
-                                                                 Value="True">
-                                                            <Setter Property="BorderBrush"
-                                                                    Value="{DynamicResource MaterialDesignDivider}" />
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
+                                            </Grid.InputBindings>
+
+                                            <!-- Icon -->
                                             <Image Source="{Binding Converter={StaticResource ByteToImageSourceConverter}}"
                                                    Stretch="Uniform" />
-                                        </Border>
+
+                                            <!-- Selection Overlay -->
+                                            <Border BorderThickness="2"
+                                                    IsHitTestVisible="False">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="BorderBrush"
+                                                                Value="Transparent" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Value="True">
+                                                                <DataTrigger.Binding>
+                                                                    <MultiBinding Converter="{StaticResource EqualsConverter}">
+                                                                        <Binding Path="DataContext.EditSteamGameIcon"
+                                                                                 RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                                        <Binding Path="." />
+                                                                    </MultiBinding>
+                                                                </DataTrigger.Binding>
+                                                                <Setter Property="BorderBrush"
+                                                                        Value="{DynamicResource MaterialDesign.Brush.Primary}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Grid}}"
+                                                                         Value="True">
+                                                                <Setter Property="BorderBrush"
+                                                                        Value="{DynamicResource MaterialDesignDivider}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                        </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
@@ -669,7 +674,8 @@
                                                                                  VerticalAlignment="Center"
                                                                                  Opacity="0.5" />
                                                         <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
-                                                               Stretch="UniformToFill" />
+                                                               Stretch="UniformToFill"
+                                                               StretchDirection="DownOnly" />
                                                     </Grid>
 
                                                     <!-- Game Name -->
