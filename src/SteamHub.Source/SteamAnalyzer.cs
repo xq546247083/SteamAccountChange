@@ -14,7 +14,7 @@ public static class SteamAnalyzer
     /// 获取登录用户列表
     /// </summary>
     /// <returns></returns>
-    public static List<SteamAccountSource> GetAllLoginUsers()
+    public static List<SteamAccountSource> GetAllLoginAccounts()
     {
         var accounts = new List<SteamAccountSource>();
 

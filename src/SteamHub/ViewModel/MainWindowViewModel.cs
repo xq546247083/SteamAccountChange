@@ -170,7 +170,7 @@ namespace SteamHub.ViewModel
         private void Refresh()
         {
             // 刷新账号数据
-            var steamAccountSources = SteamAnalyzer.GetAllLoginUsers();
+            var steamAccountSources = SteamAnalyzer.GetAllLoginAccounts();
             var steamAccounts = steamAccountSources.Select(r => new SteamAccount(Guid.NewGuid(), r.SteamId, r.AccountName, r.PersonaName ?? r.AccountName, string.Empty, "0", r.Icon)).ToList();
             SteamAccountRepository.AddOrUpdateRange(steamAccounts);
 
