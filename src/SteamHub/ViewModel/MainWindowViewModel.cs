@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
 using SteamHub.Common;
 using SteamHub.Entities;
-using SteamHub.Helper;
 using SteamHub.Manager;
 using SteamHub.Model;
 using SteamHub.Repositories;
@@ -37,13 +36,13 @@ namespace SteamHub.ViewModel
         /// 账号列表
         /// </summary>
         [ObservableProperty]
-        private List<SteamAccount> steamAccoutInfoList;
+        private List<SteamAccount> steamAccounts;
 
         /// <summary>
         /// 选中账号
         /// </summary>
         [ObservableProperty]
-        private SteamAccount selectedSteamAccoutInfo;
+        private SteamAccount selectedSteamAccount;
 
         /// <summary>
         /// 进程列表模式
@@ -64,40 +63,10 @@ namespace SteamHub.ViewModel
         private string selectedProcessName;
 
         /// <summary>
-        /// steamAccount的Account文本内容
-        /// </summary>
-        [ObservableProperty]
-        private string steamAccountAccountText;
-
-        /// <summary>
-        /// steamAccount的Name文本内容
-        /// </summary>
-        [ObservableProperty]
-        private string steamAccountNameText;
-
-        /// <summary>
-        /// steamAccount的Password文本内容
-        /// </summary>
-        [ObservableProperty]
-        private string steamAccountPasswordText;
-
-        /// <summary>
-        /// steamAccount的Order文本内容
-        /// </summary>
-        [ObservableProperty]
-        private string steamAccountOrderText;
-
-        /// <summary>
-        /// 是否打开右侧抽屉
-        /// </summary>
-        [ObservableProperty]
-        private bool isRightDrawerOpen;
-
-        /// <summary>
         /// 游戏列表
         /// </summary>
         [ObservableProperty]
-        private List<SteamGame> steamGameList;
+        private List<SteamGame> steamGames;
 
         /// <summary>
         /// Snackbar消息队列
@@ -161,55 +130,17 @@ namespace SteamHub.ViewModel
         }
 
         /// <summary>
-        /// 点击新建
-        /// </summary>
-        [RelayCommand]
-        private void NewBtnClick()
-        {
-            var (success, autoLoginUserObj) = RegistryHelper.Get(@"Software\Valve\Steam", "AutoLoginUser");
-            if (success == false || autoLoginUserObj == null)
-            {
-                Lactor.ShowToolTip("请先登陆Steam！");
-                return;
-            }
-
-            var autoLoginUser = autoLoginUserObj.ToString();
-            if (string.IsNullOrEmpty(autoLoginUser))
-            {
-                Lactor.ShowToolTip("请先登陆Steam！");
-                return;
-            }
-
-            if (SteamAccountRepository.Exists(autoLoginUser))
-            {
-                return;
-            }
-
-            // 构建账号信息
-            var steamAccount = new SteamAccount();
-            steamAccount.Account = autoLoginUser;
-            steamAccount.Name = autoLoginUser;
-            steamAccount.Password = "";
-            steamAccount.Order = "0";
-            SteamAccountRepository.Add(steamAccount);
-
-            currentSteamAccount = steamAccount.Account;
-            ReLoad();
-            Lactor.ShowToolTip("添加成功！");
-        }
-
-        /// <summary>
         /// 复制用户名
         /// </summary>
         [RelayCommand]
         private void CopyUserAccountBtnClick()
         {
-            if (SelectedSteamAccoutInfo == null || SelectedSteamAccoutInfo.Account == null)
+            if (SelectedSteamAccount == null || SelectedSteamAccount.Account == null)
             {
                 return;
             }
 
-            System.Windows.Clipboard.SetDataObject(SelectedSteamAccoutInfo.Account);
+            System.Windows.Clipboard.SetDataObject(SelectedSteamAccount.Account);
             Lactor.ShowToolTip("复制成功！");
         }
 
@@ -219,69 +150,13 @@ namespace SteamHub.ViewModel
         [RelayCommand]
         private void CopyPasswordBtnClick()
         {
-            if (SelectedSteamAccoutInfo == null || SelectedSteamAccoutInfo.Password == null)
+            if (SelectedSteamAccount == null || SelectedSteamAccount.Password == null)
             {
                 return;
             }
 
-            System.Windows.Clipboard.SetDataObject(SelectedSteamAccoutInfo.Password);
+            System.Windows.Clipboard.SetDataObject(SelectedSteamAccount.Password);
             Lactor.ShowToolTip("复制成功！");
-        }
-
-        /// <summary>
-        /// 打开编辑抽屉
-        /// </summary>
-        [RelayCommand]
-        private void OpenEditDrawer()
-        {
-            if (SelectedSteamAccoutInfo == null)
-            {
-                return;
-            }
-
-            SteamAccountAccountText = SelectedSteamAccoutInfo.Account;
-            SteamAccountNameText = SelectedSteamAccoutInfo.Name;
-            SteamAccountPasswordText = SelectedSteamAccoutInfo.Password;
-            SteamAccountOrderText = SelectedSteamAccoutInfo.Order;
-            IsRightDrawerOpen = true;
-        }
-
-        /// <summary>
-        /// 关闭抽屉
-        /// </summary>
-        [RelayCommand]
-        private void CloseDrawer()
-        {
-            IsRightDrawerOpen = false;
-        }
-
-        /// <summary>
-        /// 保存steam账号信息
-        /// </summary>
-        [RelayCommand]
-        private void SaveSteamAccoutInfoBtnClick()
-        {
-            if (SelectedSteamAccoutInfo == null)
-            {
-                IsRightDrawerOpen = false;
-                return;
-            }
-
-            if (!SteamAccountRepository.Exists(SelectedSteamAccoutInfo.Account))
-            {
-                return;
-            }
-
-            SelectedSteamAccoutInfo.Name = SteamAccountNameText;
-            SelectedSteamAccoutInfo.Password = SteamAccountPasswordText;
-            SelectedSteamAccoutInfo.Order = SteamAccountOrderText;
-            SteamAccountRepository.Update(SelectedSteamAccoutInfo);
-
-            currentSteamAccount = SelectedSteamAccoutInfo.Account;
-            IsRightDrawerOpen = false;
-
-            ReLoad();
-            Lactor.ShowToolTip("保存成功！");
         }
 
         /// <summary>
@@ -290,17 +165,17 @@ namespace SteamHub.ViewModel
         [RelayCommand]
         private void DelSteamAccoutInfoBtnClick()
         {
-            if (SelectedSteamAccoutInfo == null)
+            if (SelectedSteamAccount == null)
             {
                 return;
             }
 
-            if (!SteamAccountRepository.Exists(SelectedSteamAccoutInfo.Account))
+            if (!SteamAccountRepository.Exists(SelectedSteamAccount.Account))
             {
                 return;
             }
 
-            SteamAccountRepository.Delete(SelectedSteamAccoutInfo.Account);
+            SteamAccountRepository.Delete(SelectedSteamAccount.Account);
 
             ReLoad();
             Lactor.ShowToolTip("删除成功！");
@@ -379,7 +254,7 @@ namespace SteamHub.ViewModel
         /// </summary>
         private void Init()
         {
-            LoadSaveInfo();
+            LoadData();
         }
 
         /// <summary>
@@ -388,44 +263,7 @@ namespace SteamHub.ViewModel
         private void ReLoad()
         {
             NotifyIconManager.LoadMenu();
-            LoadSaveInfo();
-        }
-
-        #endregion
-
-        #region 公共方法
-
-        /// <summary>
-        /// 加载保存的信息
-        /// </summary>
-        public void LoadSaveInfo()
-        {
-            // 加载账号信息
-            SteamAccoutInfoList = SteamAccountRepository.GetAll();
-
-            // 选中第一个
-            if (SelectedSteamAccoutInfo == null && SteamAccoutInfoList != null && SteamAccoutInfoList.Count > 0)
-            {
-                // 选回之前的账号
-                SteamAccount currentSteamAccountInfo = null;
-                if (!string.IsNullOrEmpty(currentSteamAccount))
-                {
-                    currentSteamAccountInfo = SteamAccoutInfoList.FirstOrDefault(r => r.Account == currentSteamAccount);
-                }
-
-                // 选中第一个
-                if (currentSteamAccountInfo == null)
-                {
-                    currentSteamAccountInfo = SteamAccoutInfoList.FirstOrDefault();
-                }
-
-                SelectedSteamAccoutInfo = currentSteamAccountInfo;
-            }
-
-            // 加载游戏信息
-            SteamGameList = SteamGameRepository.GetAll();
-
-            LoadProcessList();
+            LoadData();
         }
 
         /// <summary>
@@ -443,14 +281,32 @@ namespace SteamHub.ViewModel
                 DisplayProcessList = SettingRepository.GetKillProcessList();
             }
 
-            if (DisplayProcessList != null && DisplayProcessList.Count > 0)
+            SelectedProcessName = DisplayProcessList != null && DisplayProcessList.Count > 0 ? DisplayProcessList.FirstOrDefault() : string.Empty;
+        }
+
+        #endregion
+
+        #region 公共方法
+
+        /// <summary>
+        /// 加载保存的信息
+        /// </summary>
+        public void LoadData()
+        {
+            // 加载账号信息
+            SteamAccounts = SteamAccountRepository.GetAll();
+
+            // 选中第一个
+            if (SelectedSteamAccount == null && SteamAccounts != null && SteamAccounts.Count > 0)
             {
-                SelectedProcessName = DisplayProcessList.FirstOrDefault();
+                var currentSteamAccountInfo = string.IsNullOrEmpty(currentSteamAccount) ? null : SteamAccounts.FirstOrDefault(r => r.Account == currentSteamAccount);
+                SelectedSteamAccount = currentSteamAccountInfo == null ? SteamAccounts.FirstOrDefault() : currentSteamAccountInfo;
             }
-            else
-            {
-                SelectedProcessName = string.Empty;
-            }
+
+            // 加载游戏信息
+            SteamGames = SteamGameRepository.GetAll();
+
+            LoadProcessList();
         }
 
         #endregion

@@ -45,29 +45,29 @@
     </Window.Resources>
 
     <Grid>
-        <materialDesign:DrawerHost IsRightDrawerOpen="{Binding IsRightDrawerOpen}">
+        <materialDesign:DrawerHost IsRightDrawerOpen="{Binding IsEdit}">
             <materialDesign:DrawerHost.RightDrawerContent>
                 <Border Width="300"
                         Background="{DynamicResource MaterialDesignPaper}">
                     <StackPanel Margin="12">
-                        <TextBlock Text="{Binding SteamAccountAccountText}"
+                        <TextBlock Text="{Binding EditSteamAccountAccount}"
                                    Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                    Opacity="0.6"
                                    Margin="0,0,0,12"
                                    HorizontalAlignment="Center" />
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:HintAssist.Hint="昵称 (必填)"
-                                 Text="{Binding SteamAccountNameText}"
+                                 Text="{Binding EditSteamAccountName}"
                                  Margin="0,0,0,12"
                                  FontSize="14" />
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:HintAssist.Hint="密码 (选填)"
-                                 Text="{Binding SteamAccountPasswordText}"
+                                 Text="{Binding EditSteamAccountPassword}"
                                  Margin="0,0,0,12"
                                  FontSize="14" />
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  materialDesign:HintAssist.Hint="排序序号 (选填)"
-                                 Text="{Binding SteamAccountOrderText}"
+                                 Text="{Binding EditSteamAccountOrder}"
                                  Margin="0,0,0,12"
                                  FontSize="14" />
                         <StackPanel Orientation="Horizontal"
@@ -118,8 +118,8 @@
                                           materialDesign:HintAssist.Hint="账号列表"
                                           DisplayMemberPath="Name"
                                           SelectedValuePath="Account"
-                                          ItemsSource="{Binding SteamAccoutInfoList}"
-                                          SelectedItem="{Binding SelectedSteamAccoutInfo}">
+                                          ItemsSource="{Binding SteamAccounts}"
+                                          SelectedItem="{Binding SelectedSteamAccount}">
                                 </ComboBox>
                             </StackPanel>
                         </materialDesign:Card>
@@ -133,25 +133,25 @@
                                            Margin="0,0,0,12" />
 
                                 <UniformGrid Columns="5"
-                                             Rows="2">
-                                    <!-- Add Button -->
+                                             Rows="1">
+                                    <!-- Refresh Button -->
                                     <StackPanel HorizontalAlignment="Center">
-                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                ToolTip="添加当前登录的Steam账号"
-                                                Command="{Binding NewBtnClickCommand}"
+                                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                                ToolTip="刷新Steam数据"
+                                                Command="{Binding RefreshSteamDataCommand}"
                                                 Margin="0,0,0,8"
                                                 Width="40"
                                                 Height="40"
                                                 Padding="0">
-                                            <materialDesign:PackIcon Kind="AccountPlus"
-                                                                     Width="24"
-                                                                     Height="24" />
+                                            <materialDesign:PackIcon Kind="Refresh"
+                                                                     Width="22"
+                                                                     Height="22" />
                                         </Button>
-                                        <TextBlock Text="添加账号"
+                                        <TextBlock Text="刷新数据"
                                                    HorizontalAlignment="Center"
                                                    FontSize="12" />
                                     </StackPanel>
-
+                                    
                                     <!-- Copy Account Button -->
                                     <StackPanel HorizontalAlignment="Center">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
@@ -225,24 +225,7 @@
                                                    HorizontalAlignment="Center"
                                                    FontSize="12" />
                                     </StackPanel>
-
-                                    <!-- Refresh Button -->
-                                    <StackPanel HorizontalAlignment="Center">
-                                        <Button Style="{StaticResource MaterialDesignRaisedButton}"
-                                                ToolTip="刷新Steam数据"
-                                                Command="{Binding RefreshSteamDataCommand}"
-                                                Margin="0,0,0,8"
-                                                Width="40"
-                                                Height="40"
-                                                Padding="0">
-                                            <materialDesign:PackIcon Kind="Refresh"
-                                                                     Width="22"
-                                                                     Height="22" />
-                                        </Button>
-                                        <TextBlock Text="刷新数据"
-                                                   HorizontalAlignment="Center"
-                                                   FontSize="12" />
-                                    </StackPanel>
+                          
                                 </UniformGrid>
                             </StackPanel>
                         </materialDesign:Card>
@@ -280,7 +263,7 @@
                                 <TextBlock Text="游戏库"
                                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                            VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding SteamGameList.Count, StringFormat='共 {0} 款游戏'}"
+                                <TextBlock Text="{Binding SteamGames.Count, StringFormat='共 {0} 款游戏'}"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            Opacity="0.6" />
@@ -291,7 +274,7 @@
                         <materialDesign:Card Grid.Row="1"
                                              Padding="0"
                                              UniformCornerRadius="8">
-                            <ListBox ItemsSource="{Binding SteamGameList}"
+                            <ListBox ItemsSource="{Binding SteamGames}"
                                      ScrollViewer.VerticalScrollBarVisibility="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
