@@ -11,8 +11,8 @@ namespace SteamHub.Model
         System,
 
         /// <summary>
-        /// 已保存的进程
+        /// 要杀掉的进程
         /// </summary>
-        Saved
+        Kill
     }
 }

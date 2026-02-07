@@ -72,7 +72,7 @@ namespace SteamHub.ViewModel
         [RelayCommand]
         private void DeleteKillProcess()
         {
-            if (ProcessListMode != ProcessListMode.Saved)
+            if (ProcessListMode != ProcessListMode.Kill)
             {
                 return;
             }
