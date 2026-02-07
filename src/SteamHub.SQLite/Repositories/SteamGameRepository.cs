@@ -80,8 +80,6 @@ namespace SteamHub.Repositories
                 
                 if (existing != null)
                 {
-                    existing.Name = game.Name;
-                    existing.Icon = game.Icon;
                     existing.AccountSteamId = game.AccountSteamId;
                 }
                 else
