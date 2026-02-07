@@ -16,9 +16,9 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// 最后拥有者(Steam64 ID)
+        /// SteamId
         /// </summary>
-        public string LastOwnerSteamId { get; set; }
+        public string AccountSteamId { get; set; }
 
         /// <summary>
         /// 游戏图标数据

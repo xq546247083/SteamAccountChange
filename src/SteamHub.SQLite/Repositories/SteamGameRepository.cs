@@ -21,11 +21,11 @@ namespace SteamHub.Repositories
         /// <summary>
         /// 根据 SteamId 获取游戏列表
         /// </summary>
-        public static List<SteamGame> GetBySteamId(string steamId)
+        public static List<SteamGame> GetBySteamId(string accountSteamId)
         {
             using var context = new SteamHubDbContext();
             return context.SteamGames
-                .Where(g => g.SteamId == steamId)
+                .Where(g => g.AccountSteamId == accountSteamId)
                 .OrderBy(g => g.Name)
                 .ToList();
         }
@@ -52,7 +52,7 @@ namespace SteamHub.Repositories
                 // 更新现有游戏
                 existing.Name = game.Name;
                 existing.Icon = game.Icon;
-                existing.SteamId = game.SteamId;
+                existing.AccountSteamId = game.AccountSteamId;
             }
             else
             {
@@ -82,7 +82,7 @@ namespace SteamHub.Repositories
                 {
                     existing.Name = game.Name;
                     existing.Icon = game.Icon;
-                    existing.SteamId = game.SteamId;
+                    existing.AccountSteamId = game.AccountSteamId;
                 }
                 else
                 {

@@ -176,7 +176,7 @@ namespace SteamHub.ViewModel
 
             // 刷新游戏数据
             var steamGameSources = SteamAnalyzer.GetAllGames();
-            var steamGames = steamGameSources.Select(r => new SteamGame(Guid.Empty, r.AppId, r.Name, r.Icon, r.LastOwnerSteamId)).ToList();
+            var steamGames = steamGameSources.Select(r => new SteamGame(Guid.Empty, r.AppId, r.Name, r.Icon, r.AccountSteamId)).ToList();
             SteamGameRepository.AddOrUpdateRange(steamGames);
 
             ReLoad();

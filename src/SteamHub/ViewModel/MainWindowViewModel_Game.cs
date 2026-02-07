@@ -89,7 +89,7 @@ namespace SteamHub.ViewModel
             // 过滤账号
             if (SearchSteamAccount != null)
             {
-                query = query.Where(g => g.SteamId == SearchSteamAccount.SteamId);
+                query = query.Where(g => g.AccountSteamId == SearchSteamAccount.SteamId);
             }
 
             // 过滤名称

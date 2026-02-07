@@ -64,7 +64,7 @@ public class SteamHubDbContext : DbContext
             entity.HasIndex(e => e.AppId);
             entity.Property(e => e.AppId).IsRequired().HasMaxLength(64);
             entity.Property(e => e.Name).HasMaxLength(64);
-            entity.Property(e => e.SteamId).HasMaxLength(64);
+            entity.Property(e => e.AccountSteamId).HasMaxLength(64);
         });
     }
 }

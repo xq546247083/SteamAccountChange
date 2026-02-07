@@ -69,12 +69,16 @@ public static class SteamAnalyzer
             return games;
         }
 
+        var steamAccountPlayGames = LoadSteamAccountPlayGames();
         var manifestFiles = Directory.GetFiles(steamAppsPath, "appmanifest_*.acf");
         foreach (var manifestFile in manifestFiles)
         {
             var game = LoadSteamGameSource(manifestFile);
             if (game != null && !string.IsNullOrEmpty(game.AppId))
             {
+                // 加载游戏用户
+                game.AccountSteamId = steamAccountPlayGames.LastOrDefault(r => r.AppId == game.AppId)?.SteamId ?? string.Empty;
+
                 // 加载游戏图标
                 game.Icon = LoadGameIcon(steamPath, game.AppId);
                 games.Add(game);
@@ -87,6 +91,88 @@ public static class SteamAnalyzer
     #endregion
 
     #region 私有方法
+
+    /// <summary>
+    /// 加载用户玩的游戏汇总信息
+    /// </summary>
+    /// <returns></returns>
+    private static List<SteamAccountPlayGameSource> LoadSteamAccountPlayGames()
+    {
+        var result = new List<SteamAccountPlayGameSource>();
+
+        var steamPath = SteamTool.GetSteamPath();
+        var userDataPath = Path.Combine(steamPath, "userdata");
+        if (!Directory.Exists(userDataPath))
+        {
+            return result;
+        }
+
+        var userDirs = Directory.GetDirectories(userDataPath);
+        foreach (var userDir in userDirs)
+        {
+            var steamId3Str = new DirectoryInfo(userDir).Name;
+            if (long.TryParse(steamId3Str, out var steamId3))
+            {
+                var steamId64 = (steamId3 + 76561197960265728).ToString();
+                var localConfigPath = Path.Combine(userDir, "config", "localconfig.vdf");
+
+                if (File.Exists(localConfigPath))
+                {
+                    var singleSteamAccountPlayGames = LoadSingleSteamAccountPlayGames(steamId64, localConfigPath);
+                    if (singleSteamAccountPlayGames != null && singleSteamAccountPlayGames.Count > 0)
+                    {
+                        result.AddRange(singleSteamAccountPlayGames);
+                    }
+                }
+            }
+        }
+
+        return result.OrderBy(r => r.LastPlayed).ToList();
+    }
+
+    /// <summary>
+    /// 解析 localconfig.vdf 获取用户应用列表
+    /// </summary>
+    private static List<SteamAccountPlayGameSource> LoadSingleSteamAccountPlayGames(string steamId, string localConfigPath)
+    {
+        var result = new List<SteamAccountPlayGameSource>();
+        try
+        {
+            var content = File.ReadAllText(localConfigPath);
+            // 匹配 "apps" 块 (使用平衡组处理嵌套的大括号)
+            var appsBlockMatch = Regex.Match(content, @"""apps""\s*\{((?>[^{}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))\}", RegexOptions.IgnoreCase);
+            if (appsBlockMatch.Success)
+            {
+                var appsBlock = appsBlockMatch.Groups[1].Value;
+                // 匹配每个 AppId 块: "AppId" { ... }
+                var appPattern = @"""(\d+)""\s*\{([\s\S]*?)\}";
+                var matches = Regex.Matches(appsBlock, appPattern);
+
+                foreach (Match match in matches)
+                {
+                    var appId = match.Groups[1].Value;
+                    var appContent = match.Groups[2].Value;
+
+                    var lastPlayedMatch = Regex.Match(appContent, @"""LastPlayed""\s+""(\d+)""", RegexOptions.IgnoreCase);
+                    long lastPlayed = 0;
+                    if (lastPlayedMatch.Success)
+                    {
+                        long.TryParse(lastPlayedMatch.Groups[1].Value, out lastPlayed);
+                    }
+
+                    if (!result.Any(x => x.AppId == appId))
+                    {
+                        result.Add(new SteamAccountPlayGameSource(steamId, appId, lastPlayed));
+                    }
+                }
+            }
+        }
+        catch
+        {
+        }
+
+        return result;
+    }
 
     /// <summary>
     /// 解析单个 appmanifest_*.acf 文件
@@ -105,7 +191,7 @@ public static class SteamAnalyzer
         {
             AppId = ExtractValue(vdfContent, "appid"),
             Name = ExtractValue(vdfContent, "name"),
-            LastOwnerSteamId = ExtractValue(vdfContent, "LastOwner")
+            AccountSteamId = ExtractValue(vdfContent, "LastOwner")
         };
     }
 
