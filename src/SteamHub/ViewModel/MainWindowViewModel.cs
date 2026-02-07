@@ -290,6 +290,8 @@ namespace SteamHub.ViewModel
                     {
                         SteamAccounts[i].Order = i;
                     }
+
+                    SteamAccountRepository.UpdateList(SteamAccounts.ToList());
                 }
             }
             else if (dropInfo.Data is SteamGame sourceGame && dropInfo.TargetItem is SteamGame targetGame)
@@ -303,6 +305,8 @@ namespace SteamHub.ViewModel
                     {
                         SteamGames[i].Order = i;
                     }
+
+                    SteamGameRepository.UpdateList(SteamGames.ToList());
                 }
             }
         }

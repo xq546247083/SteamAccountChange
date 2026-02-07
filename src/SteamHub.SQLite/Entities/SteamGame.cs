@@ -16,6 +16,11 @@ public class SteamGame
     public string AppId { get; set; }
 
     /// <summary>
+    /// 所属账号
+    /// </summary>
+    public string AccountSteamId { get; set; }
+
+    /// <summary>
     /// 游戏名称
     /// </summary>
     public string Name { get; set; }
@@ -24,11 +29,6 @@ public class SteamGame
     /// 游戏图标数据
     /// </summary>
     public byte[] Icon { get; set; }
-
-    /// <summary>
-    /// 所属账号
-    /// </summary>
-    public string AccountSteamId { get; set; }
 
     /// <summary>
     /// 排序序号

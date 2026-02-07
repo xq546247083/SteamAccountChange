@@ -82,7 +82,7 @@ namespace SteamHub.Repositories
         }
 
         /// <summary>
-        /// 批量添加游戏
+        /// 批量添加账号
         /// </summary>
         public static void AddList(List<SteamAccount> steamAccounts)
         {
@@ -101,6 +101,29 @@ namespace SteamHub.Repositories
                     steamAccount.Id = Guid.NewGuid();
                 }
                 context.SteamAccounts.Add(steamAccount);
+            }
+
+            context.SaveChanges();
+        }
+
+        /// <summary>
+        /// 批量更新账号
+        /// </summary>
+        public static void UpdateList(List<SteamAccount> steamAccounts)
+        {
+            using var context = new SteamHubDbContext();
+
+            foreach (var steamAccount in steamAccounts)
+            {
+                var existing = context.SteamAccounts.FirstOrDefault(g => g.Account == steamAccount.Account);
+                if (existing == null)
+                {
+                    continue;
+                }
+
+                existing.Name = steamAccount.Name;
+                existing.Password = steamAccount.Password;
+                existing.Order = steamAccount.Order;
             }
 
             context.SaveChanges();

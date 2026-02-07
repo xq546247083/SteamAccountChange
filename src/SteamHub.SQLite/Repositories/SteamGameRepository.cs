@@ -48,24 +48,22 @@ namespace SteamHub.Repositories
         {
             using var context = new SteamHubDbContext();
             var existing = context.SteamGames.FirstOrDefault(g => g.AppId == game.AppId);
-            
+
             if (existing != null)
             {
-                // 更新现有游戏
                 existing.Name = game.Name;
                 existing.Icon = game.Icon;
-                existing.AccountSteamId = game.AccountSteamId;
+                existing.Order = game.Order;
             }
             else
             {
-                // 添加新游戏
                 if (game.Id == Guid.Empty)
                 {
                     game.Id = Guid.NewGuid();
                 }
                 context.SteamGames.Add(game);
             }
-            
+
             context.SaveChanges();
         }
 
@@ -75,7 +73,7 @@ namespace SteamHub.Repositories
         public static void AddList(List<SteamGame> games)
         {
             using var context = new SteamHubDbContext();
-            
+
             foreach (var game in games)
             {
                 var existing = context.SteamGames.FirstOrDefault(g => g.AppId == game.AppId);
@@ -90,7 +88,30 @@ namespace SteamHub.Repositories
                 }
                 context.SteamGames.Add(game);
             }
-            
+
+            context.SaveChanges();
+        }
+
+        /// <summary>
+        /// 批量更新游戏
+        /// </summary>
+        public static void UpdateList(List<SteamGame> games)
+        {
+            using var context = new SteamHubDbContext();
+
+            foreach (var game in games)
+            {
+                var existing = context.SteamGames.FirstOrDefault(g => g.AppId == game.AppId);
+                if (existing == null)
+                {
+                    continue;
+                }
+
+                existing.Name = game.Name;
+                existing.Icon = game.Icon;
+                existing.Order = game.Order;
+            }
+
             context.SaveChanges();
         }
 
