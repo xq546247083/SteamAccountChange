@@ -45,24 +45,6 @@ namespace SteamHub.ViewModel
         private SteamAccount selectedSteamAccount;
 
         /// <summary>
-        /// 进程列表模式
-        /// </summary>
-        [ObservableProperty]
-        private ProcessListMode processListMode;
-
-        /// <summary>
-        /// 显示的进程列表
-        /// </summary>
-        [ObservableProperty]
-        private List<string> displayProcessList;
-
-        /// <summary>
-        /// 选中的进程名
-        /// </summary>
-        [ObservableProperty]
-        private string selectedProcessName;
-
-        /// <summary>
         /// 游戏列表
         /// </summary>
         [ObservableProperty]
@@ -75,15 +57,6 @@ namespace SteamHub.ViewModel
         {
             get;
         } = new SnackbarMessageQueue(TimeSpan.FromSeconds(2));
-
-        #endregion
-
-        #region 属性变化引发的事件
-
-        partial void OnProcessListModeChanged(ProcessListMode oldValue, ProcessListMode newValue)
-        {
-            LoadProcessList();
-        }
 
         #endregion
 
@@ -179,50 +152,6 @@ namespace SteamHub.ViewModel
 
             ReLoad();
             Lactor.ShowToolTip("删除成功！");
-        }
-
-        /// <summary>
-        /// 添加游戏进程信息
-        /// </summary>
-        [RelayCommand]
-        private void AddKillProcess()
-        {
-            if (ProcessListMode != ProcessListMode.System)
-            {
-                return;
-            }
-
-            if (string.IsNullOrEmpty(SelectedProcessName))
-            {
-                return;
-            }
-
-            SettingRepository.AddKillProcess(SelectedProcessName);
-
-            ReLoad();
-            Lactor.ShowToolTip("添加成功！");
-        }
-
-        /// <summary>
-        /// 删除游戏进程信息
-        /// </summary>
-        [RelayCommand]
-        private void DeleteKillProcess()
-        {
-            if (ProcessListMode != ProcessListMode.Saved)
-            {
-                return;
-            }
-
-            if (string.IsNullOrEmpty(SelectedProcessName))
-            {
-                return;
-            }
-
-            SettingRepository.DeleteKillProcess(SelectedProcessName);
-
-            ReLoad();
-            Lactor.ShowToolTip("删除成功!");
         }
 
         /// <summary>
