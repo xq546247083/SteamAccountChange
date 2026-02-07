@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:common="clr-namespace:SteamHub.Common"
         xmlns:convert="clr-namespace:SteamHub.Convert"
+        xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Height="600"
@@ -153,7 +154,10 @@
 
                                 <ListBox Grid.Row="1"
                                          x:Name="lbAccount"
-                                         AllowDrop="True"
+                                         dd:DragDrop.IsDragSource="True"
+                                         dd:DragDrop.IsDropTarget="True"
+                                         dd:DragDrop.DropHandler="{Binding}"
+                                         dd:DragDrop.UseDefaultDragAdorner="True"
                                          ItemsSource="{Binding SteamAccounts}"
                                          SelectedItem="{Binding SelectedSteamAccount}"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -457,7 +461,10 @@
 
                                 <!-- List -->
                                 <ListBox Grid.Row="1"
-                                         AllowDrop="True"
+                                         dd:DragDrop.IsDragSource="True"
+                                         dd:DragDrop.IsDropTarget="True"
+                                         dd:DragDrop.DropHandler="{Binding}"
+                                         dd:DragDrop.UseDefaultDragAdorner="True"
                                          ItemsSource="{Binding SteamGames}"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          ScrollViewer.VerticalScrollBarVisibility="Auto">

@@ -6,16 +6,18 @@ using SteamHub.Entities;
 using SteamHub.Manager;
 using SteamHub.Model;
 using SteamHub.Repositories;
+using GongSolutions.Wpf.DragDrop;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace SteamHub.ViewModel
 {
     /// <summary>
     /// 主界面的ViewModel
     /// </summary>
-    public partial class MainWindowViewModel : ObservableObject
+    public partial class MainWindowViewModel : ObservableObject, GongSolutions.Wpf.DragDrop.IDropTarget
     {
         /// <summary>
         /// 当前的Steam账号
@@ -36,7 +38,7 @@ namespace SteamHub.ViewModel
         /// 账号列表
         /// </summary>
         [ObservableProperty]
-        private List<SteamAccount> steamAccounts;
+        private ObservableCollection<SteamAccount> steamAccounts;
 
         /// <summary>
         /// 选中账号
@@ -225,7 +227,7 @@ namespace SteamHub.ViewModel
         private void LoadSteamAccounts()
         {
             // 加载账号信息
-            SteamAccounts = SteamAccountRepository.GetAll();
+            SteamAccounts = new ObservableCollection<SteamAccount>(SteamAccountRepository.GetAll());
 
             // 选中第一个
             if (SelectedSteamAccount == null && SteamAccounts != null && SteamAccounts.Count > 0)
@@ -250,5 +252,62 @@ namespace SteamHub.ViewModel
         }
 
         #endregion
+
+        #region 拖拽
+
+        /// <summary>
+        /// 拖拽
+        /// </summary>
+        public void DragOver(IDropInfo dropInfo)
+        {
+            if (dropInfo.Data == dropInfo.TargetItem) return;
+
+            if (dropInfo.Data is SteamAccount && dropInfo.TargetItem is SteamAccount)
+            {
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+                dropInfo.Effects = System.Windows.DragDropEffects.Move;
+            }
+            else if (dropInfo.Data is SteamGame && dropInfo.TargetItem is SteamGame)
+            {
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+                dropInfo.Effects = System.Windows.DragDropEffects.Move;
+            }
+        }
+
+        /// <summary>
+        /// 拖拽放下
+        /// </summary>
+        public void Drop(IDropInfo dropInfo)
+        {
+            if (dropInfo.Data is SteamAccount sourceAccount && dropInfo.TargetItem is SteamAccount targetAccount)
+            {
+                int oldIndex = SteamAccounts.IndexOf(sourceAccount);
+                int newIndex = SteamAccounts.IndexOf(targetAccount);
+                if (oldIndex != -1 && newIndex != -1)
+                {
+                    SteamAccounts.Move(oldIndex, newIndex);
+                    for (int i = 0; i < SteamAccounts.Count; i++) 
+                    {
+                        SteamAccounts[i].Order = i;
+                    }
+                }
+            }
+            else if (dropInfo.Data is SteamGame sourceGame && dropInfo.TargetItem is SteamGame targetGame)
+            {
+                int oldIndex = SteamGames.IndexOf(sourceGame);
+                int newIndex = SteamGames.IndexOf(targetGame);
+                if (oldIndex != -1 && newIndex != -1)
+                {
+                    SteamGames.Move(oldIndex, newIndex);
+                    for (int i = 0; i < SteamGames.Count; i++) 
+                    {
+                        SteamGames[i].Order = i;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
     }
 }

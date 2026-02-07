@@ -2,10 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using SteamHub.Entities;
 using SteamHub.Repositories;
+using System.Collections.ObjectModel;
 
 namespace SteamHub.ViewModel
 {
-    public partial class MainWindowViewModel 
+    public partial class MainWindowViewModel
     {
         #region 绑定属性
 
@@ -13,7 +14,7 @@ namespace SteamHub.ViewModel
         /// 游戏列表
         /// </summary>
         [ObservableProperty]
-        private List<SteamGame> steamGames;
+        private ObservableCollection<SteamGame> steamGames;
 
         /// <summary>
         /// 搜索游戏名称
@@ -80,7 +81,7 @@ namespace SteamHub.ViewModel
             var allSteamGames = SteamGameRepository.GetAll();
             if (allSteamGames == null)
             {
-                SteamGames = new List<SteamGame>();
+                SteamGames = new ObservableCollection<SteamGame>();
                 return;
             }
 
@@ -98,7 +99,7 @@ namespace SteamHub.ViewModel
                 query = query.Where(g => g.Name != null && g.Name.Contains(SearchSteamGameName, StringComparison.OrdinalIgnoreCase));
             }
 
-            SteamGames = query.ToList();
+            SteamGames = new ObservableCollection<SteamGame>(query);
         }
 
         #endregion
