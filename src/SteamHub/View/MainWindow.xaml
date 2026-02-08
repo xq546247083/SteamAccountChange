@@ -16,7 +16,7 @@
         ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen"
         x:Name="mainWindowView"
-        Title="Steam 账号切换器"
+        Title="Steam账号切换器"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         TextElement.FontWeight="Regular"
