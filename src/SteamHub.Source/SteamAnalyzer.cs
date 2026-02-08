@@ -56,29 +56,39 @@ public static class SteamAnalyzer
     /// <summary>
     /// 解析所有游戏清单文件,获取游戏信息
     /// </summary>
-    /// <param name="steamPath">Steam 安装路径</param>
     /// <returns>游戏列表</returns>
     public static List<SteamGameSource> GetAllGames()
     {
         var games = new List<SteamGameSource>();
 
-        var steamPath = SteamTool.GetSteamPath();
-        var steamAppsPath = Path.Combine(steamPath, "steamapps");
-        if (!Directory.Exists(steamAppsPath))
+        // 获取所有库路径
+        var libraryPaths = GetLibraryPaths();
+        if (libraryPaths.Count == 0)
         {
             return games;
         }
 
-        var steamAccountPlayGames = LoadSteamAccountPlayGames();
-        var manifestFiles = Directory.GetFiles(steamAppsPath, "appmanifest_*.acf");
-        foreach (var manifestFile in manifestFiles)
+        var steamAccountPlayGames = LoadAccountPlayGames();
+
+        // 遍历每个库路径,扫描游戏清单文件
+        foreach (var libraryPath in libraryPaths)
         {
-            var game = LoadSteamGameSource(manifestFile);
-            if (game != null && !string.IsNullOrEmpty(game.AppId))
+            var steamAppsPath = Path.Combine(libraryPath, "steamapps");
+            if (!Directory.Exists(steamAppsPath))
             {
-                // 加载游戏用户
-                game.AccountSteamId = steamAccountPlayGames.LastOrDefault(r => r.AppId == game.AppId)?.SteamId ?? string.Empty;
-                games.Add(game);
+                continue;
+            }
+
+            var manifestFiles = Directory.GetFiles(steamAppsPath, "appmanifest_*.acf");
+            foreach (var manifestFile in manifestFiles)
+            {
+                var game = LoadGameSource(manifestFile);
+                if (game != null && !string.IsNullOrEmpty(game.AppId))
+                {
+                    // 加载游戏用户
+                    game.AccountSteamId = steamAccountPlayGames.LastOrDefault(r => r.AppId == game.AppId)?.SteamId ?? string.Empty;
+                    games.Add(game);
+                }
             }
         }
 
@@ -88,7 +98,7 @@ public static class SteamAnalyzer
     /// <summary>
     /// 获取所有的游戏图标
     /// </summary>
-    public static List<byte[]> GetAllSteamGameIcons()
+    public static List<byte[]> GetAllGameIcons()
     {
         var result = new List<byte[]>();
 
@@ -127,10 +137,44 @@ public static class SteamAnalyzer
     #region 私有方法
 
     /// <summary>
+    /// 从 libraryfolders.vdf 中获取所有库路径
+    /// </summary>
+    /// <returns>库路径列表</returns>
+    private static List<string> GetLibraryPaths()
+    {
+        var paths = new List<string>();
+
+        var steamPath = SteamTool.GetSteamPath();
+        var libraryFoldersPath = Path.Combine(steamPath, "steamapps", "libraryfolders.vdf");
+        if (!File.Exists(libraryFoldersPath))
+        {
+            return paths;
+        }
+
+        var vdfContent = File.ReadAllText(libraryFoldersPath);
+
+        var pathPattern = @"""path""\s+""([^""]+)""";
+        var matches = Regex.Matches(vdfContent, pathPattern, RegexOptions.IgnoreCase);
+
+        foreach (Match match in matches)
+        {
+            var path = match.Groups[1].Value;
+            path = path.Replace("\\\\", "\\");
+
+            if (Directory.Exists(path))
+            {
+                paths.Add(path);
+            }
+        }
+
+        return paths;
+    }
+
+    /// <summary>
     /// 加载用户玩的游戏汇总信息
     /// </summary>
     /// <returns></returns>
-    private static List<SteamAccountPlayGameSource> LoadSteamAccountPlayGames()
+    private static List<SteamAccountPlayGameSource> LoadAccountPlayGames()
     {
         var result = new List<SteamAccountPlayGameSource>();
 
@@ -152,7 +196,7 @@ public static class SteamAnalyzer
 
                 if (File.Exists(localConfigPath))
                 {
-                    var singleSteamAccountPlayGames = LoadSingleSteamAccountPlayGames(steamId64, localConfigPath);
+                    var singleSteamAccountPlayGames = LoadSingleAccountPlayGames(steamId64, localConfigPath);
                     if (singleSteamAccountPlayGames != null && singleSteamAccountPlayGames.Count > 0)
                     {
                         result.AddRange(singleSteamAccountPlayGames);
@@ -167,7 +211,7 @@ public static class SteamAnalyzer
     /// <summary>
     /// 解析 localconfig.vdf 获取用户应用列表
     /// </summary>
-    private static List<SteamAccountPlayGameSource> LoadSingleSteamAccountPlayGames(string steamId, string localConfigPath)
+    private static List<SteamAccountPlayGameSource> LoadSingleAccountPlayGames(string steamId, string localConfigPath)
     {
         var result = new List<SteamAccountPlayGameSource>();
         try
@@ -213,7 +257,7 @@ public static class SteamAnalyzer
     /// </summary>
     /// <param name="manifestPath">清单文件路径</param>
     /// <returns>游戏信息</returns>
-    private static SteamGameSource LoadSteamGameSource(string manifestPath)
+    private static SteamGameSource LoadGameSource(string manifestPath)
     {
         if (!File.Exists(manifestPath))
         {
