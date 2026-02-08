@@ -14,7 +14,7 @@ namespace SteamHub
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = Lactor.MainWindowViewModel;
+            this.DataContext = Lactor.MainViewModel;
         }
     }
 }

@@ -6,7 +6,7 @@ using SteamHub.Repositories;
 
 namespace SteamHub.ViewModel
 {
-    public partial class MainWindowViewModel
+    public partial class MainViewModel
     {
         #region 绑定属性
 

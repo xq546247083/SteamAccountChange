@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace SteamHub.ViewModel
 {
-    public partial class MainWindowViewModel
+    public partial class MainViewModel
     {
         private string editSteamGameAppId;
 

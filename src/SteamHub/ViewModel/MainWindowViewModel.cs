@@ -17,7 +17,7 @@ namespace SteamHub.ViewModel
     /// <summary>
     /// 主界面的ViewModel
     /// </summary>
-    public partial class MainWindowViewModel : ObservableObject, GongSolutions.Wpf.DragDrop.IDropTarget
+    public partial class MainViewModel : ObservableObject, GongSolutions.Wpf.DragDrop.IDropTarget
     {
         /// <summary>
         /// 当前的Steam账号
@@ -27,7 +27,7 @@ namespace SteamHub.ViewModel
         /// <summary>
         /// 构造方法
         /// </summary>
-        public MainWindowViewModel()
+        public MainViewModel()
         {
             Init();
         }

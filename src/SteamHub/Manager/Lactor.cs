@@ -28,11 +28,11 @@ namespace SteamHub.Manager
         /// <summary>
         /// 主窗口ViewModel
         /// </summary>
-        public static MainWindowViewModel MainWindowViewModel
+        public static MainViewModel MainViewModel
         {
             get;
 
-        } = new MainWindowViewModel();
+        } = new MainViewModel();
 
         /// <summary>
         /// 主窗口
@@ -99,13 +99,13 @@ namespace SteamHub.Manager
         {
             if (System.Windows.Application.Current.Dispatcher.CheckAccess())
             {
-                MainWindowViewModel.SnackbarMessageQueue.Enqueue(message);
+                MainViewModel.SnackbarMessageQueue.Enqueue(message);
                 return;
             }
 
             System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
-                MainWindowViewModel.SnackbarMessageQueue.Enqueue(message);
+                MainViewModel.SnackbarMessageQueue.Enqueue(message);
             });
         }
 

@@ -9,7 +9,7 @@ namespace SteamHub.ViewModel
     /// <summary>
     /// 主界面的ViewModel
     /// </summary>
-    public partial class MainWindowViewModel
+    public partial class MainViewModel
     {
         #region 绑定属性
 
