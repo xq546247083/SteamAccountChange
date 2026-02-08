@@ -13,15 +13,14 @@
 
     <Border CornerRadius="8"
             Background="#FFFFFF"
-            Width="280"
+            Width="240"
             Height="Auto">
         <Border.Effect>
             <DropShadowEffect BlurRadius="10"
                               ShadowDepth="0"
                               Opacity="0.3"
-                              Color="Black" />
+                              Color="White" />
         </Border.Effect>
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -30,79 +29,117 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"
-                  Margin="10,10,10,5">
-                <TextBlock Text="SteamHub"
+                  Margin="10,5,10,5">
+                <TextBlock Text="Steam账号切换器"
                            FontWeight="Bold"
-                           FontSize="16"
+                           FontSize="14"
                            VerticalAlignment="Center" />
-                <Button Command="{Binding OpenMainWindowCommand}"
+                <Button Width="30"
+                        Height="30"
+                        Command="{Binding OpenMainWindowCommand}"
                         Style="{StaticResource MaterialDesignIconForegroundButton}"
                         HorizontalAlignment="Right"
                         ToolTip="打开主界面">
                     <materialDesign:PackIcon Kind="ViewDashboard" />
                 </Button>
             </Grid>
-
             <Separator Grid.Row="0"
                        VerticalAlignment="Bottom"
                        Margin="0,0,0,-5" />
 
             <!-- Account List -->
-            <ScrollViewer Grid.Row="1"
-                          MaxHeight="300"
-                          VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding SteamAccounts}"
-                              Margin="0,5">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                    Command="{Binding DataContext.SwitchSteamAccountCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                    CommandParameter="{Binding}"
-                                    HorizontalContentAlignment="Left"
-                                    Height="50"
-                                    Padding="10,0">
-                                <Grid Width="240">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <Ellipse Grid.Column="0"
-                                             Width="32"
-                                             Height="32">
-                                        <Ellipse.Fill>
-                                            <ImageBrush ImageSource="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
-                                                        Stretch="UniformToFill" />
-                                        </Ellipse.Fill>
-                                    </Ellipse>
-
-                                    <StackPanel Grid.Column="1"
-                                                Margin="10,0,0,0"
-                                                VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Name}"
-                                                   FontWeight="Bold"
-                                                   TextTrimming="CharacterEllipsis" />
-                                        <TextBlock Text="{Binding Account}"
-                                                   FontSize="12"
-                                                   Opacity="0.7"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </StackPanel>
-                                </Grid>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+            <Grid Grid.Row="1">
+                <ScrollViewer MaxHeight="300"
+                              VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding SteamAccounts}"
+                                  Margin="0,5">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        Command="{Binding DataContext.SwitchSteamAccountCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}"
+                                        HorizontalContentAlignment="Left"
+                                        Height="50"
+                                        Padding="10,0">
+                                    <Grid Width="240">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0"
+                                              Width="32"
+                                              Height="32">
+                                            <materialDesign:PackIcon Kind="QuestionMark"
+                                                                     Width="32"
+                                                                     Height="32"
+                                                                     HorizontalAlignment="Center"
+                                                                     VerticalAlignment="Center"
+                                                                     Opacity="0.5" />
+                                            <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
+                                                   Stretch="UniformToFill" />
+                                        </Grid>
+                                        <StackPanel Grid.Column="1"
+                                                    Margin="10,0,0,0"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}"
+                                                       FontWeight="Bold"
+                                                       TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding Account}"
+                                                       FontSize="12"
+                                                       Opacity="0.7"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                <TextBlock Text="暂无账号数据"
+                           FontSize="14"
+                           Foreground="Gray"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Margin="0,20">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility"
+                                    Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SteamAccounts.Count}"
+                                             Value="0">
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
 
             <Separator Grid.Row="1"
                        VerticalAlignment="Bottom" />
-
             <!-- Footer -->
             <StackPanel Grid.Row="2"
-                        Margin="0,5">
+                        Margin="10">
+                <Grid Margin="15,5">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="RocketLaunch"
+                                                 VerticalAlignment="Center"
+                                                 Margin="0,0,10,0" />
+                        <TextBlock FontSize="13"
+                                   Text="开机自启动"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                    <ToggleButton  IsChecked="{Binding IsLaunchOnSysPowerOn}"
+                                   Command="{Binding ToggleAutoStartCommand}"
+                                   HorizontalAlignment="Right"
+                                   Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                </Grid>
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                         Command="{Binding LoginSteamAccountCommand}"
                         HorizontalContentAlignment="Left"
+                        MinHeight="40"
                         Padding="15,10">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="AccountPlus"
@@ -111,24 +148,10 @@
                         <TextBlock Text="登录新账号" />
                     </StackPanel>
                 </Button>
-
-                <Grid Margin="15,5">
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="RocketLaunch"
-                                                 VerticalAlignment="Center"
-                                                 Margin="0,0,10,0" />
-                        <TextBlock Text="开机自启动"
-                                   VerticalAlignment="Center" />
-                    </StackPanel>
-                    <ToggleButton IsChecked="{Binding IsLaunchOnSysPowerOn}"
-                                  Command="{Binding ToggleAutoStartCommand}"
-                                  HorizontalAlignment="Right"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                </Grid>
-
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                         Command="{Binding ExitCommand}"
                         HorizontalContentAlignment="Left"
+                        MinHeight="40"
                         Padding="15,10">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="ExitToApp"
