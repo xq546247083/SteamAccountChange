@@ -330,11 +330,11 @@ namespace SteamHub.ViewModel
                     }
 
                     SteamGameRepository.UpdateList(SteamGames.ToList());
+                    Lactor.TrayPopupViewModel.ReLoad();
                 }
             }
         }
 
         #endregion
-
     }
 }
