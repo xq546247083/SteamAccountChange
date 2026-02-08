@@ -214,6 +214,10 @@
                                         Content="取消"
                                         Command="{Binding CloseEditSteamGameDrawerCommand}"
                                         Margin="0,0,8,0" />
+                                <Button Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                        Content="删除"
+                                        Command="{Binding DeleteSteamGameCommand}"
+                                        Margin="0,0,8,0" />
                                 <Button Style="{StaticResource MaterialDesignRaisedButton}"
                                         Content="保存"
                                         Command="{Binding SaveSteamGameCommand}" />

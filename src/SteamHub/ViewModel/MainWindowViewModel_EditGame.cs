@@ -79,6 +79,25 @@ namespace SteamHub.ViewModel
         }
 
         /// <summary>
+        /// 删除steam游戏信息
+        /// </summary>
+        [RelayCommand]
+        private void DeleteSteamGame()
+        {
+            if (string.IsNullOrEmpty(editSteamGameAppId))
+            {
+                EditType = EditType.None;
+                return;
+            }
+
+            SteamGameRepository.Delete(editSteamGameAppId);
+
+            EditType = EditType.None;
+            ReLoad();
+            Lactor.ShowToolTip("保存成功！");
+        }
+
+        /// <summary>
         /// 保存steam游戏信息
         /// </summary>
         [RelayCommand]
