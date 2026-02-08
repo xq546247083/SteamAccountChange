@@ -20,11 +20,11 @@ namespace SteamHub
             // 如果存在，直接返回
             if (ExistsCurrentProcess())
             {
-                System.Environment.Exit(0);
+                Environment.Exit(0);
             }
 
-            DbInitializer.Initialize();
             RegisterGlobalExceptionHandling();
+            DbInitializer.Initialize();
             NotifyIconManager.Init();
         }
 

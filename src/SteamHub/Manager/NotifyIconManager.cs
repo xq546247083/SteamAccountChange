@@ -17,6 +17,8 @@ namespace SteamHub.Manager
 
         #endregion
 
+        #region 公共方法
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -32,6 +34,18 @@ namespace SteamHub.Manager
             taskbarIcon.TrayMouseDoubleClick += TaskbarIcon_TrayMouseDoubleClick;
             taskbarIcon.TrayRightMouseUp += TaskbarIcon_TrayRightMouseUp;
         }
+
+        /// <summary>
+        /// 关闭托盘弹窗
+        /// </summary>
+        public static void Close()
+        {
+            taskbarIcon?.CloseTrayPopup();
+        }
+
+        #endregion
+
+        #region 私有方法
 
         /// <summary>
         /// 双击系统推盘
@@ -52,5 +66,7 @@ namespace SteamHub.Manager
         {
             taskbarIcon.ShowTrayPopup();
         }
+
+        #endregion
     }
 }

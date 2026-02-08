@@ -66,6 +66,7 @@ namespace SteamHub.ViewModel
 
             var processList = SettingRepository.GetKillProcessList();
             SteamTool.Open(account.Account, processList);
+            NotifyIconManager.Close();
         }
 
         /// <summary>
@@ -76,6 +77,7 @@ namespace SteamHub.ViewModel
         {
             var processList = SettingRepository.GetKillProcessList();
             SteamTool.Open(string.Empty, processList);
+            NotifyIconManager.Close();
         }
 
         /// <summary>
@@ -102,6 +104,7 @@ namespace SteamHub.ViewModel
         private void OpenMainWindow()
         {
             Lactor.OpenMainWindow();
+            NotifyIconManager.Close();
         }
 
         /// <summary>
@@ -151,6 +154,7 @@ namespace SteamHub.ViewModel
 
             // 再打开游戏
             SteamTool.OpenGame(game.AppId);
+            NotifyIconManager.Close();
         }
 
         #endregion
