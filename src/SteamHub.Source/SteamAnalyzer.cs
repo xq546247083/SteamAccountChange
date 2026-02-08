@@ -8,6 +8,9 @@ namespace SteamHub;
 /// </summary>
 public static class SteamAnalyzer
 {
+    /// <summary>
+    /// 扫描游戏，跳过的游戏AppId列表
+    /// </summary>
     private static List<string> skipGameAppIds = new List<string>()
     {
         "228980"
