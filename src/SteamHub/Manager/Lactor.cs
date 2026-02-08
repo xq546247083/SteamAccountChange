@@ -1,4 +1,8 @@
-﻿using SteamHub.ViewModel;
+﻿using SteamHub.View;
+using SteamHub.ViewModel;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Interop;
 
 namespace SteamHub.Manager
 {
@@ -7,68 +11,84 @@ namespace SteamHub.Manager
     /// </summary>
     public static class Lactor
     {
-        /// <summary>
-        /// 对象锁
-        /// </summary>
-        private static object mainWindowLockObj = new object();
+        #region Win32 API
 
-        /// <summary>
-        /// 主窗口
-        /// </summary>
-        private static MainWindow mainWindow;
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        /// <summary>
-        /// 主窗口
-        /// </summary>
-        public static MainWindow MainWindow
-        {
-            get
-            {
-                if (mainWindow == null)
-                {
-                    lock (mainWindowLockObj)
-                    {
-                        if (mainWindow == null)
-                        {
-                            mainWindow = new MainWindow();
-                        }
-                    }
-                }
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-                return mainWindow;
-            }
-        }
+        private const int SW_RESTORE = 9;
 
-        /// <summary>
-        /// 对象锁
-        /// </summary>
-        private static object mainWindowViewModelLockObj = new object();
+        #endregion
 
-        /// <summary>
-        /// 主窗口ViewModel
-        /// </summary>
-        private static MainWindowViewModel mainWindowViewModel;
+        #region 公共属性
 
         /// <summary>
         /// 主窗口ViewModel
         /// </summary>
         public static MainWindowViewModel MainWindowViewModel
         {
-            get
-            {
-                if (mainWindowViewModel == null)
-                {
-                    lock (mainWindowViewModelLockObj)
-                    {
-                        if (mainWindowViewModel == null)
-                        {
-                            mainWindowViewModel = new MainWindowViewModel();
-                        }
-                    }
-                }
+            get;
 
-                return mainWindowViewModel;
+        } = new MainWindowViewModel();
+
+        /// <summary>
+        /// 主窗口
+        /// </summary>
+        public static MainWindow MainWindow
+        {
+            get;
+        } = new MainWindow();
+
+        /// <summary>
+        /// 托盘菜单ViewModel
+        /// </summary>
+        public static TrayPopupViewModel TrayPopupViewModel
+        {
+            get;
+
+        } = new TrayPopupViewModel();
+
+        /// <summary>
+        /// 托盘菜单
+        /// </summary>
+        public static TrayPopupControl TrayPopupControl
+        {
+            get;
+        } = new TrayPopupControl();
+
+        #endregion
+
+        #region 公共方法
+
+        /// <summary>
+        /// 打开主窗口
+        /// </summary>
+        public static void OpenMainWindow()
+        {
+            // 显示窗口
+            MainWindow.Show();
+            MainWindow.ShowInTaskbar = true;
+
+            // 恢复窗口状态
+            if (MainWindow.WindowState == WindowState.Minimized)
+            {
+                MainWindow.WindowState = WindowState.Normal;
             }
+
+            // 使用 Win32 API 强制窗口显示在前面
+            var helper = new WindowInteropHelper(MainWindow);
+            var hwnd = helper.Handle;
+
+            ShowWindow(hwnd, SW_RESTORE);
+            SetForegroundWindow(hwnd);
+
+            // WPF 层面的激活
+            MainWindow.Activate();
+            MainWindow.Topmost = true;
+            MainWindow.Topmost = false;
         }
 
         /// <summary>
@@ -88,5 +108,7 @@ namespace SteamHub.Manager
                 MainWindowViewModel.SnackbarMessageQueue.Enqueue(message);
             });
         }
+
+        #endregion
     }
 }

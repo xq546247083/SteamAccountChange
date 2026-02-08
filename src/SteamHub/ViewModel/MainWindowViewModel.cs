@@ -222,7 +222,7 @@ namespace SteamHub.ViewModel
         private void ReLoad()
         {
             LoadAllData();
-            NotifyIconManager.LoadMenu();
+            Lactor.TrayPopupViewModel.ReLoad();
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace SteamHub.ViewModel
                     }
 
                     SteamAccountRepository.UpdateList(SteamAccounts.ToList());
-                    NotifyIconManager.LoadMenu();
+                    Lactor.TrayPopupViewModel.ReLoad();
                 }
             }
             else if (dropInfo.Data is SteamGame sourceGame && dropInfo.TargetItem is SteamGame targetGame)

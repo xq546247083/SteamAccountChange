@@ -85,7 +85,7 @@ namespace SteamHub
         /// 打开游戏
         /// </summary>
         /// <param name="appId">游戏AppId</param>
-        public static void OpenGame(string appId) 
+        public static void OpenGame(string appId)
         {
             if (string.IsNullOrEmpty(appId))
             {
