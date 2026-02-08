@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SteamHub.Entities;
+using SteamHub.Enums;
 using SteamHub.Helper;
 using SteamHub.Manager;
 using SteamHub.Repositories;
@@ -28,6 +29,18 @@ namespace SteamHub.ViewModel
         /// </summary>
         [ObservableProperty]
         private ObservableCollection<SteamAccount> steamAccounts;
+
+        /// <summary>
+        /// 游戏列表
+        /// </summary>
+        [ObservableProperty]
+        private ObservableCollection<SteamGame> steamGames;
+
+        /// <summary>
+        /// 显示类型
+        /// </summary>
+        [ObservableProperty]
+        private ShowType showType = ShowType.SteamAccount;
 
         /// <summary>
         /// 是否开机自启动
@@ -100,6 +113,46 @@ namespace SteamHub.ViewModel
             Environment.Exit(0);
         }
 
+        /// <summary>
+        /// 切换显示方式
+        /// </summary>
+        [RelayCommand]
+        private void ToggleShowType()
+        {
+            if (ShowType == ShowType.SteamAccount)
+            {
+                ShowType = ShowType.SteamGame;
+            }
+            else
+            {
+                ShowType = ShowType.SteamAccount;
+            }
+        }
+
+        /// <summary>
+        /// 打开Steam游戏
+        /// </summary>
+        [RelayCommand]
+        private void OpenSteamGame(SteamGame game)
+        {
+            if (game == null)
+            {
+                return;
+            }
+
+            // 先切换账号
+            var (success, currentLoginAccount) = RegistryHelper.Get(@"Software\Valve\Steam", "AutoLoginUser");
+            var steamAccount = SteamAccountRepository.GetBySteamId(game.AccountSteamId);
+            if (success && steamAccount != null && currentLoginAccount?.ToString() != steamAccount.Account)
+            {
+                var processList = SettingRepository.GetKillProcessList();
+                SteamTool.Open(steamAccount.Account, processList);
+            }
+
+            // 再打开游戏
+            SteamTool.OpenGame(game.AppId);
+        }
+
         #endregion
 
         #region 公共方法
@@ -114,6 +167,13 @@ namespace SteamHub.ViewModel
             if (accounts != null)
             {
                 SteamAccounts = new ObservableCollection<SteamAccount>(accounts);
+            }
+
+            // 加载游戏
+            var games = SteamGameRepository.GetAll();
+            if (games != null)
+            {
+                SteamGames = new ObservableCollection<SteamGame>(games);
             }
 
             // 加载自启动状态

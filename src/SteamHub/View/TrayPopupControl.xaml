@@ -34,23 +34,59 @@
                            FontWeight="Bold"
                            FontSize="14"
                            VerticalAlignment="Center" />
-                <Button Width="30"
-                        Height="30"
-                        Command="{Binding OpenMainWindowCommand}"
-                        Style="{StaticResource MaterialDesignIconForegroundButton}"
-                        HorizontalAlignment="Right"
-                        ToolTip="打开主界面">
-                    <materialDesign:PackIcon Kind="ViewDashboard" />
-                </Button>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <Button Width="30"
+                            Height="30"
+                            Command="{Binding ToggleShowTypeCommand}"
+                            Style="{StaticResource MaterialDesignIconForegroundButton}">
+                        <materialDesign:PackIcon>
+                            <materialDesign:PackIcon.Style>
+                                <Style TargetType="materialDesign:PackIcon">
+                                    <Setter Property="Kind"
+                                            Value="AccountMultiple" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ShowType}"
+                                                     Value="SteamGame">
+                                            <Setter Property="Kind"
+                                                    Value="Controller" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </materialDesign:PackIcon.Style>
+                        </materialDesign:PackIcon>
+                    </Button>
+                    <Button Width="30"
+                            Height="30"
+                            Command="{Binding OpenMainWindowCommand}"
+                            Style="{StaticResource MaterialDesignIconForegroundButton}"
+                            ToolTip="打开主界面">
+                        <materialDesign:PackIcon Kind="ViewDashboard" />
+                    </Button>
+                </StackPanel>
             </Grid>
             <Separator Grid.Row="0"
                        VerticalAlignment="Bottom"
                        Margin="0,0,0,-5" />
 
-            <!-- Account List -->
+            <!-- Account/Game List Container -->
             <Grid Grid.Row="1">
-                <ScrollViewer MaxHeight="300"
-                              VerticalScrollBarVisibility="Auto">
+                <!-- Account List -->
+                <ScrollViewer Height="200"
+                              VerticalScrollBarVisibility="Hidden">
+                    <ScrollViewer.Style>
+                        <Style TargetType="ScrollViewer">
+                            <Setter Property="Visibility"
+                                    Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ShowType}"
+                                             Value="SteamGame">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ScrollViewer.Style>
                     <ItemsControl ItemsSource="{Binding SteamAccounts}"
                                   Margin="0,5">
                         <ItemsControl.ItemTemplate>
@@ -95,6 +131,65 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
+
+                <!-- Game List -->
+                <ScrollViewer Height="200"
+                              VerticalScrollBarVisibility="Hidden">
+                    <ScrollViewer.Style>
+                        <Style TargetType="ScrollViewer">
+                            <Setter Property="Visibility"
+                                    Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ShowType}"
+                                             Value="SteamGame">
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ScrollViewer.Style>
+                    <ItemsControl ItemsSource="{Binding SteamGames}"
+                                  Margin="0,5">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        Command="{Binding DataContext.OpenSteamGameCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}"
+                                        HorizontalContentAlignment="Left"
+                                        Height="50"
+                                        Padding="10,0">
+                                    <Grid Width="240">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0"
+                                              Width="32"
+                                              Height="32">
+                                            <materialDesign:PackIcon Kind="Controller"
+                                                                     Width="32"
+                                                                     Height="32"
+                                                                     HorizontalAlignment="Center"
+                                                                     VerticalAlignment="Center"
+                                                                     Opacity="0.5" />
+                                            <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
+                                                   Stretch="UniformToFill" />
+                                        </Grid>
+                                        <StackPanel Grid.Column="1"
+                                                    Margin="10,0,0,0"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Name}"
+                                                       FontWeight="Bold"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <!-- Empty State - Accounts -->
                 <TextBlock Text="暂无账号数据"
                            FontSize="14"
                            Foreground="Gray"
@@ -106,11 +201,43 @@
                             <Setter Property="Visibility"
                                     Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding SteamAccounts.Count}"
-                                             Value="0">
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding SteamAccounts.Count}"
+                                                   Value="0" />
+                                        <Condition Binding="{Binding ShowType}"
+                                                   Value="SteamAccount" />
+                                    </MultiDataTrigger.Conditions>
                                     <Setter Property="Visibility"
                                             Value="Visible" />
-                                </DataTrigger>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <!-- Empty State - Games -->
+                <TextBlock Text="暂无游戏数据"
+                           FontSize="14"
+                           Foreground="Gray"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Margin="0,20">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility"
+                                    Value="Collapsed" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding SteamGames.Count}"
+                                                   Value="0" />
+                                        <Condition Binding="{Binding ShowType}"
+                                                   Value="SteamGame" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                </MultiDataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
