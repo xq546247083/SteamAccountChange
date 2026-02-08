@@ -243,6 +243,9 @@ namespace SteamHub.ViewModel
             SelectedProcessName = DisplayProcessList != null && DisplayProcessList.Count > 0 ? DisplayProcessList.FirstOrDefault() : string.Empty;
         }
 
+        /// <summary>
+        /// 加载steam账号
+        /// </summary>
         private void LoadSteamAccounts()
         {
             // 加载账号信息
