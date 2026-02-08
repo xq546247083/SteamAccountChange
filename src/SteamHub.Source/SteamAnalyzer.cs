@@ -8,6 +8,11 @@ namespace SteamHub;
 /// </summary>
 public static class SteamAnalyzer
 {
+    private static List<string> skipGameAppIds = new List<string>()
+    {
+        "228980"
+    };
+
     #region 公共方法
 
     /// <summary>
@@ -83,7 +88,7 @@ public static class SteamAnalyzer
             foreach (var manifestFile in manifestFiles)
             {
                 var game = LoadGameSource(manifestFile);
-                if (game != null && !string.IsNullOrEmpty(game.AppId))
+                if (game != null && !string.IsNullOrEmpty(game.AppId) && !skipGameAppIds.Contains(game.AppId))
                 {
                     // 加载游戏用户
                     game.AccountSteamId = steamAccountPlayGames.LastOrDefault(r => r.AppId == game.AppId)?.SteamId ?? string.Empty;
