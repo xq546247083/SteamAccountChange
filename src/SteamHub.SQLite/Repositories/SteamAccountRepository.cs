@@ -14,6 +14,20 @@ namespace SteamHub.Repositories
         {
             using var context = new SteamHubDbContext();
             return context.SteamAccounts
+                .Where(a => !a.IsDeleted)
+                .OrderBy(a => a.Order)
+                .ThenBy(a => a.Account)
+                .ToList();
+        }
+
+        /// <summary>
+        /// 获取所有已删除账号
+        /// </summary>
+        public static List<SteamAccount> GetListOfDeleted()
+        {
+            using var context = new SteamHubDbContext();
+            return context.SteamAccounts
+                .Where(a => a.IsDeleted)
                 .OrderBy(a => a.Order)
                 .ThenBy(a => a.Account)
                 .ToList();
@@ -69,7 +83,7 @@ namespace SteamHub.Repositories
         }
 
         /// <summary>
-        /// 删除账号
+        /// 删除账号(软删除)
         /// </summary>
         public static void Delete(string account)
         {
@@ -77,7 +91,34 @@ namespace SteamHub.Repositories
             var entity = context.SteamAccounts.FirstOrDefault(a => a.Account == account);
             if (entity != null)
             {
-                context.SteamAccounts.Remove(entity);
+                entity.IsDeleted = true;
+                context.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// 恢复回收站
+        /// </summary>
+        public static void RestoreRecycleBin()
+        {
+            using var context = new SteamHubDbContext();
+            var deletedAccounts = context.SteamAccounts.Where(a => a.IsDeleted).ToList();
+            if (deletedAccounts.Any())
+            {
+                deletedAccounts.ForEach(r => r.IsDeleted = false);
+                context.SaveChanges();
+            }
+        }
+
+        /// 清空回收站
+        /// </summary>
+        public static void EmptyRecycleBin()
+        {
+            using var context = new SteamHubDbContext();
+            var deletedAccounts = context.SteamAccounts.Where(a => a.IsDeleted).ToList();
+            if (deletedAccounts.Any())
+            {
+                context.SteamAccounts.RemoveRange(deletedAccounts);
                 context.SaveChanges();
             }
         }

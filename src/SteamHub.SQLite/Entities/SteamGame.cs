@@ -35,6 +35,11 @@ public class SteamGame
     /// </summary>
     public int Order { get; set; }
 
+    /// <summary>
+    /// 是否已删除
+    /// </summary>
+    public bool IsDeleted { get; set; }
+
     public SteamGame()
     {
     }

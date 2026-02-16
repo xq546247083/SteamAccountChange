@@ -40,6 +40,11 @@ public class SteamAccount
     /// </summary>
     public byte[] Icon { get; set; }
 
+    /// <summary>
+    /// 是否已删除
+    /// </summary>
+    public bool IsDeleted { get; set; }
+
     public SteamAccount()
     {
     }
