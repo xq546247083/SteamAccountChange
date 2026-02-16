@@ -141,40 +141,6 @@ namespace SteamHub.ViewModel
             Lactor.TrayPopupViewModel.ReLoad();
         }
 
-        /// <summary>
-        /// 加载进程列表
-        /// </summary>
-        private void LoadProcesses()
-        {
-            if (ProcessListMode == ProcessListMode.System)
-            {
-                var processes = Process.GetProcesses();
-                DisplayProcessList = processes.Select(p => p.ProcessName).Distinct().OrderBy(n => n).ToList();
-            }
-            else
-            {
-                DisplayProcessList = SettingRepository.GetKillProcessList();
-            }
-
-            SelectedProcessName = DisplayProcessList != null && DisplayProcessList.Count > 0 ? DisplayProcessList.FirstOrDefault() : string.Empty;
-        }
-
-        /// <summary>
-        /// 加载steam账号
-        /// </summary>
-        private void LoadSteamAccounts()
-        {
-            // 加载账号信息
-            SteamAccounts = new ObservableCollection<SteamAccount>(SteamAccountRepository.GetAll());
-
-            // 选中第一个
-            if (SelectedSteamAccount == null && SteamAccounts != null && SteamAccounts.Count > 0)
-            {
-                var currentSteamAccountInfo = string.IsNullOrEmpty(currentSteamAccount) ? null : SteamAccounts.FirstOrDefault(r => r.Account == currentSteamAccount);
-                SelectedSteamAccount = currentSteamAccountInfo == null ? SteamAccounts.FirstOrDefault() : currentSteamAccountInfo;
-            }
-        }
-
         #endregion
 
         #region 公共方法

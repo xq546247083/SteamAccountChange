@@ -47,5 +47,25 @@ namespace SteamHub.ViewModel
         }
 
         #endregion
+
+        #region 私有方法
+
+        /// <summary>
+        /// 加载steam账号
+        /// </summary>
+        private void LoadSteamAccounts()
+        {
+            // 加载账号信息
+            SteamAccounts = new ObservableCollection<SteamAccount>(SteamAccountRepository.GetAll());
+
+            // 选中第一个
+            if (SelectedSteamAccount == null && SteamAccounts != null && SteamAccounts.Count > 0)
+            {
+                var currentSteamAccountInfo = string.IsNullOrEmpty(currentSteamAccount) ? null : SteamAccounts.FirstOrDefault(r => r.Account == currentSteamAccount);
+                SelectedSteamAccount = currentSteamAccountInfo == null ? SteamAccounts.FirstOrDefault() : currentSteamAccountInfo;
+            }
+        }
+
+        #endregion
     }
 }

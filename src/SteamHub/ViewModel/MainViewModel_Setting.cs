@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using SteamHub.Enums;
 using SteamHub.Manager;
 using SteamHub.Repositories;
+using System.Diagnostics;
 
 namespace SteamHub.ViewModel
 {
@@ -86,6 +87,28 @@ namespace SteamHub.ViewModel
 
             ReLoad();
             Lactor.ShowToolTip("删除成功!");
+        }
+
+        #endregion
+
+        #region 私有方法
+
+        /// <summary>
+        /// 加载进程列表
+        /// </summary>
+        private void LoadProcesses()
+        {
+            if (ProcessListMode == ProcessListMode.System)
+            {
+                var processes = Process.GetProcesses();
+                DisplayProcessList = processes.Select(p => p.ProcessName).Distinct().OrderBy(n => n).ToList();
+            }
+            else
+            {
+                DisplayProcessList = SettingRepository.GetKillProcessList();
+            }
+
+            SelectedProcessName = DisplayProcessList != null && DisplayProcessList.Count > 0 ? DisplayProcessList.FirstOrDefault() : string.Empty;
         }
 
         #endregion
