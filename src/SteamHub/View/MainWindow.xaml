@@ -43,6 +43,7 @@
         <convert:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         <convert:InverseEnumToBooleanConverter x:Key="InverseEnumToBooleanConverter" />
         <convert:EqualsConverter x:Key="EqualsConverter" />
+        <convert:BooleanToContentConverter x:Key="BooleanToContentConverter" />
 
         <Style x:Key="CompactTabItemStyle"
                TargetType="TabItem"
@@ -428,6 +429,240 @@
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
+
+                        <!-- Recycle Bin -->
+                        <Grid Margin="12">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding EditType}"
+                                                     Value="SteamAccountRecycleBin">
+                                            <Setter Property="Visibility"
+                                                    Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding EditType}"
+                                                     Value="SteamGameRecycleBin">
+                                            <Setter Property="Visibility"
+                                                    Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Header with Close Button -->
+                            <Grid Grid.Row="0"
+                                  Margin="0,0,0,12">
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="回收站"
+                                               Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                               Opacity="0.6"
+                                               VerticalAlignment="Center"
+                                               Margin="0,0,4,0" />
+                                </StackPanel>
+
+                                <Button Width="24"
+                                        Height="24"
+                                        Background="LightGray"
+                                        Style="{StaticResource MaterialDesignIconButton}"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding CloseRecycleBinDrawerCommand}"
+                                        ToolTip="关闭">
+                                    <materialDesign:PackIcon Kind="Close"
+                                                             Width="16"
+                                                             Height="16" />
+                                </Button>
+                            </Grid>
+
+                            <!-- Content List -->
+                            <ScrollViewer Grid.Row="2"
+                                          VerticalScrollBarVisibility="Auto">
+                                <StackPanel>
+                                    <!-- Account List -->
+                                    <ListBox ItemsSource="{Binding DeletedSteamAccounts}"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                        <ListBox.Style>
+                                            <Style TargetType="ListBox"
+                                                   BasedOn="{StaticResource {x:Type ListBox}}">
+                                                <Setter Property="Visibility"
+                                                        Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding EditType}"
+                                                                 Value="SteamAccountRecycleBin">
+                                                        <Setter Property="Visibility"
+                                                                Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListBox.Style>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel IsItemsHost="True" />
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <materialDesign:Card Width="80"
+                                                                     Height="100"
+                                                                     UniformCornerRadius="4"
+                                                                     Margin="4">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="70" />
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+
+                                                        <!-- Avatar -->
+                                                        <Grid Grid.Row="0"
+                                                              Background="{DynamicResource MaterialDesignDivider}">
+                                                            <materialDesign:PackIcon Kind="QuestionMark"
+                                                                                     Width="32"
+                                                                                     Height="32"
+                                                                                     HorizontalAlignment="Center"
+                                                                                     VerticalAlignment="Center"
+                                                                                     Opacity="0.5" />
+                                                            <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
+                                                                   Stretch="UniformToFill" />
+                                                        </Grid>
+
+                                                        <!-- Name -->
+                                                        <TextBlock Grid.Row="1"
+                                                                   Text="{Binding Name}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   ToolTip="{Binding Name}"
+                                                                   FontWeight="Medium"
+                                                                   FontSize="11"
+                                                                   Margin="2" />
+                                                    </Grid>
+                                                </materialDesign:Card>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                    <!-- Game List -->
+                                    <ListBox ItemsSource="{Binding DeletedSteamGames}"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                        <ListBox.Style>
+                                            <Style TargetType="ListBox"
+                                                   BasedOn="{StaticResource {x:Type ListBox}}">
+                                                <Setter Property="Visibility"
+                                                        Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding EditType}"
+                                                                 Value="SteamGameRecycleBin">
+                                                        <Setter Property="Visibility"
+                                                                Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListBox.Style>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel IsItemsHost="True" />
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <materialDesign:Card Width="80"
+                                                                     Height="100"
+                                                                     UniformCornerRadius="4"
+                                                                     Margin="4"
+                                                                     ToolTip="{Binding AppId, StringFormat='AppID: {0}'}">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="70" />
+                                                            <RowDefinition Height="*" />
+                                                        </Grid.RowDefinitions>
+
+                                                        <!-- Game Icon -->
+                                                        <Grid Grid.Row="0"
+                                                              Background="{DynamicResource MaterialDesignDivider}">
+                                                            <materialDesign:PackIcon Kind="QuestionMark"
+                                                                                     Width="32"
+                                                                                     Height="32"
+                                                                                     HorizontalAlignment="Center"
+                                                                                     VerticalAlignment="Center"
+                                                                                     Opacity="0.5" />
+                                                            <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
+                                                                   Stretch="UniformToFill"
+                                                                   StretchDirection="DownOnly" />
+                                                        </Grid>
+
+                                                        <!-- Game Name -->
+                                                        <TextBlock Grid.Row="1"
+                                                                   Text="{Binding Name}"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   ToolTip="{Binding Name}"
+                                                                   FontWeight="Medium"
+                                                                   FontSize="11"
+                                                                   Margin="2" />
+                                                    </Grid>
+                                                </materialDesign:Card>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <!-- Actions Section -->
+                            <StackPanel Grid.Row="3">
+                                <Separator Margin="0,0,0,12" />
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right">
+                                    <!-- Restore -->
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            Command="{Binding RestoreRecycleBinCommand}"
+                                            Foreground="{DynamicResource MaterialDesign.Brush.Primary}"
+                                            Padding="4"
+                                            Height="Auto"
+                                            Margin="0,0,8,0">
+                                        <StackPanel>
+                                            <materialDesign:PackIcon Kind="Restore"
+                                                                     HorizontalAlignment="Center"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     Margin="0,0,0,2" />
+                                            <TextBlock Text="恢复"
+                                                       FontSize="11"
+                                                       Opacity="0.7"
+                                                       HorizontalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <!-- Empty -->
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            Command="{Binding EmptyRecycleBinCommand}"
+                                            Foreground="{DynamicResource MaterialDesignErrorBrush}"
+                                            Padding="4"
+                                            Height="Auto">
+                                        <StackPanel>
+                                            <materialDesign:PackIcon Kind="DeleteForever"
+                                                                     HorizontalAlignment="Center"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     Margin="0,0,0,2" />
+                                            <TextBlock Text="清空"
+                                                       FontSize="11"
+                                                       Opacity="0.7"
+                                                       HorizontalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
                 </Border>
             </materialDesign:DrawerHost.RightDrawerContent>
@@ -491,6 +726,19 @@
                                             <TextBlock Text="刷新"
                                                        VerticalAlignment="Center" />
                                         </StackPanel>
+                                    </Button>
+
+                                    <!-- Recycle Bin Button -->
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            ToolTip="回收站"
+                                            Command="{Binding OpenRecycleBinDrawerCommand}"
+                                            CommandParameter="Account"
+                                            Padding="8 0"
+                                            Margin="0,0,4,0">
+                                        <materialDesign:PackIcon Kind="Delete"
+                                                                 Width="20"
+                                                                 Height="20"
+                                                                 VerticalAlignment="Center" />
                                     </Button>
 
                                     <!-- Help Button -->
@@ -734,7 +982,8 @@
                                     <Button Style="{StaticResource MaterialDesignFlatButton}"
                                             ToolTip="刷新"
                                             Command="{Binding RefreshCommand}"
-                                            Padding="8 0">
+                                            Padding="8 0"
+                                            Margin="0,0,4,0">
                                         <StackPanel Orientation="Horizontal">
                                             <materialDesign:PackIcon Kind="Refresh"
                                                                      Width="20"
@@ -744,6 +993,18 @@
                                             <TextBlock Text="刷新"
                                                        VerticalAlignment="Center" />
                                         </StackPanel>
+                                    </Button>
+
+                                    <!-- Recycle Bin Button -->
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            ToolTip="回收站"
+                                            Command="{Binding OpenRecycleBinDrawerCommand}"
+                                            CommandParameter="Game"
+                                            Padding="8 0">
+                                        <materialDesign:PackIcon Kind="Delete"
+                                                                 Width="20"
+                                                                 Height="20"
+                                                                 VerticalAlignment="Center" />
                                     </Button>
                                 </StackPanel>
                             </Grid>

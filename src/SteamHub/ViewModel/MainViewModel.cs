@@ -131,6 +131,7 @@ namespace SteamHub.ViewModel
             LoadSteamAccounts();
             LoadSteamGames();
             LoadProcesses();
+            LoadDeletedData();
         }
 
         #endregion
