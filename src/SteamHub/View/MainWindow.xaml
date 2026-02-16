@@ -481,7 +481,7 @@
                                                 VerticalAlignment="Center">
                                         <!-- Refresh Button -->
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                ToolTip="刷新Steam数据"
+                                                ToolTip="刷新"
                                                 Command="{Binding RefreshCommand}"
                                                 Padding="8 0"
                                                 Margin="0,0,4,0">

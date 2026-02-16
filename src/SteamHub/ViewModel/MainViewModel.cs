@@ -105,59 +105,6 @@ namespace SteamHub.ViewModel
         }
 
         /// <summary>
-        /// 复制用户名
-        /// </summary>
-        [RelayCommand]
-        private void CopySteamAccountAccount()
-        {
-            if (SelectedSteamAccount == null || SelectedSteamAccount.Account == null)
-            {
-                return;
-            }
-
-            System.Windows.Clipboard.SetDataObject(SelectedSteamAccount.Account);
-            Lactor.ShowToolTip("复制成功！");
-        }
-
-        /// <summary>
-        /// 复制密码
-        /// </summary>
-        [RelayCommand]
-        private void CopySteamAccountPassword()
-        {
-            if (SelectedSteamAccount == null || SelectedSteamAccount.Password == null)
-            {
-                return;
-            }
-
-            System.Windows.Clipboard.SetDataObject(SelectedSteamAccount.Password);
-            Lactor.ShowToolTip("复制成功！");
-        }
-
-        /// <summary>
-        /// 删除steam账号信息
-        /// </summary>
-        [RelayCommand]
-        private void DeleteSteamAccount()
-        {
-            if (SelectedSteamAccount == null)
-            {
-                return;
-            }
-
-            if (!SteamAccountRepository.Exists(SelectedSteamAccount.Account))
-            {
-                return;
-            }
-
-            SteamAccountRepository.Delete(SelectedSteamAccount.Account);
-
-            EditType = EditType.None;
-            ReLoad();
-            Lactor.ShowToolTip("删除成功！");
-        }
-
-        /// <summary>
         /// 打开Steam登录账号
         /// </summary>
         [RelayCommand]
