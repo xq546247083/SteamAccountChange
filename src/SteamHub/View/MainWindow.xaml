@@ -104,82 +104,80 @@
                             </Grid>
 
                             <!-- Edit Info Section -->
-                            <ScrollViewer Grid.Row="1"
-                                          VerticalScrollBarVisibility="Auto">
-                                <StackPanel>
-                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             materialDesign:HintAssist.Hint="昵称 (必填)"
-                                             Text="{Binding EditSteamAccountName}"
-                                             Margin="0,0,0,12"
-                                             FontSize="14" />
-                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             materialDesign:HintAssist.Hint="密码 (选填)"
-                                             Text="{Binding EditSteamAccountPassword}"
-                                             Margin="0,0,0,12"
-                                             FontSize="14" />
-                                    <TextBlock Text="选择头像"
-                                               Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                               Opacity="0.6"
-                                               Margin="0,0,0,8" />
-                                    <ListBox ItemsSource="{Binding AllAccountIcons}"
-                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                             MaxHeight="210"
-                                             Margin="0,0,0,12">
-                                        <ListBox.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel IsItemsHost="True" />
-                                            </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid Width="48"
-                                                      Height="48"
-                                                      Cursor="Hand"
-                                                      Background="Transparent">
-                                                    <Grid.InputBindings>
-                                                        <MouseBinding MouseAction="LeftClick"
-                                                                      Command="{Binding DataContext.SelectAccountIconCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                      CommandParameter="{Binding}" />
-                                                    </Grid.InputBindings>
+                            <StackPanel Grid.Row="1">
+                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                         materialDesign:HintAssist.Hint="昵称 (必填)"
+                                         Text="{Binding EditSteamAccountName}"
+                                         Margin="0,0,0,12"
+                                         FontSize="14" />
+                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                         materialDesign:HintAssist.Hint="密码 (选填)"
+                                         Text="{Binding EditSteamAccountPassword}"
+                                         Margin="0,0,0,12"
+                                         FontSize="14" />
+                                <TextBlock Text="选择头像"
+                                           Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                           Opacity="0.6"
+                                           Margin="0,0,0,8" />
+                                <ListBox ItemsSource="{Binding AllAccountIcons}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                         MaxHeight="210"
+                                         Margin="0,0,0,12">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Width="48"
+                                                  Height="48"
+                                                  Cursor="Hand"
+                                                  Background="Transparent">
+                                                <Grid.InputBindings>
+                                                    <MouseBinding MouseAction="LeftClick"
+                                                                  Command="{Binding DataContext.SelectAccountIconCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                  CommandParameter="{Binding}" />
+                                                </Grid.InputBindings>
 
-                                                    <!-- Icon -->
-                                                    <Image Source="{Binding Converter={StaticResource ByteToImageSourceConverter}}"
-                                                           Stretch="Uniform" />
+                                                <!-- Icon -->
+                                                <Image Source="{Binding Converter={StaticResource ByteToImageSourceConverter}}"
+                                                       Stretch="Uniform" />
 
-                                                    <!-- Selection Overlay -->
-                                                    <Border BorderThickness="2"
-                                                            IsHitTestVisible="False">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Setter Property="BorderBrush"
-                                                                        Value="Transparent" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Value="True">
-                                                                        <DataTrigger.Binding>
-                                                                            <MultiBinding Converter="{StaticResource EqualsConverter}">
-                                                                                <Binding Path="DataContext.EditSteamAccountIcon"
-                                                                                         RelativeSource="{RelativeSource AncestorType=Window}" />
-                                                                                <Binding Path="." />
-                                                                            </MultiBinding>
-                                                                        </DataTrigger.Binding>
-                                                                        <Setter Property="BorderBrush"
-                                                                                Value="{DynamicResource MaterialDesign.Brush.Primary}" />
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Grid}}"
-                                                                                 Value="True">
-                                                                        <Setter Property="BorderBrush"
-                                                                                Value="{DynamicResource MaterialDesignDivider}" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                    </Border>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                </StackPanel>
-                            </ScrollViewer>
+                                                <!-- Selection Overlay -->
+                                                <Border BorderThickness="2"
+                                                        IsHitTestVisible="False">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="BorderBrush"
+                                                                    Value="Transparent" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Value="True">
+                                                                    <DataTrigger.Binding>
+                                                                        <MultiBinding Converter="{StaticResource EqualsConverter}">
+                                                                            <Binding Path="DataContext.EditSteamAccountIcon"
+                                                                                     RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                                            <Binding Path="." />
+                                                                        </MultiBinding>
+                                                                    </DataTrigger.Binding>
+                                                                    <Setter Property="BorderBrush"
+                                                                            Value="{DynamicResource MaterialDesign.Brush.Primary}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Grid}}"
+                                                                             Value="True">
+                                                                    <Setter Property="BorderBrush"
+                                                                            Value="{DynamicResource MaterialDesignDivider}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
 
                             <!-- Actions Section -->
                             <StackPanel Grid.Row="3">
@@ -311,77 +309,76 @@
                             </Grid>
 
                             <!-- Edit Info Section -->
-                            <ScrollViewer Grid.Row="1"
-                                          VerticalScrollBarVisibility="Auto">
-                                <StackPanel>
-                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             materialDesign:HintAssist.Hint="游戏名称 (必填)"
-                                             Text="{Binding EditSteamGameName}"
-                                             Margin="0,0,0,12"
-                                             FontSize="14" />
-                                    <TextBlock Text="选择图标"
-                                               Style="{StaticResource MaterialDesignBody2TextBlock}"
-                                               Opacity="0.6"
-                                               Margin="0,0,0,8" />
-                                    <ListBox ItemsSource="{Binding AllGameIcons}"
-                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                             MaxHeight="210"
-                                             Margin="0,0,0,12">
-                                        <ListBox.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel IsItemsHost="True" />
-                                            </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid Width="48"
-                                                      Height="48"
-                                                      Cursor="Hand"
-                                                      Background="Transparent">
-                                                    <Grid.InputBindings>
-                                                        <MouseBinding MouseAction="LeftClick"
-                                                                      Command="{Binding DataContext.SelectGameIconCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                                                      CommandParameter="{Binding}" />
-                                                    </Grid.InputBindings>
 
-                                                    <!-- Icon -->
-                                                    <Image Source="{Binding Converter={StaticResource ByteToImageSourceConverter}}"
-                                                           Stretch="Uniform" />
+                            <StackPanel  Grid.Row="1">
+                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                         materialDesign:HintAssist.Hint="游戏名称 (必填)"
+                                         Text="{Binding EditSteamGameName}"
+                                         Margin="0,0,0,12"
+                                         FontSize="14" />
+                                <TextBlock Text="选择图标"
+                                           Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                           Opacity="0.6"
+                                           Margin="0,0,0,8" />
+                                <ListBox ItemsSource="{Binding AllGameIcons}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                         MaxHeight="210"
+                                         Margin="0,0,0,12">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Width="48"
+                                                  Height="48"
+                                                  Cursor="Hand"
+                                                  Background="Transparent">
+                                                <Grid.InputBindings>
+                                                    <MouseBinding MouseAction="LeftClick"
+                                                                  Command="{Binding DataContext.SelectGameIconCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                  CommandParameter="{Binding}" />
+                                                </Grid.InputBindings>
 
-                                                    <!-- Selection Overlay -->
-                                                    <Border BorderThickness="2"
-                                                            IsHitTestVisible="False">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Setter Property="BorderBrush"
-                                                                        Value="Transparent" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Value="True">
-                                                                        <DataTrigger.Binding>
-                                                                            <MultiBinding Converter="{StaticResource EqualsConverter}">
-                                                                                <Binding Path="DataContext.EditSteamGameIcon"
-                                                                                         RelativeSource="{RelativeSource AncestorType=Window}" />
-                                                                                <Binding Path="." />
-                                                                            </MultiBinding>
-                                                                        </DataTrigger.Binding>
-                                                                        <Setter Property="BorderBrush"
-                                                                                Value="{DynamicResource MaterialDesign.Brush.Primary}" />
-                                                                    </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Grid}}"
-                                                                                 Value="True">
-                                                                        <Setter Property="BorderBrush"
-                                                                                Value="{DynamicResource MaterialDesignDivider}" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                    </Border>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                </StackPanel>
-                            </ScrollViewer>
+                                                <!-- Icon -->
+                                                <Image Source="{Binding Converter={StaticResource ByteToImageSourceConverter}}"
+                                                       Stretch="Uniform" />
+
+                                                <!-- Selection Overlay -->
+                                                <Border BorderThickness="2"
+                                                        IsHitTestVisible="False">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="BorderBrush"
+                                                                    Value="Transparent" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Value="True">
+                                                                    <DataTrigger.Binding>
+                                                                        <MultiBinding Converter="{StaticResource EqualsConverter}">
+                                                                            <Binding Path="DataContext.EditSteamGameIcon"
+                                                                                     RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                                            <Binding Path="." />
+                                                                        </MultiBinding>
+                                                                    </DataTrigger.Binding>
+                                                                    <Setter Property="BorderBrush"
+                                                                            Value="{DynamicResource MaterialDesign.Brush.Primary}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Grid}}"
+                                                                             Value="True">
+                                                                    <Setter Property="BorderBrush"
+                                                                            Value="{DynamicResource MaterialDesignDivider}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
 
                             <!-- Actions Section -->
                             <StackPanel Grid.Row="3">
@@ -485,136 +482,135 @@
                             </Grid>
 
                             <!-- Content List -->
-                            <ScrollViewer Grid.Row="2"
-                                          VerticalScrollBarVisibility="Auto">
-                                <StackPanel>
-                                    <!-- Account List -->
-                                    <ListBox ItemsSource="{Binding DeletedSteamAccounts}"
-                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                        <ListBox.Style>
-                                            <Style TargetType="ListBox"
-                                                   BasedOn="{StaticResource {x:Type ListBox}}">
-                                                <Setter Property="Visibility"
-                                                        Value="Collapsed" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding DrawerType}"
-                                                                 Value="SteamAccountRecycleBin">
-                                                        <Setter Property="Visibility"
-                                                                Value="Visible" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ListBox.Style>
-                                        <ListBox.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel IsItemsHost="True" />
-                                            </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <materialDesign:Card Width="70"
-                                                                     Height="100"
-                                                                     UniformCornerRadius="4">
-                                                    <Grid>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="70" />
-                                                            <RowDefinition Height="*" />
-                                                        </Grid.RowDefinitions>
+                            <Grid Grid.Row="2">
+                                <!-- Account List -->
+                                <ListBox ItemsSource="{Binding DeletedSteamAccounts}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <ListBox.Style>
+                                        <Style TargetType="ListBox"
+                                               BasedOn="{StaticResource {x:Type ListBox}}">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DrawerType}"
+                                                             Value="SteamAccountRecycleBin">
+                                                    <Setter Property="Visibility"
+                                                            Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListBox.Style>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:Card Width="70"
+                                                                 Height="100"
+                                                                 UniformCornerRadius="4">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="70" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
 
-                                                        <!-- Avatar -->
-                                                        <Grid Grid.Row="0"
-                                                              Background="{DynamicResource MaterialDesignDivider}">
-                                                            <materialDesign:PackIcon Kind="QuestionMark"
-                                                                                     Width="32"
-                                                                                     Height="32"
-                                                                                     HorizontalAlignment="Center"
-                                                                                     VerticalAlignment="Center"
-                                                                                     Opacity="0.5" />
-                                                            <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
-                                                                   Stretch="UniformToFill" />
-                                                        </Grid>
-
-                                                        <!-- Name -->
-                                                        <TextBlock Grid.Row="1"
-                                                                   Text="{Binding Name}"
-                                                                   HorizontalAlignment="Center"
-                                                                   VerticalAlignment="Center"
-                                                                   TextTrimming="CharacterEllipsis"
-                                                                   ToolTip="{Binding Name}"
-                                                                   FontWeight="Medium"
-                                                                   FontSize="11"
-                                                                   Margin="2" />
+                                                    <!-- Avatar -->
+                                                    <Grid Grid.Row="0"
+                                                          Background="{DynamicResource MaterialDesignDivider}">
+                                                        <materialDesign:PackIcon Kind="QuestionMark"
+                                                                                 Width="32"
+                                                                                 Height="32"
+                                                                                 HorizontalAlignment="Center"
+                                                                                 VerticalAlignment="Center"
+                                                                                 Opacity="0.5" />
+                                                        <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
+                                                               Stretch="UniformToFill" />
                                                     </Grid>
-                                                </materialDesign:Card>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
 
-                                    <!-- Game List -->
-                                    <ListBox ItemsSource="{Binding DeletedSteamGames}"
-                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                        <ListBox.Style>
-                                            <Style TargetType="ListBox"
-                                                   BasedOn="{StaticResource {x:Type ListBox}}">
-                                                <Setter Property="Visibility"
-                                                        Value="Collapsed" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding DrawerType}"
-                                                                 Value="SteamGameRecycleBin">
-                                                        <Setter Property="Visibility"
-                                                                Value="Visible" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ListBox.Style>
-                                        <ListBox.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel IsItemsHost="True" />
-                                            </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <materialDesign:Card Width="70"
-                                                                     Height="100"
-                                                                     UniformCornerRadius="4"
-                                                                     ToolTip="{Binding AppId, StringFormat='AppID: {0}'}">
-                                                    <Grid>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="70" />
-                                                            <RowDefinition Height="*" />
-                                                        </Grid.RowDefinitions>
+                                                    <!-- Name -->
+                                                    <TextBlock Grid.Row="1"
+                                                               Text="{Binding Name}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               ToolTip="{Binding Name}"
+                                                               FontWeight="Medium"
+                                                               FontSize="11"
+                                                               Margin="2" />
+                                                </Grid>
+                                            </materialDesign:Card>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
 
-                                                        <!-- Game Icon -->
-                                                        <Grid Grid.Row="0"
-                                                              Background="{DynamicResource MaterialDesignDivider}">
-                                                            <materialDesign:PackIcon Kind="QuestionMark"
-                                                                                     Width="32"
-                                                                                     Height="32"
-                                                                                     HorizontalAlignment="Center"
-                                                                                     VerticalAlignment="Center"
-                                                                                     Opacity="0.5" />
-                                                            <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
-                                                                   Stretch="UniformToFill"
-                                                                   StretchDirection="DownOnly" />
-                                                        </Grid>
+                                <!-- Game List -->
+                                <ListBox ItemsSource="{Binding DeletedSteamGames}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <ListBox.Style>
+                                        <Style TargetType="ListBox"
+                                               BasedOn="{StaticResource {x:Type ListBox}}">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DrawerType}"
+                                                             Value="SteamGameRecycleBin">
+                                                    <Setter Property="Visibility"
+                                                            Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListBox.Style>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:Card Width="70"
+                                                                 Height="100"
+                                                                 UniformCornerRadius="4"
+                                                                 ToolTip="{Binding AppId, StringFormat='AppID: {0}'}">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="70" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
 
-                                                        <!-- Game Name -->
-                                                        <TextBlock Grid.Row="1"
-                                                                   Text="{Binding Name}"
-                                                                   HorizontalAlignment="Center"
-                                                                   VerticalAlignment="Center"
-                                                                   TextTrimming="CharacterEllipsis"
-                                                                   ToolTip="{Binding Name}"
-                                                                   FontWeight="Medium"
-                                                                   FontSize="11"
-                                                                   Margin="2" />
+                                                    <!-- Game Icon -->
+                                                    <Grid Grid.Row="0"
+                                                          Background="{DynamicResource MaterialDesignDivider}">
+                                                        <materialDesign:PackIcon Kind="QuestionMark"
+                                                                                 Width="32"
+                                                                                 Height="32"
+                                                                                 HorizontalAlignment="Center"
+                                                                                 VerticalAlignment="Center"
+                                                                                 Opacity="0.5" />
+                                                        <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
+                                                               Stretch="UniformToFill"
+                                                               StretchDirection="DownOnly" />
                                                     </Grid>
-                                                </materialDesign:Card>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                </StackPanel>
-                            </ScrollViewer>
+
+                                                    <!-- Game Name -->
+                                                    <TextBlock Grid.Row="1"
+                                                               Text="{Binding Name}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               ToolTip="{Binding Name}"
+                                                               FontWeight="Medium"
+                                                               FontSize="11"
+                                                               Margin="2" />
+                                                </Grid>
+                                            </materialDesign:Card>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
 
                             <!-- Actions Section -->
                             <StackPanel Grid.Row="3">
