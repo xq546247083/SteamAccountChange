@@ -715,10 +715,31 @@
                                 <TextBlock Text="游戏库"
                                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                            VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding SteamGames.Count, StringFormat='共 {0} 款游戏'}"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Opacity="0.6" />
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding SteamGames.Count, StringFormat='共 {0} 款游戏'}"
+                                               VerticalAlignment="Center"
+                                               Opacity="0.6"
+                                               Margin="0,0,12,0" />
+
+                                    <!-- Refresh Button -->
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            ToolTip="刷新"
+                                            Command="{Binding RefreshCommand}"
+                                            Padding="8 0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Refresh"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     VerticalAlignment="Center"
+                                                                     Margin="0,0,4,0" />
+                                            <TextBlock Text="刷新"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
                             </Grid>
                         </materialDesign:Card>
 
@@ -964,9 +985,28 @@
                                              UniformCornerRadius="8"
                                              VerticalAlignment="Top">
                             <StackPanel>
-                                <TextBlock Text="关闭进程"
-                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                           Margin="0,0,0,12" />
+                                <Grid Margin="0,0,0,12">
+                                    <TextBlock Text="关闭进程"
+                                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                               VerticalAlignment="Center" />
+
+                                    <!-- Refresh Button -->
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            ToolTip="刷新"
+                                            Command="{Binding RefreshCommand}"
+                                            Padding="8 0"
+                                            HorizontalAlignment="Right">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Refresh"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     VerticalAlignment="Center"
+                                                                     Margin="0,0,4,0" />
+                                            <TextBlock Text="刷新"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
 
                                 <StackPanel Orientation="Horizontal"
                                             Margin="0,0,0,12">
