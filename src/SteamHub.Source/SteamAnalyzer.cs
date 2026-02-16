@@ -140,6 +140,43 @@ public static class SteamAnalyzer
         return result;
     }
 
+    /// <summary>
+    /// 获取所有的账号图标
+    /// </summary>
+    public static List<byte[]> GetAllAccountIcons()
+    {
+        var result = new List<byte[]>();
+
+        var steamPath = SteamTool.GetSteamPath();
+        if (string.IsNullOrEmpty(steamPath))
+        {
+            return result;
+        }
+
+        // 获取图标路径列表
+        var gameIconPaths = new List<string>();
+        var steamGamesPath = Path.Combine(steamPath, "config", "avatarcache");
+        if (Directory.Exists(steamGamesPath))
+        {
+            gameIconPaths.AddRange(Directory.GetFiles(steamGamesPath, "*.png"));
+        }
+
+        // 读取图标
+        foreach (var iconPath in gameIconPaths)
+        {
+            try
+            {
+                var iconBytes = File.ReadAllBytes(iconPath);
+                result.Add(iconBytes);
+            }
+            catch
+            {
+            }
+        }
+
+        return result;
+    }
+
     #endregion
 
     #region 私有方法

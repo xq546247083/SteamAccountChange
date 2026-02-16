@@ -54,8 +54,9 @@ namespace SteamHub.ViewModel
             EditSteamAccountPassword = SelectedSteamAccount.Password;
             EditSteamAccountIcon = SelectedSteamAccount.Icon;
 
-            // 加载所有账号图标列表(使用游戏图标)
-            var allSteamAccountIcons = SteamAnalyzer.GetAllGameIcons();
+            // 加载所有账号图标列表
+            var allSteamAccountIcons = SteamAnalyzer.GetAllAccountIcons();
+            allSteamAccountIcons.AddRange(SteamAnalyzer.GetAllGameIcons());
             if (EditSteamAccountIcon != null)
             {
                 var editSteamAccountIconStr = BitConverter.ToString(EditSteamAccountIcon);
