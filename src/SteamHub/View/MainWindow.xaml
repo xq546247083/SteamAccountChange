@@ -693,10 +693,25 @@
                                              Margin="0,0,0,6"
                                              UniformCornerRadius="8">
                             <Grid>
-                                <TextBlock Margin="6,0,0,0"
-                                           Text="首页"
-                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                           VerticalAlignment="Center" />
+                                <StackPanel Margin="6,0,0,0"
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="首页"
+                                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                               VerticalAlignment="Center" />
+
+                                    <!-- Help Button -->
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            ToolTip="查看帮助"
+                                            Command="{Binding OpenGitHubCommand}"
+                                            Padding="8 0">
+                                        <materialDesign:PackIcon Kind="HelpCircle"
+                                                                 Width="20"
+                                                                 Height="20"
+                                                                 VerticalAlignment="Center" />
+                                    </Button>
+                                </StackPanel>
 
                                 <StackPanel Orientation="Horizontal"
                                             HorizontalAlignment="Right"
@@ -738,17 +753,6 @@
                                             <TextBlock Text="回收站"
                                                        VerticalAlignment="Center" />
                                         </StackPanel>
-                                    </Button>
-
-                                    <!-- Help Button -->
-                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                            ToolTip="查看帮助"
-                                            Command="{Binding OpenGitHubCommand}"
-                                            Padding="8 0">
-                                        <materialDesign:PackIcon Kind="HelpCircle"
-                                                                 Width="20"
-                                                                 Height="20"
-                                                                 VerticalAlignment="Center" />
                                     </Button>
                                 </StackPanel>
                             </Grid>
@@ -998,7 +1002,8 @@
                                             ToolTip="回收站"
                                             Command="{Binding OpenRecycleBinDrawerCommand}"
                                             CommandParameter="Game"
-                                            Padding="8 0">
+                                            Padding="8 0"
+                                            Margin="0,0,4,0">
                                         <StackPanel Orientation="Horizontal">
                                             <materialDesign:PackIcon Kind="Delete"
                                                                      Width="20"
