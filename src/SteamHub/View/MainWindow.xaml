@@ -512,10 +512,9 @@
                                         </ListBox.ItemsPanel>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <materialDesign:Card Width="80"
+                                                <materialDesign:Card Width="70"
                                                                      Height="100"
-                                                                     UniformCornerRadius="4"
-                                                                     Margin="4">
+                                                                     UniformCornerRadius="4">
                                                     <Grid>
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition Height="70" />
@@ -575,10 +574,9 @@
                                         </ListBox.ItemsPanel>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <materialDesign:Card Width="80"
+                                                <materialDesign:Card Width="70"
                                                                      Height="100"
                                                                      UniformCornerRadius="4"
-                                                                     Margin="4"
                                                                      ToolTip="{Binding AppId, StringFormat='AppID: {0}'}">
                                                     <Grid>
                                                         <Grid.RowDefinitions>
@@ -1352,6 +1350,6 @@
         </materialDesign:DrawerHost>
         <materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}"
                                  VerticalAlignment="Top"
-                                 HorizontalAlignment="Stretch" />
+                                 HorizontalAlignment="Center" />
     </Grid>
 </Window>
