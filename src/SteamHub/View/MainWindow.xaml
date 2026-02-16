@@ -452,62 +452,63 @@
                         </StackPanel>
                     </TabItem.Header>
 
-                    <Grid Margin="12">
+                    <Grid Margin="6">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
+                        <!-- Header -->
+                        <materialDesign:Card Grid.Row="0"
+                                             Padding="6"
+                                             Margin="0,0,0,6"
+                                             UniformCornerRadius="8">
+                            <Grid>
+                                <TextBlock Margin="6,0,0,0"
+                                           Text="首页"
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           VerticalAlignment="Center" />
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center">
+                                    <!-- Refresh Button -->
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            ToolTip="刷新"
+                                            Command="{Binding RefreshCommand}"
+                                            Padding="8 0"
+                                            Margin="0,0,4,0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Refresh"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     VerticalAlignment="Center"
+                                                                     Margin="0,0,4,0" />
+                                            <TextBlock Text="刷新"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+
+                                    <!-- Help Button -->
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            ToolTip="查看项目主页"
+                                            Command="{Binding OpenGitHubCommand}"
+                                            Padding="8 0">
+                                        <materialDesign:PackIcon Kind="HelpCircle"
+                                                                 Width="20"
+                                                                 Height="20"
+                                                                 VerticalAlignment="Center" />
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Card>
+
                         <!-- Account List -->
                         <materialDesign:Card Grid.Row="1"
-                                             Margin="0,0,0,12"
                                              Padding="12"
                                              UniformCornerRadius="8"
                                              VerticalAlignment="Stretch">
                             <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0"
-                                      Margin="0,0,0,12">
-                                    <TextBlock Text="账号"
-                                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                               VerticalAlignment="Center" />
-
-                                    <StackPanel Orientation="Horizontal"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Center">
-                                        <!-- Refresh Button -->
-                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                ToolTip="刷新"
-                                                Command="{Binding RefreshCommand}"
-                                                Padding="8 0"
-                                                Margin="0,0,4,0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <materialDesign:PackIcon Kind="Refresh"
-                                                                         Width="20"
-                                                                         Height="20"
-                                                                         VerticalAlignment="Center"
-                                                                         Margin="0,0,4,0" />
-                                                <TextBlock Text="刷新"
-                                                           VerticalAlignment="Center" />
-                                            </StackPanel>
-                                        </Button>
-
-                                        <!-- Help Button -->
-                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                ToolTip="查看项目主页"
-                                                Command="{Binding OpenGitHubCommand}"
-                                                Padding="8 0">
-                                            <materialDesign:PackIcon Kind="HelpCircle"
-                                                                     Width="20"
-                                                                     Height="20"
-                                                                     VerticalAlignment="Center" />
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
 
                                 <ListBox Grid.Row="1"
                                          x:Name="lbAccount"
@@ -700,7 +701,7 @@
                         </StackPanel>
                     </TabItem.Header>
 
-                    <Grid Margin="12">
+                    <Grid Margin="6">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -708,11 +709,12 @@
 
                         <!-- Header -->
                         <materialDesign:Card Grid.Row="0"
-                                             Padding="12"
-                                             Margin="0,0,0,12"
+                                             Padding="6"
+                                             Margin="0,0,0,6"
                                              UniformCornerRadius="8">
                             <Grid>
-                                <TextBlock Text="游戏库"
+                                <TextBlock Margin="6,0,0,0"
+                                           Text="游戏"
                                            Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
                                            VerticalAlignment="Center" />
 
@@ -980,34 +982,50 @@
                         </StackPanel>
                     </TabItem.Header>
 
-                    <StackPanel Margin="12">
-                        <materialDesign:Card Padding="12"
+                    <Grid Margin="6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <materialDesign:Card Grid.Row="0"
+                                             Padding="6"
+                                             Margin="0,0,0,6"
+                                             UniformCornerRadius="8">
+                            <Grid>
+                                <TextBlock Margin="6,0,0,0"
+                                           Text="设置"
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           VerticalAlignment="Center" />
+
+                                <!-- Refresh Button -->
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        ToolTip="刷新"
+                                        Command="{Binding RefreshCommand}"
+                                        Padding="8 0"
+                                        HorizontalAlignment="Right">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Refresh"
+                                                                 Width="20"
+                                                                 Height="20"
+                                                                 VerticalAlignment="Center"
+                                                                 Margin="0,0,4,0" />
+                                        <TextBlock Text="刷新"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </materialDesign:Card>
+
+                        <materialDesign:Card Grid.Row="1"
+                                             Padding="12"
                                              UniformCornerRadius="8"
                                              VerticalAlignment="Top">
                             <StackPanel>
-                                <Grid Margin="0,0,0,12">
-                                    <TextBlock Text="关闭进程"
-                                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
-                                               VerticalAlignment="Center" />
-
-                                    <!-- Refresh Button -->
-                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                            ToolTip="刷新"
-                                            Command="{Binding RefreshCommand}"
-                                            Padding="8 0"
-                                            HorizontalAlignment="Right">
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="Refresh"
-                                                                     Width="20"
-                                                                     Height="20"
-                                                                     VerticalAlignment="Center"
-                                                                     Margin="0,0,4,0" />
-                                            <TextBlock Text="刷新"
-                                                       VerticalAlignment="Center" />
-                                        </StackPanel>
-                                    </Button>
-                                </Grid>
-
+                                <TextBlock Text="关闭进程"
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           Margin="0,0,0,12" />
                                 <StackPanel Orientation="Horizontal"
                                             Margin="0,0,0,12">
                                     <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
@@ -1063,7 +1081,7 @@
                                 </Grid>
                             </StackPanel>
                         </materialDesign:Card>
-                    </StackPanel>
+                    </Grid>
                 </TabItem>
             </TabControl>
         </materialDesign:DrawerHost>
