@@ -84,7 +84,7 @@
                             <!-- Header with Close Button -->
                             <Grid Grid.Row="0"
                                   Margin="0,0,0,12">
-                                <TextBlock Text="{Binding SelectedSteamAccount.Account}"
+                                <TextBlock Text="{Binding EditSteamAccountAccount}"
                                            Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                            Opacity="0.6"
                                            HorizontalAlignment="Center"
@@ -768,7 +768,6 @@
                                          dd:DragDrop.DropHandler="{Binding}"
                                          dd:DragDrop.UseDefaultDragAdorner="True"
                                          ItemsSource="{Binding SteamAccounts}"
-                                         SelectedItem="{Binding SelectedSteamAccount}"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          ScrollViewer.VerticalScrollBarVisibility="Auto">
                                     <ListBox.ItemsPanel>
