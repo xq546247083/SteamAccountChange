@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using SteamHub.Enums;
 using SteamHub.Manager;
 using SteamHub.Repositories;
+using System.Collections.ObjectModel;
 
 namespace SteamHub.ViewModel
 {
@@ -22,6 +23,18 @@ namespace SteamHub.ViewModel
         [ObservableProperty]
         private string editSteamAccountPassword;
 
+        /// <summary>
+        /// 编辑steam账号图标
+        /// </summary>
+        [ObservableProperty]
+        private byte[] editSteamAccountIcon;
+
+        /// <summary>
+        /// 可用账号图标
+        /// </summary>
+        [ObservableProperty]
+        private ObservableCollection<byte[]> allAccountIcons;
+
         #endregion
 
         #region 绑定方法
@@ -39,6 +52,23 @@ namespace SteamHub.ViewModel
 
             EditSteamAccountName = SelectedSteamAccount.Name;
             EditSteamAccountPassword = SelectedSteamAccount.Password;
+            EditSteamAccountIcon = SelectedSteamAccount.Icon;
+
+            // 加载所有账号图标列表(使用游戏图标)
+            var allSteamAccountIcons = SteamAnalyzer.GetAllGameIcons();
+            if (EditSteamAccountIcon != null)
+            {
+                var editSteamAccountIconStr = BitConverter.ToString(EditSteamAccountIcon);
+                for (var i = 0; i < allSteamAccountIcons.Count; i++)
+                {
+                    if (BitConverter.ToString(allSteamAccountIcons[i]) == editSteamAccountIconStr)
+                    {
+                        allSteamAccountIcons.Remove(allSteamAccountIcons[i]);
+                    }
+                }
+                allSteamAccountIcons.Insert(0, EditSteamAccountIcon);
+            }
+            AllAccountIcons = new ObservableCollection<byte[]>(allSteamAccountIcons);
             EditType = EditType.SteamAccount;
         }
 
@@ -75,6 +105,7 @@ namespace SteamHub.ViewModel
 
             SelectedSteamAccount.Name = EditSteamAccountName;
             SelectedSteamAccount.Password = EditSteamAccountPassword;
+            SelectedSteamAccount.Icon = EditSteamAccountIcon;
             SteamAccountRepository.Update(SelectedSteamAccount);
 
             currentSteamAccount = SelectedSteamAccount.Account;
@@ -82,6 +113,18 @@ namespace SteamHub.ViewModel
 
             ReLoad();
             Lactor.ShowToolTip("保存成功！");
+        }
+
+        /// <summary>
+        /// 选择账号图标
+        /// </summary>
+        [RelayCommand]
+        private void SelectAccountIcon(byte[] icon)
+        {
+            if (icon != null)
+            {
+                EditSteamAccountIcon = icon;
+            }
         }
 
         #endregion

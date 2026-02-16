@@ -51,7 +51,7 @@ namespace SteamHub.ViewModel
             EditSteamGameIcon = game.Icon;
             editSteamGameAppId = game.AppId;
 
-            // 加载所有游戏列表
+            // 加载所有游戏图标列表
             var allSteamGameIcons = SteamAnalyzer.GetAllGameIcons();
             if (EditSteamGameIcon != null)
             {

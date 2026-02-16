@@ -63,6 +63,7 @@ namespace SteamHub.Repositories
                 existing.Name = account.Name;
                 existing.Password = account.Password;
                 existing.Order = account.Order;
+                existing.Icon = account.Icon;
                 context.SaveChanges();
             }
         }

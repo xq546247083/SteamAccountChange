@@ -75,10 +75,12 @@
                             </Grid.Style>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <StackPanel  Grid.Row="0">
+
+                            <StackPanel Grid.Row="0">
                                 <TextBlock Text="{Binding SelectedSteamAccount.Account}"
                                            Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                            Opacity="0.6"
@@ -94,9 +96,72 @@
                                          Text="{Binding EditSteamAccountPassword}"
                                          Margin="0,0,0,12"
                                          FontSize="14" />
+                                <TextBlock Text="选择头像"
+                                           Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                           Opacity="0.6"
+                                           Margin="0,0,0,8" />
                             </StackPanel>
 
-                            <StackPanel Grid.Row="2"
+                            <ListBox Grid.Row="1"
+                                     ItemsSource="{Binding AllAccountIcons}"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     MaxHeight="210"
+                                     Margin="0,0,0,12">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel IsItemsHost="True" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Width="48"
+                                              Height="48"
+                                              Cursor="Hand"
+                                              Background="Transparent">
+                                            <Grid.InputBindings>
+                                                <MouseBinding MouseAction="LeftClick"
+                                                              Command="{Binding DataContext.SelectAccountIconCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                              CommandParameter="{Binding}" />
+                                            </Grid.InputBindings>
+
+                                            <!-- Icon -->
+                                            <Image Source="{Binding Converter={StaticResource ByteToImageSourceConverter}}"
+                                                   Stretch="Uniform" />
+
+                                            <!-- Selection Overlay -->
+                                            <Border BorderThickness="2"
+                                                    IsHitTestVisible="False">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="BorderBrush"
+                                                                Value="Transparent" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Value="True">
+                                                                <DataTrigger.Binding>
+                                                                    <MultiBinding Converter="{StaticResource EqualsConverter}">
+                                                                        <Binding Path="DataContext.EditSteamAccountIcon"
+                                                                                 RelativeSource="{RelativeSource AncestorType=Window}" />
+                                                                        <Binding Path="." />
+                                                                    </MultiBinding>
+                                                                </DataTrigger.Binding>
+                                                                <Setter Property="BorderBrush"
+                                                                        Value="{DynamicResource MaterialDesign.Brush.Primary}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Grid}}"
+                                                                         Value="True">
+                                                                <Setter Property="BorderBrush"
+                                                                        Value="{DynamicResource MaterialDesignDivider}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <StackPanel Grid.Row="3"
                                         Orientation="Horizontal"
                                         HorizontalAlignment="Right">
                                 <Button Style="{StaticResource MaterialDesignOutlinedButton}"
