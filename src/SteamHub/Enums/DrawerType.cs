@@ -1,9 +1,9 @@
 namespace SteamHub.Enums
 {
     /// <summary>
-    /// 编辑类型
+    /// 抽屉类型
     /// </summary>
-    public enum EditType
+    public enum DrawerType
     {
         /// <summary>
         /// 没有编辑

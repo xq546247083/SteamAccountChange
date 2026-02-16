@@ -54,7 +54,7 @@
     </Window.Resources>
 
     <Grid>
-        <materialDesign:DrawerHost IsRightDrawerOpen="{Binding EditType, Converter={StaticResource InverseEnumToBooleanConverter}, ConverterParameter=None}">
+        <materialDesign:DrawerHost IsRightDrawerOpen="{Binding DrawerType, Converter={StaticResource InverseEnumToBooleanConverter}, ConverterParameter=None}">
             <materialDesign:DrawerHost.RightDrawerContent>
                 <Border Width="300"
                         Background="{DynamicResource MaterialDesignPaper}">
@@ -66,7 +66,7 @@
                                     <Setter Property="Visibility"
                                             Value="Collapsed" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding EditType}"
+                                        <DataTrigger Binding="{Binding DrawerType}"
                                                      Value="SteamAccount">
                                             <Setter Property="Visibility"
                                                     Value="Visible" />
@@ -273,7 +273,7 @@
                                     <Setter Property="Visibility"
                                             Value="Collapsed" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding EditType}"
+                                        <DataTrigger Binding="{Binding DrawerType}"
                                                      Value="SteamGame">
                                             <Setter Property="Visibility"
                                                     Value="Visible" />
@@ -437,12 +437,12 @@
                                     <Setter Property="Visibility"
                                             Value="Collapsed" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding EditType}"
+                                        <DataTrigger Binding="{Binding DrawerType}"
                                                      Value="SteamAccountRecycleBin">
                                             <Setter Property="Visibility"
                                                     Value="Visible" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding EditType}"
+                                        <DataTrigger Binding="{Binding DrawerType}"
                                                      Value="SteamGameRecycleBin">
                                             <Setter Property="Visibility"
                                                     Value="Visible" />
@@ -497,7 +497,7 @@
                                                 <Setter Property="Visibility"
                                                         Value="Collapsed" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding EditType}"
+                                                    <DataTrigger Binding="{Binding DrawerType}"
                                                                  Value="SteamAccountRecycleBin">
                                                         <Setter Property="Visibility"
                                                                 Value="Visible" />
@@ -560,7 +560,7 @@
                                                 <Setter Property="Visibility"
                                                         Value="Collapsed" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding EditType}"
+                                                    <DataTrigger Binding="{Binding DrawerType}"
                                                                  Value="SteamGameRecycleBin">
                                                         <Setter Property="Visibility"
                                                                 Value="Visible" />

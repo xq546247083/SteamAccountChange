@@ -70,7 +70,7 @@ namespace SteamHub.ViewModel
                 allSteamAccountIcons.Insert(0, EditSteamAccountIcon);
             }
             AllAccountIcons = new ObservableCollection<byte[]>(allSteamAccountIcons);
-            EditType = EditType.SteamAccount;
+            DrawerType = DrawerType.SteamAccount;
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace SteamHub.ViewModel
         [RelayCommand]
         private void CloseEditSteamAccountDrawer()
         {
-            EditType = EditType.None;
+            DrawerType = DrawerType.None;
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace SteamHub.ViewModel
 
             SteamAccountRepository.Delete(SelectedSteamAccount.Account);
 
-            EditType = EditType.None;
+            DrawerType = DrawerType.None;
             Lactor.ReLoad();
             Lactor.ShowToolTip("删除成功！");
         }
@@ -143,7 +143,7 @@ namespace SteamHub.ViewModel
         {
             if (SelectedSteamAccount == null)
             {
-                EditType = EditType.None;
+                DrawerType = DrawerType.None;
                 return;
             }
 
@@ -163,7 +163,7 @@ namespace SteamHub.ViewModel
             SteamAccountRepository.Update(SelectedSteamAccount);
 
             currentSteamAccount = SelectedSteamAccount.Account;
-            EditType = EditType.None;
+            DrawerType = DrawerType.None;
 
             Lactor.ReLoad();
             Lactor.ShowToolTip("保存成功！");

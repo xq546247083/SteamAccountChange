@@ -66,7 +66,7 @@ namespace SteamHub.ViewModel
                 allSteamGameIcons.Insert(0, EditSteamGameIcon);
             }
             AllGameIcons = new ObservableCollection<byte[]>(allSteamGameIcons);
-            EditType = EditType.SteamGame;
+            DrawerType = DrawerType.SteamGame;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace SteamHub.ViewModel
         [RelayCommand]
         private void CloseEditSteamGameDrawer()
         {
-            EditType = EditType.None;
+            DrawerType = DrawerType.None;
         }
 
         /// <summary>
@@ -86,13 +86,13 @@ namespace SteamHub.ViewModel
         {
             if (string.IsNullOrEmpty(editSteamGameAppId))
             {
-                EditType = EditType.None;
+                DrawerType = DrawerType.None;
                 return;
             }
 
             SteamGameRepository.Delete(editSteamGameAppId);
 
-            EditType = EditType.None;
+            DrawerType = DrawerType.None;
             Lactor.ReLoad();
             Lactor.ShowToolTip("保存成功！");
         }
@@ -105,7 +105,7 @@ namespace SteamHub.ViewModel
         {
             if (string.IsNullOrEmpty(editSteamGameAppId))
             {
-                EditType = EditType.None;
+                DrawerType = DrawerType.None;
                 return;
             }
 
@@ -124,7 +124,7 @@ namespace SteamHub.ViewModel
             game.Icon = EditSteamGameIcon;
             SteamGameRepository.UpdateList(new List<SteamGame>() { game });
 
-            EditType = EditType.None;
+            DrawerType = DrawerType.None;
             Lactor.ReLoad();
             Lactor.ShowToolTip("保存成功！");
         }

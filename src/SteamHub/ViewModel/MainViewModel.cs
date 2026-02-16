@@ -29,10 +29,10 @@ namespace SteamHub.ViewModel
         #region 绑定属性
 
         /// <summary>
-        /// 编辑类型
+        /// 抽屉类型
         /// </summary>
         [ObservableProperty]
-        private EditType editType;
+        private DrawerType drawerType;
 
         /// <summary>
         /// Snackbar消息队列

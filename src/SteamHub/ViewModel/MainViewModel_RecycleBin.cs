@@ -37,7 +37,7 @@ namespace SteamHub.ViewModel
         [RelayCommand]
         private void OpenRecycleBinDrawer(string recycleBinType)
         {
-            EditType = string.Equals(recycleBinType, "Game", StringComparison.OrdinalIgnoreCase) ? EditType.SteamGameRecycleBin : EditType.SteamAccountRecycleBin;
+            DrawerType = string.Equals(recycleBinType, "Game", StringComparison.OrdinalIgnoreCase) ? DrawerType.SteamGameRecycleBin : DrawerType.SteamAccountRecycleBin;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace SteamHub.ViewModel
         [RelayCommand]
         private void CloseRecycleBinDrawer()
         {
-            EditType = EditType.None;
+            DrawerType = DrawerType.None;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace SteamHub.ViewModel
         [RelayCommand]
         private void RestoreRecycleBin()
         {
-            if (EditType == EditType.SteamGameRecycleBin)
+            if (DrawerType == DrawerType.SteamGameRecycleBin)
             {
                 SteamGameRepository.RestoreRecycleBin();
             }
@@ -64,7 +64,7 @@ namespace SteamHub.ViewModel
                 SteamAccountRepository.RestoreRecycleBin();
             }
 
-            EditType = EditType.None;
+            DrawerType = DrawerType.None;
             Lactor.ReLoad();
             Lactor.ShowToolTip("恢复成功！");
         }
@@ -75,7 +75,7 @@ namespace SteamHub.ViewModel
         [RelayCommand]
         private void EmptyRecycleBin()
         {
-            if (EditType == EditType.SteamGameRecycleBin)
+            if (DrawerType == DrawerType.SteamGameRecycleBin)
             {
                 SteamGameRepository.EmptyRecycleBin();
             }
@@ -84,7 +84,7 @@ namespace SteamHub.ViewModel
                 SteamAccountRepository.EmptyRecycleBin();
             }
 
-            EditType = EditType.None;
+            DrawerType = DrawerType.None;
             Lactor.ReLoad();
             Lactor.ShowToolTip("清空成功！");
         }
