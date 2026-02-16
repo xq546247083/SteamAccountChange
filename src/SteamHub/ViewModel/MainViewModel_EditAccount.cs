@@ -131,7 +131,7 @@ namespace SteamHub.ViewModel
             SteamAccountRepository.Delete(SelectedSteamAccount.Account);
 
             EditType = EditType.None;
-            ReLoad();
+            Lactor.ReLoad();
             Lactor.ShowToolTip("删除成功！");
         }
 
@@ -165,7 +165,7 @@ namespace SteamHub.ViewModel
             currentSteamAccount = SelectedSteamAccount.Account;
             EditType = EditType.None;
 
-            ReLoad();
+            Lactor.ReLoad();
             Lactor.ShowToolTip("保存成功！");
         }
 

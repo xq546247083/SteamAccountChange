@@ -93,7 +93,7 @@ namespace SteamHub.ViewModel
             SteamGameRepository.Delete(editSteamGameAppId);
 
             EditType = EditType.None;
-            ReLoad();
+            Lactor.ReLoad();
             Lactor.ShowToolTip("保存成功！");
         }
 
@@ -125,7 +125,7 @@ namespace SteamHub.ViewModel
             SteamGameRepository.UpdateList(new List<SteamGame>() { game });
 
             EditType = EditType.None;
-            ReLoad();
+            Lactor.ReLoad();
             Lactor.ShowToolTip("保存成功！");
         }
 

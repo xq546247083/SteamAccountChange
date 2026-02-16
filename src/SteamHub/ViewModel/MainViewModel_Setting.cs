@@ -63,7 +63,7 @@ namespace SteamHub.ViewModel
 
             SettingRepository.AddKillProcess(SelectedProcessName);
 
-            ReLoad();
+            Lactor.ReLoad();
             Lactor.ShowToolTip("添加成功！");
         }
 
@@ -85,7 +85,7 @@ namespace SteamHub.ViewModel
 
             SettingRepository.DeleteKillProcess(SelectedProcessName);
 
-            ReLoad();
+            Lactor.ReLoad();
             Lactor.ShowToolTip("删除成功!");
         }
 

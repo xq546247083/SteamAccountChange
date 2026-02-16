@@ -7,7 +7,6 @@ using SteamHub.Entities;
 using SteamHub.Enums;
 using SteamHub.Manager;
 using SteamHub.Repositories;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -24,7 +23,7 @@ namespace SteamHub.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            Init();
+            LoadAllData();
         }
 
         #region 绑定属性
@@ -103,7 +102,7 @@ namespace SteamHub.ViewModel
             var steamGames = steamGameSources.Select(r => new SteamGame(Guid.Empty, r.AppId, r.Name, r.Icon, r.AccountSteamId, 0)).ToList();
             SteamGameRepository.AddList(steamGames);
 
-            ReLoad();
+            Lactor.ReLoad();
             Lactor.ShowToolTip("刷新成功!");
         }
 
@@ -118,27 +117,6 @@ namespace SteamHub.ViewModel
                 FileName = "https://github.com/xq546247083/SteamHub",
                 UseShellExecute = true
             });
-        }
-
-        #endregion
-
-        #region 私有方法
-
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        private void Init()
-        {
-            LoadAllData();
-        }
-
-        /// <summary>
-        /// 重新加载
-        /// </summary>
-        private void ReLoad()
-        {
-            LoadAllData();
-            Lactor.TrayPopupViewModel.ReLoad();
         }
 
         #endregion

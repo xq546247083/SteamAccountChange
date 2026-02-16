@@ -109,6 +109,15 @@ namespace SteamHub.Manager
             });
         }
 
+        /// <summary>
+        /// 重载数据
+        /// </summary>
+        public static void ReLoad()
+        {
+            MainViewModel.LoadAllData();
+            TrayPopupViewModel.ReLoad();
+        }
+
         #endregion
     }
 }
