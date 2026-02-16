@@ -20,11 +20,6 @@ namespace SteamHub.ViewModel
     public partial class MainViewModel : ObservableObject, GongSolutions.Wpf.DragDrop.IDropTarget
     {
         /// <summary>
-        /// 当前的Steam账号
-        /// </summary>
-        private string currentSteamAccount;
-
-        /// <summary>
         /// 构造方法
         /// </summary>
         public MainViewModel()
@@ -33,18 +28,6 @@ namespace SteamHub.ViewModel
         }
 
         #region 绑定属性
-
-        /// <summary>
-        /// 账号列表
-        /// </summary>
-        [ObservableProperty]
-        private ObservableCollection<SteamAccount> steamAccounts;
-
-        /// <summary>
-        /// 选中账号
-        /// </summary>
-        [ObservableProperty]
-        private SteamAccount selectedSteamAccount;
 
         /// <summary>
         /// 编辑类型
@@ -102,21 +85,6 @@ namespace SteamHub.ViewModel
             Lactor.MainWindow.Visibility = System.Windows.Visibility.Hidden;
             Lactor.MainWindow.ShowInTaskbar = false;
             cancelEventArgs.Cancel = true;
-        }
-
-        /// <summary>
-        /// 打开Steam登录账号
-        /// </summary>
-        [RelayCommand]
-        private void OpenSteamAccount(SteamAccount account)
-        {
-            if (account == null)
-            {
-                return;
-            }
-
-            var processList = SettingRepository.GetKillProcessList();
-            SteamTool.Open(account.Account, processList);
         }
 
         /// <summary>
@@ -230,7 +198,10 @@ namespace SteamHub.ViewModel
         /// </summary>
         public void DragOver(IDropInfo dropInfo)
         {
-            if (dropInfo.Data == dropInfo.TargetItem) return;
+            if (dropInfo.Data == dropInfo.TargetItem)
+            {
+                return;
+            }
 
             if (dropInfo.Data is SteamAccount && dropInfo.TargetItem is SteamAccount)
             {
