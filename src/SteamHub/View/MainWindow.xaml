@@ -729,10 +729,15 @@
                                             CommandParameter="Account"
                                             Padding="8 0"
                                             Margin="0,0,4,0">
-                                        <materialDesign:PackIcon Kind="Delete"
-                                                                 Width="20"
-                                                                 Height="20"
-                                                                 VerticalAlignment="Center" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Delete"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     VerticalAlignment="Center"
+                                                                     Margin="0,0,4,0" />
+                                            <TextBlock Text="回收站"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
                                     </Button>
 
                                     <!-- Help Button -->
@@ -995,10 +1000,15 @@
                                             Command="{Binding OpenRecycleBinDrawerCommand}"
                                             CommandParameter="Game"
                                             Padding="8 0">
-                                        <materialDesign:PackIcon Kind="Delete"
-                                                                 Width="20"
-                                                                 Height="20"
-                                                                 VerticalAlignment="Center" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Delete"
+                                                                     Width="20"
+                                                                     Height="20"
+                                                                     VerticalAlignment="Center"
+                                                                     Margin="0,0,4,0" />
+                                            <TextBlock Text="回收站"
+                                                       VerticalAlignment="Center" />
+                                        </StackPanel>
                                     </Button>
                                 </StackPanel>
                             </Grid>
