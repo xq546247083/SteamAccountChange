@@ -33,6 +33,8 @@ namespace SteamHub.Manager
             taskbarIcon.TrayPopup = Lactor.TrayPopupControl;
             taskbarIcon.TrayMouseDoubleClick += TaskbarIcon_TrayMouseDoubleClick;
             taskbarIcon.TrayRightMouseUp += TaskbarIcon_TrayRightMouseUp;
+
+            PreLoadNotifyUI();
         }
 
         /// <summary>
@@ -65,6 +67,35 @@ namespace SteamHub.Manager
         private static void TaskbarIcon_TrayRightMouseUp(object sender, System.Windows.RoutedEventArgs e)
         {
             taskbarIcon.ShowTrayPopup();
+        }
+
+        /// <summary>
+        /// 预热菜单
+        /// </summary>
+        private static void PreLoadNotifyUI()
+        {
+            // 预热系统托盘菜单的元素，解决第一次打开系统托盘菜单略微卡顿的问题
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(() =>
+            {
+                var dummyWindow = new System.Windows.Window
+                {
+                    Width = 0,
+                    Height = 0,
+                    WindowStyle = System.Windows.WindowStyle.None,
+                    ShowInTaskbar = false,
+                    ShowActivated = false,
+                    AllowsTransparency = true,
+                    Background = System.Windows.Media.Brushes.Transparent,
+                    Content = Lactor.TrayPopupControl
+                };
+
+                dummyWindow.Show();
+                dummyWindow.Content = null;
+                dummyWindow.Close();
+
+                // 重新绑定回托盘
+                taskbarIcon.TrayPopup = Lactor.TrayPopupControl;
+            }));
         }
 
         #endregion

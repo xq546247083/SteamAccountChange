@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.IO;
+using System.Security.Cryptography;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
@@ -7,12 +8,23 @@ namespace SteamHub.Convert;
 
 public class ByteToImageSourceConverter : IValueConverter
 {
+    private static readonly Dictionary<string, BitmapImage> _imageCache = new Dictionary<string, BitmapImage>();
+    private static readonly SHA256 _sha256 = SHA256.Create();
+
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is byte[] bytes && bytes.Length > 0)
         {
             try
             {
+                // Calculate hash of the byte array to use as cache key
+                string hashKey = ConvertToHashString(bytes);
+
+                if (_imageCache.TryGetValue(hashKey, out var cachedImage))
+                {
+                    return cachedImage;
+                }
+
                 var image = new BitmapImage();
                 using (var memorystream = new MemoryStream(bytes))
                 {
@@ -25,6 +37,9 @@ public class ByteToImageSourceConverter : IValueConverter
                     image.EndInit();
                 }
                 image.Freeze();
+
+                _imageCache[hashKey] = image;
+
                 return image;
             }
             catch
@@ -34,6 +49,12 @@ public class ByteToImageSourceConverter : IValueConverter
             }
         }
         return null;
+    }
+
+    private static string ConvertToHashString(byte[] bytes)
+    {
+        var hashBytes = _sha256.ComputeHash(bytes);
+        return System.Convert.ToBase64String(hashBytes);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
