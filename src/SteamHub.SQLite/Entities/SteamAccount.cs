@@ -61,6 +61,11 @@ public class SteamAccount
         get; set;
     }
 
+    /// <summary>
+    /// 是否已删除
+    /// </summary>
+    public bool IsDeleted { get; set; }
+
     public SteamAccount()
     {
     }

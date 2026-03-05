@@ -14,6 +14,20 @@ namespace SteamHub.Repositories
         {
             using var context = new SteamHubDbContext();
             return context.SteamGames
+                .Where(g => !g.IsDeleted)
+                .OrderBy(g => g.Order)
+                .ThenBy(g => g.Name)
+                .ToList();
+        }
+
+        /// <summary>
+        /// 获取所有已删除游戏
+        /// </summary>
+        public static List<SteamGame> GetListOfDeleted()
+        {
+            using var context = new SteamHubDbContext();
+            return context.SteamGames
+                .Where(g => g.IsDeleted)
                 .OrderBy(g => g.Order)
                 .ThenBy(g => g.Name)
                 .ToList();
@@ -26,7 +40,7 @@ namespace SteamHub.Repositories
         {
             using var context = new SteamHubDbContext();
             return context.SteamGames
-                .Where(g => g.AccountSteamId == accountSteamId)
+                .Where(g => g.AccountSteamId == accountSteamId && !g.IsDeleted)
                 .OrderBy(g => g.Order)
                 .ThenBy(g => g.Name)
                 .ToList();
@@ -116,7 +130,7 @@ namespace SteamHub.Repositories
         }
 
         /// <summary>
-        /// 删除游戏
+        /// 删除游戏(软删除)
         /// </summary>
         public static void Delete(string appId)
         {
@@ -124,7 +138,34 @@ namespace SteamHub.Repositories
             var entity = context.SteamGames.FirstOrDefault(g => g.AppId == appId);
             if (entity != null)
             {
-                context.SteamGames.Remove(entity);
+                entity.IsDeleted = true;
+                context.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// 恢复游戏
+        /// </summary>
+        public static void RestoreRecycleBin()
+        {
+            using var context = new SteamHubDbContext();
+            var deletedGames = context.SteamGames.Where(g => g.IsDeleted).ToList();
+            if (deletedGames.Any())
+            {
+                deletedGames.ForEach(r => r.IsDeleted = false);
+                context.SaveChanges();
+            }
+        }
+
+        /// 清空回收站
+        /// </summary>
+        public static void EmptyRecycleBin()
+        {
+            using var context = new SteamHubDbContext();
+            var deletedGames = context.SteamGames.Where(g => g.IsDeleted).ToList();
+            if (deletedGames.Any())
+            {
+                context.SteamGames.RemoveRange(deletedGames);
                 context.SaveChanges();
             }
         }

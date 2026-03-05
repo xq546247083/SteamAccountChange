@@ -7,7 +7,6 @@ using SteamHub.Entities;
 using SteamHub.Enums;
 using SteamHub.Manager;
 using SteamHub.Repositories;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -20,37 +19,20 @@ namespace SteamHub.ViewModel
     public partial class MainViewModel : ObservableObject, GongSolutions.Wpf.DragDrop.IDropTarget
     {
         /// <summary>
-        /// 当前的Steam账号
-        /// </summary>
-        private string currentSteamAccount;
-
-        /// <summary>
         /// 构造方法
         /// </summary>
         public MainViewModel()
         {
-            Init();
+            LoadAllData();
         }
 
         #region 绑定属性
 
         /// <summary>
-        /// 账号列表
+        /// 抽屉类型
         /// </summary>
         [ObservableProperty]
-        private ObservableCollection<SteamAccount> steamAccounts;
-
-        /// <summary>
-        /// 选中账号
-        /// </summary>
-        [ObservableProperty]
-        private SteamAccount selectedSteamAccount;
-
-        /// <summary>
-        /// 编辑类型
-        /// </summary>
-        [ObservableProperty]
-        private EditType editType;
+        private DrawerType drawerType;
 
         /// <summary>
         /// Snackbar消息队列
@@ -105,73 +87,6 @@ namespace SteamHub.ViewModel
         }
 
         /// <summary>
-        /// 复制用户名
-        /// </summary>
-        [RelayCommand]
-        private void CopySteamAccountAccount()
-        {
-            if (SelectedSteamAccount == null || SelectedSteamAccount.Account == null)
-            {
-                return;
-            }
-
-            System.Windows.Clipboard.SetDataObject(SelectedSteamAccount.Account);
-            Lactor.ShowToolTip("复制成功！");
-        }
-
-        /// <summary>
-        /// 复制密码
-        /// </summary>
-        [RelayCommand]
-        private void CopySteamAccountPassword()
-        {
-            if (SelectedSteamAccount == null || SelectedSteamAccount.Password == null)
-            {
-                return;
-            }
-
-            System.Windows.Clipboard.SetDataObject(SelectedSteamAccount.Password);
-            Lactor.ShowToolTip("复制成功！");
-        }
-
-        /// <summary>
-        /// 删除steam账号信息
-        /// </summary>
-        [RelayCommand]
-        private void DeleteSteamAccount()
-        {
-            if (SelectedSteamAccount == null)
-            {
-                return;
-            }
-
-            if (!SteamAccountRepository.Exists(SelectedSteamAccount.Account))
-            {
-                return;
-            }
-
-            SteamAccountRepository.Delete(SelectedSteamAccount.Account);
-
-            ReLoad();
-            Lactor.ShowToolTip("删除成功！");
-        }
-
-        /// <summary>
-        /// 打开Steam登录账号
-        /// </summary>
-        [RelayCommand]
-        private void OpenSteamAccount(SteamAccount account)
-        {
-            if (account == null)
-            {
-                return;
-            }
-
-            var processList = SettingRepository.GetKillProcessList();
-            SteamTool.Open(account.Account, processList);
-        }
-
-        /// <summary>
         /// 刷新 Steam 数据
         /// </summary>
         [RelayCommand]
@@ -187,7 +102,7 @@ namespace SteamHub.ViewModel
             var steamGames = steamGameSources.Select(r => new SteamGame(Guid.Empty, r.AppId, r.Name, r.Icon, r.AccountSteamId, 0)).ToList();
             SteamGameRepository.AddList(steamGames);
 
-            ReLoad();
+            Lactor.ReLoad();
             Lactor.ShowToolTip("刷新成功!");
         }
 
@@ -206,61 +121,6 @@ namespace SteamHub.ViewModel
 
         #endregion
 
-        #region 私有方法
-
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        private void Init()
-        {
-            LoadAllData();
-        }
-
-        /// <summary>
-        /// 重新加载
-        /// </summary>
-        private void ReLoad()
-        {
-            LoadAllData();
-            Lactor.TrayPopupViewModel.ReLoad();
-        }
-
-        /// <summary>
-        /// 加载进程列表
-        /// </summary>
-        private void LoadProcesses()
-        {
-            if (ProcessListMode == ProcessListMode.System)
-            {
-                var processes = Process.GetProcesses();
-                DisplayProcessList = processes.Select(p => p.ProcessName).Distinct().OrderBy(n => n).ToList();
-            }
-            else
-            {
-                DisplayProcessList = SettingRepository.GetKillProcessList();
-            }
-
-            SelectedProcessName = DisplayProcessList != null && DisplayProcessList.Count > 0 ? DisplayProcessList.FirstOrDefault() : string.Empty;
-        }
-
-        /// <summary>
-        /// 加载steam账号
-        /// </summary>
-        private void LoadSteamAccounts()
-        {
-            // 加载账号信息
-            SteamAccounts = new ObservableCollection<SteamAccount>(SteamAccountRepository.GetAll());
-
-            // 选中第一个
-            if (SelectedSteamAccount == null && SteamAccounts != null && SteamAccounts.Count > 0)
-            {
-                var currentSteamAccountInfo = string.IsNullOrEmpty(currentSteamAccount) ? null : SteamAccounts.FirstOrDefault(r => r.Account == currentSteamAccount);
-                SelectedSteamAccount = currentSteamAccountInfo == null ? SteamAccounts.FirstOrDefault() : currentSteamAccountInfo;
-            }
-        }
-
-        #endregion
-
         #region 公共方法
 
         /// <summary>
@@ -271,6 +131,7 @@ namespace SteamHub.ViewModel
             LoadSteamAccounts();
             LoadSteamGames();
             LoadProcesses();
+            LoadDeletedData();
         }
 
         #endregion
@@ -282,7 +143,10 @@ namespace SteamHub.ViewModel
         /// </summary>
         public void DragOver(IDropInfo dropInfo)
         {
-            if (dropInfo.Data == dropInfo.TargetItem) return;
+            if (dropInfo.Data == dropInfo.TargetItem)
+            {
+                return;
+            }
 
             if (dropInfo.Data is SteamAccount && dropInfo.TargetItem is SteamAccount)
             {

@@ -1,9 +1,9 @@
 namespace SteamHub.Enums
 {
     /// <summary>
-    /// 编辑类型
+    /// 抽屉类型
     /// </summary>
-    public enum EditType
+    public enum DrawerType
     {
         /// <summary>
         /// 没有编辑
@@ -19,5 +19,15 @@ namespace SteamHub.Enums
         /// 游戏
         /// </summary>
         SteamGame,
+
+        /// <summary>
+        /// 账号回收站
+        /// </summary>
+        SteamAccountRecycleBin,
+
+        /// <summary>
+        /// 游戏回收站
+        /// </summary>
+        SteamGameRecycleBin,
     }
 }
