@@ -13,7 +13,7 @@
 
     <Border CornerRadius="8"
             Background="#FFFFFF"
-            Width="240"
+            Width="230"
             Height="Auto">
         <Border.Effect>
             <DropShadowEffect BlurRadius="10"
@@ -72,12 +72,21 @@
             <!-- Account/Game List Container -->
             <Grid Grid.Row="1">
                 <!-- Account List -->
-                <ScrollViewer Height="200"
-                              VerticalScrollBarVisibility="Hidden">
-                    <ScrollViewer.Style>
-                        <Style TargetType="ScrollViewer">
+                <ListBox ItemsSource="{Binding SteamAccounts}"
+                         VirtualizingStackPanel.IsVirtualizing="True"
+                         VirtualizingStackPanel.VirtualizationMode="Recycling"
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                         Height="200"
+                         Margin="0,5">
+                    <ListBox.Style>
+                        <Style TargetType="ListBox">
                             <Setter Property="Visibility"
                                     Value="Visible" />
+                            <Setter Property="Background"
+                                    Value="Transparent"/>
+                            <Setter Property="BorderThickness"
+                                    Value="0"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ShowType}"
                                              Value="SteamGame">
@@ -86,59 +95,74 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </ScrollViewer.Style>
-                    <ItemsControl ItemsSource="{Binding SteamAccounts}"
-                                  Margin="0,5">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                        Command="{Binding DataContext.SwitchSteamAccountCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                        CommandParameter="{Binding}"
-                                        HorizontalContentAlignment="Left"
-                                        Height="50"
-                                        Padding="10,0">
-                                    <Grid Width="240">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0"
-                                              Width="32"
-                                              Height="32">
-                                            <materialDesign:PackIcon Kind="QuestionMark"
-                                                                     Width="32"
-                                                                     Height="32"
-                                                                     HorizontalAlignment="Center"
-                                                                     VerticalAlignment="Center"
-                                                                     Opacity="0.5" />
-                                            <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
-                                                   Stretch="UniformToFill" />
-                                        </Grid>
-                                        <StackPanel Grid.Column="1"
-                                                    Margin="10,0,0,0"
-                                                    VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Name}"
-                                                       FontWeight="Bold"
-                                                       TextTrimming="CharacterEllipsis" />
-                                            <TextBlock Text="{Binding Account}"
-                                                       FontSize="12"
-                                                       Opacity="0.7"
-                                                       TextTrimming="CharacterEllipsis" />
-                                        </StackPanel>
+                    </ListBox.Style>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="BorderThickness" Value="0" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                    Command="{Binding DataContext.SwitchSteamAccountCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    HorizontalContentAlignment="Left"
+                                    HorizontalAlignment="Stretch"
+                                    Height="50"
+                                    Padding="10,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0"
+                                          Width="32"
+                                          Height="32">
+                                        <materialDesign:PackIcon Kind="QuestionMark"
+                                                                 Width="32"
+                                                                 Height="32"
+                                                                 HorizontalAlignment="Center"
+                                                                 VerticalAlignment="Center"
+                                                                 Opacity="0.5" />
+                                        <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
+                                               Stretch="UniformToFill" />
                                     </Grid>
-                                </Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="10,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}"
+                                                   FontWeight="Bold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding Account}"
+                                                   FontSize="12"
+                                                   Opacity="0.7"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
                 <!-- Game List -->
-                <ScrollViewer Height="200"
-                              VerticalScrollBarVisibility="Hidden">
-                    <ScrollViewer.Style>
-                        <Style TargetType="ScrollViewer">
+                <ListBox ItemsSource="{Binding SteamGames}"
+                         VirtualizingStackPanel.IsVirtualizing="True"
+                         VirtualizingStackPanel.VirtualizationMode="Recycling"
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                         Height="200"
+                         Margin="0,5">
+                    <ListBox.Style>
+                        <Style TargetType="ListBox">
                             <Setter Property="Visibility"
                                     Value="Collapsed" />
+                            <Setter Property="Background"
+                                    Value="Transparent"/>
+                            <Setter Property="BorderThickness"
+                                    Value="0"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ShowType}"
                                              Value="SteamGame">
@@ -147,47 +171,53 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </ScrollViewer.Style>
-                    <ItemsControl ItemsSource="{Binding SteamGames}"
-                                  Margin="0,5">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                        Command="{Binding DataContext.OpenSteamGameCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                        CommandParameter="{Binding}"
-                                        HorizontalContentAlignment="Left"
-                                        Height="50"
-                                        Padding="10,0">
-                                    <Grid Width="240">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0"
-                                              Width="32"
-                                              Height="32">
-                                            <materialDesign:PackIcon Kind="Controller"
-                                                                     Width="32"
-                                                                     Height="32"
-                                                                     HorizontalAlignment="Center"
-                                                                     VerticalAlignment="Center"
-                                                                     Opacity="0.5" />
-                                            <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
-                                                   Stretch="UniformToFill" />
-                                        </Grid>
-                                        <StackPanel Grid.Column="1"
-                                                    Margin="10,0,0,0"
-                                                    VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Name}"
-                                                       FontWeight="Bold"
-                                                       TextTrimming="CharacterEllipsis" />
-                                        </StackPanel>
+                    </ListBox.Style>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="BorderThickness" Value="0" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                    Command="{Binding DataContext.OpenSteamGameCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    HorizontalContentAlignment="Left"
+                                    HorizontalAlignment="Stretch"
+                                    Height="50"
+                                    Padding="10,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0"
+                                          Width="32"
+                                          Height="32">
+                                        <materialDesign:PackIcon Kind="Controller"
+                                                                 Width="32"
+                                                                 Height="32"
+                                                                 HorizontalAlignment="Center"
+                                                                 VerticalAlignment="Center"
+                                                                 Opacity="0.5" />
+                                        <Image Source="{Binding Icon, Converter={StaticResource ByteToImageSourceConverter}}"
+                                               Stretch="UniformToFill" />
                                     </Grid>
-                                </Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+                                    <StackPanel Grid.Column="1"
+                                                Margin="10,0,0,0"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}"
+                                                   FontWeight="Bold"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
                 <!-- Empty State - Accounts -->
                 <TextBlock Text="暂无账号数据"
