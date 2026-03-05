@@ -25,7 +25,6 @@ namespace SteamHub.Manager
         public static void Init()
         {
             taskbarIcon = new TaskbarIcon();
-            taskbarIcon.ToolTipText = "Steam账号切换器";
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SteamHub.Resources.app.ico"))
             {
                 taskbarIcon.Icon = new Icon(stream);

@@ -23,6 +23,7 @@ namespace SteamHub.ViewModel
         /// </summary>
         public MainViewModel()
         {
+            AppTitle = $"{AppGlobal.AppChineseName} V{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(3)}";
             LoadAllData();
         }
 
@@ -33,6 +34,12 @@ namespace SteamHub.ViewModel
         /// </summary>
         [ObservableProperty]
         private DrawerType drawerType;
+
+        /// <summary>
+        /// 程序名字
+        /// </summary>
+        [ObservableProperty]
+        private string appTitle;
 
         /// <summary>
         /// Snackbar消息队列
