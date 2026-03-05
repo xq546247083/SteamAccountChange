@@ -11,17 +11,26 @@ public class SteamHubDbContext : DbContext
     /// <summary>
     /// Steam 账号表
     /// </summary>
-    public DbSet<SteamAccount> SteamAccounts { get; set; }
+    public DbSet<SteamAccount> SteamAccounts
+    {
+        get; set;
+    }
 
     /// <summary>
     /// 配置表
     /// </summary>
-    public DbSet<Setting> Settings { get; set; }
+    public DbSet<Setting> Settings
+    {
+        get; set;
+    }
 
     /// <summary>
     /// Steam 游戏表
     /// </summary>
-    public DbSet<SteamGame> SteamGames { get; set; }
+    public DbSet<SteamGame> SteamGames
+    {
+        get; set;
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

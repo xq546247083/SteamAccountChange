@@ -8,21 +8,33 @@
         /// <summary>
         /// SteamId
         /// </summary>
-        public string SteamId { get; set; }
+        public string SteamId
+        {
+            get; set;
+        }
 
         /// <summary>
         /// 账号名
         /// </summary>
-        public string AccountName { get; set; }
+        public string AccountName
+        {
+            get; set;
+        }
 
         /// <summary>
         /// 显示名称
         /// </summary>
-        public string PersonaName { get; set; }
+        public string PersonaName
+        {
+            get; set;
+        }
 
         /// <summary>
         /// 头像数据
         /// </summary>
-        public byte[] Icon { get; set; }
+        public byte[] Icon
+        {
+            get; set;
+        }
     }
 }

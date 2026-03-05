@@ -8,17 +8,26 @@
         /// <summary>
         /// SteamId
         /// </summary>
-        public string SteamId { get; set; }
+        public string SteamId
+        {
+            get; set;
+        }
 
         /// <summary>
         /// SteamId
         /// </summary>
-        public string AppId { get; set; }
+        public string AppId
+        {
+            get; set;
+        }
 
         /// <summary>
         /// 上次游玩时间
         /// </summary>
-        public long LastPlayed { get; set; }
+        public long LastPlayed
+        {
+            get; set;
+        }
 
         public SteamAccountPlayGameSource()
         {

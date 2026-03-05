@@ -8,32 +8,50 @@ public class SteamGame
     /// <summary>
     /// 主键ID
     /// </summary>
-    public Guid Id { get; set; }
+    public Guid Id
+    {
+        get; set;
+    }
 
     /// <summary>
     /// Steam 游戏 ID
     /// </summary>
-    public string AppId { get; set; }
+    public string AppId
+    {
+        get; set;
+    }
 
     /// <summary>
     /// 所属账号
     /// </summary>
-    public string AccountSteamId { get; set; }
+    public string AccountSteamId
+    {
+        get; set;
+    }
 
     /// <summary>
     /// 游戏名称
     /// </summary>
-    public string Name { get; set; }
+    public string Name
+    {
+        get; set;
+    }
 
     /// <summary>
     /// 游戏图标数据
     /// </summary>
-    public byte[] Icon { get; set; }
+    public byte[] Icon
+    {
+        get; set;
+    }
 
     /// <summary>
     /// 排序序号
     /// </summary>
-    public int Order { get; set; }
+    public int Order
+    {
+        get; set;
+    }
 
     public SteamGame()
     {
