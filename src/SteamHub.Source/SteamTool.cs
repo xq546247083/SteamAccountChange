@@ -1,5 +1,6 @@
-﻿using SteamHub.Helper;
+using SteamHub.Helper;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace SteamHub
 {
@@ -69,6 +70,9 @@ namespace SteamHub
             // 杀掉steam进程
             ProcessHelper.Kill("steam");
 
+            // 修改 loginusers.vdf 中所有账号的 AllowAutoLogin 为 1
+            SetAllowAutoLogin();
+
             // 设置注册信息
             RegistryHelper.Set(@"Software\Valve\Steam", "AutoLoginUser", account);
 
@@ -79,6 +83,36 @@ namespace SteamHub
                 return;
             }
             Process.Start(steamExe);
+        }
+
+        /// <summary>
+        /// 设置所有账号的AllowAutoLogin为1
+        /// </summary>
+        public static void SetAllowAutoLogin()
+        {
+            var steamPath = GetSteamPath();
+            if (string.IsNullOrEmpty(steamPath))
+            {
+                return;
+            }
+
+            var vdfPath = Path.Combine(steamPath, "config", "loginusers.vdf");
+            if (!File.Exists(vdfPath))
+            {
+                return;
+            }
+
+            var content = File.ReadAllText(vdfPath);
+            if (!content.Contains("\"AllowAutoLogin\""))
+            {
+                return;
+            }
+
+            var newContent = Regex.Replace(content, "\"AllowAutoLogin\"\\s+\"0\"", "\"AllowAutoLogin\"\t\t\"1\"", RegexOptions.IgnoreCase);
+            if (content != newContent)
+            {
+                File.WriteAllText(vdfPath, newContent);
+            }
         }
 
         /// <summary>
